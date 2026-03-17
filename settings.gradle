@@ -11,4 +11,4 @@ plugins {
 }
 
 rootProject.name = 'flamemath'
-include('app')
+include('flamemath')
