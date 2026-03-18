@@ -26,7 +26,7 @@ class ExprPrinterTest {
 
     @Test
     void negativeInteger() {
-        assertEquals("(-3)", print(new IntegerAtom(-3)));
+        assertEquals("-3", print(new IntegerAtom(-3)));
     }
 
     @Test

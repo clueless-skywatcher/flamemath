@@ -8,6 +8,7 @@ import io.flamemath.eval.builtins.arithmetic.AddFunc;
 import io.flamemath.eval.builtins.arithmetic.MulFunc;
 import io.flamemath.eval.builtins.arithmetic.PowFunc;
 import io.flamemath.eval.builtins.general.HeadFunc;
+import io.flamemath.eval.builtins.general.IfFunc;
 import io.flamemath.eval.builtins.general.SeqFunc;
 import io.flamemath.eval.builtins.general.SetFunc;
 import io.flamemath.eval.builtins.system.ExitFunc;
@@ -136,6 +137,7 @@ public class FlameValuator {
         registry.register(new HeadFunc());
         registry.register(new SeqFunc());
         registry.register(new SetFunc());
+        registry.register(new IfFunc());
 
         registry.register(new ExitFunc());
     }

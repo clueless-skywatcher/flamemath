@@ -12,4 +12,14 @@ public record BooleanAtom(boolean value) implements Expr {
     public String toString() {
         return value ? "True" : "False";
     }
+
+    @Override
+    public boolean isTrue() {
+        return value;
+    }
+
+    @Override
+    public boolean isFalse() {
+        return !value;
+    }
 }

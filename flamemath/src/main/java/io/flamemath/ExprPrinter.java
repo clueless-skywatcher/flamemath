@@ -68,9 +68,6 @@ public class ExprPrinter {
     public static String print(Expr expr, int outerPrecedence) {
         switch (expr) {
             case IntegerAtom(long l):
-                if (l < 0) {
-                    return "(" + l + ")";
-                }
                 return Long.toString(l);
             case RealAtom(double r):
                 return Double.toString(r);

@@ -24,4 +24,12 @@ public sealed interface Expr
     default boolean isHead(String head) {
         return head().equals(head);
     }
+
+    default boolean isTrue() {
+        return false;
+    }
+
+    default boolean isFalse() {
+        return false;
+    }
 }
