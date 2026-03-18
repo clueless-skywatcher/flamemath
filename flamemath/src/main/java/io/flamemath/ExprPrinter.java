@@ -32,12 +32,12 @@ public class ExprPrinter {
         Map.entry("And", "&&"),
         Map.entry("Or", "||"),
         Map.entry("Set", "="),
-        Map.entry("Multi", ";")
+        Map.entry("Seq", ";")
     );
 
     // Infix operators: head name → precedence (must match parser)
     private static final Map<String, Integer> INFIX_PREC = Map.ofEntries(
-        Map.entry("Multi", 1),
+        Map.entry("Seq", 1),
         Map.entry("Set", 2),
         Map.entry("Or", 5),
         Map.entry("And", 6),

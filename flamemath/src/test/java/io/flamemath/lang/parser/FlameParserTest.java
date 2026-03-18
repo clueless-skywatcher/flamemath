@@ -358,17 +358,17 @@ class FlameParserTest {
 
     @Test
     void semicolonCompound() throws Exception {
-        // a; b → Multi(a, b)
+        // a; b → Seq(a, b)
         assertEquals(
-                c("Multi", new Symbol("a"), new Symbol("b")),
+                c("Seq", new Symbol("a"), new Symbol("b")),
                 parse("a; b"));
     }
 
     @Test
     void semicolonChain() throws Exception {
-        // a; b; c → Multi(Multi(a, b), c)
+        // a; b; c → Seq(Seq(a, b), c)
         assertEquals(
-                c("Multi", c("Multi", new Symbol("a"), new Symbol("b")), new Symbol("c")),
+                c("Seq", c("Seq", new Symbol("a"), new Symbol("b")), new Symbol("c")),
                 parse("a; b; c"));
     }
 

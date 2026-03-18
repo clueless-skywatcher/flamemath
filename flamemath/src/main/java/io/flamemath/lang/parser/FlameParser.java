@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import io.flamemath.eval.FlameVironment;
 import io.flamemath.expr.BooleanAtom;
 import io.flamemath.expr.Compound;
 import io.flamemath.expr.Expr;
+import io.flamemath.expr.Flambda;
 import io.flamemath.expr.IntegerAtom;
 import io.flamemath.expr.RealAtom;
 import io.flamemath.expr.StringAtom;
@@ -83,7 +85,7 @@ public class FlameParser {
         Map.entry(FMTokenType.PIPE_PIPE, "Or"),
 
         Map.entry(FMTokenType.EQUAL, "Set"),
-        Map.entry(FMTokenType.SEMICOLON, "Multi"),
+        Map.entry(FMTokenType.SEMICOLON, "Seq"),
 
         Map.entry(FMTokenType.LBRACKET, "At")
     );
@@ -203,9 +205,27 @@ public class FlameParser {
             case REAL -> new RealAtom(Double.parseDouble(token.value()));
             case STRING -> new StringAtom(token.value());
             case LPAREN -> {
-                Expr inner = parseExpr(0);
+                List<Expr> params = parseCommaSeparated(FMTokenType.RPAREN);
                 expect(FMTokenType.RPAREN);
-                yield inner;
+                if (peek().type() == FMTokenType.FAT_ARROW) {
+                    List<Symbol> symbols = new ArrayList<>();
+                    for (var param: params) {
+                        if (param.isHead("Symbol")) {
+                            symbols.add((Symbol) param);
+                        } else {
+                            throw new Exception("Lambda parameters contain only Symbols");
+                        }
+                    }
+                    expect(FMTokenType.FAT_ARROW);
+                    Expr body = parseExpr(1);
+                    yield new Flambda(symbols, body, new FlameVironment());
+                } else if (params.size() == 1) {
+                    yield params.get(0);
+                } else if (params.size() > 1) {
+                    throw new Exception("Parsing error for Lambda");
+                } else {
+                    throw new Exception("Unexpected empty parentheses");
+                }
             }
             case LBRACKET -> {
                 List<Expr> items = parseCommaSeparated(FMTokenType.RBRACKET);
@@ -219,6 +239,11 @@ public class FlameParser {
             case BANG -> {
                 Expr operand = parseExpr(10);
                 yield new Compound("Not", List.of(operand));
+            }
+            case LBRACE -> {
+                Expr body = parseExpr(0);
+                expect(FMTokenType.RBRACE);
+                yield body;
             }
             default -> throw new Exception("Unexpected token in prefix position: " + token);
         };

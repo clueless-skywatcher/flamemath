@@ -7,11 +7,13 @@ import io.flamemath.lang.parser.FlameParser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FlameTestingUtils {
-    public static Expr execute(String expr) throws Exception {
-        return new FlameValuator().eval(new FlameParser(expr).parse());
+    private FlameValuator eval = new FlameValuator();
+
+    public Expr execute(String expr) throws Exception {
+        return eval.eval(new FlameParser(expr).parse());
     }
 
-    public static void assertExec(String expected, String actual) throws Exception {
+    public void assertExec(String expected, String actual) throws Exception {
         Expr expectedResult = execute(expected);
         Expr actualResult = execute(actual);
         assertEquals(expectedResult, actualResult,

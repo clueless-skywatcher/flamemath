@@ -58,10 +58,10 @@ public class AddFunc implements FlameFunction {
             Expr num = hasReal ? new RealAtom(numericSum) : new IntegerAtom((long) numericSum);
             results.addFirst(num);
         }
-
+        
         if (results.isEmpty()) return IntegerAtom.ZERO;
         if (results.size() == 1) return results.getFirst();
-
+        results.sort(CanonicalComparator.INSTANCE);
         return new Compound("Add", results);
     }
 
@@ -92,7 +92,14 @@ public class AddFunc implements FlameFunction {
                     || comp.children().getFirst() instanceof RealAtom)) {
             Expr coeff = comp.children().getFirst();
             List<Expr> rest = comp.children().subList(1, comp.children().size());
-            Expr core = rest.size() == 1 ? rest.getFirst() : new Compound("Mul", rest);
+            Expr core;
+            if (rest.size() == 1) {
+                core = rest.getFirst();
+            } else {
+                List<Expr> sorted = new ArrayList<>(rest);
+                sorted.sort(CanonicalComparator.INSTANCE);
+                core = new Compound("Mul", sorted);
+            }
             return List.of(coeff, core);
         }
         return List.of(IntegerAtom.ONE, expr);

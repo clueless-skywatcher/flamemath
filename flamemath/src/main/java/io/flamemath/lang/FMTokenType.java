@@ -47,6 +47,7 @@ public enum FMTokenType {
     LBRACKET,       // [
     RBRACKET,       // ]
     COMMA,          // ,
+    COLON,          // :
     SEMICOLON,      // ;
 
     // Lambda

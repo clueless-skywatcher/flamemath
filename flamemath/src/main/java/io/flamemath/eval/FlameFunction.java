@@ -21,4 +21,8 @@ public interface FlameFunction {
     default boolean isFlat() {
         return false;
     }
+
+    default boolean holdAll() {
+        return false;
+    }
 }

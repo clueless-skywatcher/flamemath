@@ -44,23 +44,22 @@ public class PowFunc implements FlameFunction {
         }
 
         // x^0 → 1
-        if (exp.isNumeric() && numericValue(exp) == 0) {
+        if (exp.isZero()) {
             return IntegerAtom.ONE;
         }
 
         // x^1 → x
-        if (exp.isNumeric() && numericValue(exp) == 1) {
+        if (exp.isOne()) {
             return base;
         }
 
         // 0^n → 0 (positive n)
-        if (base.isNumeric() && numericValue(base) == 0
-                && exp.isNumeric() && numericValue(exp) > 0) {
+        if (base.isZero() && exp.isNumeric() && numericValue(exp) > 0) {
             return IntegerAtom.ZERO;
         }
 
         // 1^n → 1
-        if (base.isNumeric() && numericValue(base) == 1) {
+        if (base.isOne()) {
             return IntegerAtom.ONE;
         }
 
