@@ -1,7 +1,9 @@
 package io.flamemath.eval.builtins.general;
 
 import io.flamemath.FlameTestingUtils;
-import io.flamemath.eval.FlameArityException;
+import io.flamemath.eval.builtins.construct.IfFunc;
+import io.flamemath.exceptions.FlameArityException;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -123,6 +125,49 @@ class IfFuncTest {
         fm.assertExec("1", "Abs = (x) => If(True, x, 0 - x); Abs(1)");
     }
 
+    // --- Two-arg If (no else branch) ---
+
+    @Test
+    void twoArgTrueReturnsValue() throws Exception {
+        fm.assertExec("42", "If(True, 42)");
+    }
+
+    @Test
+    void twoArgFalseReturnsNull() throws Exception {
+        fm.assertExec("Null", "If(False, 42)");
+    }
+
+    @Test
+    void twoArgTrueExpression() throws Exception {
+        fm.assertExec("5", "If(True, 2 + 3)");
+    }
+
+    @Test
+    void twoArgFalseDoesNotEvaluateBody() throws Exception {
+        // If the body were evaluated, x would be 99
+        fm.assertExec("1", "{ x = 1; If(False, x = 99); x }");
+    }
+
+    @Test
+    void twoArgWithComparison() throws Exception {
+        fm.assertExec("10", "{ x = 5; If(x > 3, x * 2) }");
+    }
+
+    @Test
+    void twoArgFalseComparisonReturnsNull() throws Exception {
+        fm.assertExec("Null", "{ x = 5; If(x > 10, x * 2) }");
+    }
+
+    @Test
+    void twoArgNestedInSeq() throws Exception {
+        fm.assertExec("1", "{ x = 1; If(False, x = 99); x }");
+    }
+
+    @Test
+    void twoArgInsideWhile() throws Exception {
+        fm.assertExec("5", "{ i = 0; While(i < 5, { i = i + 1; If(i == 3, PrintLn(i)) }); i }");
+    }
+
     // --- Arity errors ---
 
     @Test
@@ -133,11 +178,6 @@ class IfFuncTest {
     @Test
     void oneArgThrows() {
         assertThrows(FlameArityException.class, () -> fm.execute("If(True)"));
-    }
-
-    @Test
-    void twoArgsThrows() {
-        assertThrows(FlameArityException.class, () -> fm.execute("If(True, 1)"));
     }
 
     @Test

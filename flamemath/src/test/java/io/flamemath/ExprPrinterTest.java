@@ -54,6 +54,11 @@ class ExprPrinterTest {
         assertEquals("False", print(BooleanAtom.FALSE));
     }
 
+    @Test
+    void nullExpr() {
+        assertEquals("", print(NullExpr.INSTANCE));
+    }
+
     // --- Basic infix ---
 
     @Test

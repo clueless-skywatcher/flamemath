@@ -1,8 +1,8 @@
-package io.flamemath.eval.builtins.general;
+package io.flamemath.eval.builtins.construct;
 
-import io.flamemath.eval.FlameArityException;
 import io.flamemath.eval.FlameFunction;
 import io.flamemath.eval.FlameValuator;
+import io.flamemath.exceptions.FlameArityException;
 import io.flamemath.expr.*;
 
 import java.util.List;

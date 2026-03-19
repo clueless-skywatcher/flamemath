@@ -1,20 +1,22 @@
-package io.flamemath.eval.builtins.comparison;
-
-import static io.flamemath.FlameUtils.numericValue;
+package io.flamemath.eval.builtins.construct;
 
 import java.util.List;
 
 import io.flamemath.eval.FlameFunction;
 import io.flamemath.eval.FlameValuator;
 import io.flamemath.exceptions.FlameArityException;
-import io.flamemath.expr.BooleanAtom;
 import io.flamemath.expr.Expr;
+import io.flamemath.expr.NullExpr;
 
-public class NotEqFunc implements FlameFunction {
-
+public class WhileFunc implements FlameFunction {
     @Override
     public String name() {
-        return "NotEq";
+        return "While";
+    }
+
+    @Override
+    public boolean holdAll() {
+        return true;
     }
 
     @Override
@@ -22,13 +24,9 @@ public class NotEqFunc implements FlameFunction {
         if (args.size() != 2) {
             throw new FlameArityException(name(), 2, args.size());
         }
-        Expr a = args.get(0);
-        Expr b = args.get(1);
-
-        if (a.isNumeric() && b.isNumeric()) {
-            return BooleanAtom.of(numericValue(a) != numericValue(b));
+        while (evaluator.eval(args.get(0)).isTrue()) {
+            evaluator.eval(args.get(1));
         }
-
-        return BooleanAtom.of(!a.equals(b));
+        return NullExpr.INSTANCE;
     }
 }

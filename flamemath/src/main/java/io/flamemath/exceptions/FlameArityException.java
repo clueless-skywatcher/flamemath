@@ -1,4 +1,4 @@
-package io.flamemath.eval;
+package io.flamemath.exceptions;
 
 public class FlameArityException extends Exception {
     public FlameArityException(String functionName, int expected, int actual) {

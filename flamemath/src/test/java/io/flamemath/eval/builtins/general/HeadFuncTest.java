@@ -3,7 +3,8 @@ package io.flamemath.eval.builtins.general;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import io.flamemath.FlameTestingUtils;
-import io.flamemath.eval.FlameArityException;
+import io.flamemath.exceptions.FlameArityException;
+
 import org.junit.jupiter.api.Test;
 
 public class HeadFuncTest {

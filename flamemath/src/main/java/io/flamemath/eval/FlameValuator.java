@@ -4,25 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import io.flamemath.eval.builtins.arithmetic.AddFunc;
-import io.flamemath.eval.builtins.arithmetic.MulFunc;
-import io.flamemath.eval.builtins.arithmetic.PowFunc;
-import io.flamemath.eval.builtins.comparison.EqFunc;
-import io.flamemath.eval.builtins.comparison.NotEqFunc;
-import io.flamemath.eval.builtins.comparison.LessFunc;
-import io.flamemath.eval.builtins.comparison.LessEqFunc;
-import io.flamemath.eval.builtins.comparison.GreaterFunc;
-import io.flamemath.eval.builtins.comparison.GreaterEqFunc;
-import io.flamemath.eval.builtins.logical.AndFunc;
-import io.flamemath.eval.builtins.logical.OrFunc;
-import io.flamemath.eval.builtins.general.HeadFunc;
-import io.flamemath.eval.builtins.general.IfFunc;
-import io.flamemath.eval.builtins.general.SeqFunc;
-import io.flamemath.eval.builtins.general.SetFunc;
-import io.flamemath.eval.builtins.system.ExitFunc;
+import io.flamemath.eval.builtins.arithmetic.ArithmeticRegistry;
+import io.flamemath.eval.builtins.comparison.ComparisonRegistry;
+import io.flamemath.eval.builtins.construct.ConstructRegistry;
+import io.flamemath.eval.builtins.general.GeneralRegistry;
+import io.flamemath.eval.builtins.logical.LogicalRegistry;
+import io.flamemath.eval.builtins.system.SystemRegistry;
+import io.flamemath.exceptions.FlameArityException;
+import io.flamemath.exceptions.ReturningException;
 import io.flamemath.expr.Compound;
 import io.flamemath.expr.Expr;
 import io.flamemath.expr.Flambda;
+import io.flamemath.expr.NullExpr;
 import io.flamemath.expr.Symbol;
 
 public class FlameValuator {
@@ -33,6 +26,7 @@ public class FlameValuator {
         init();
 
         if (expr instanceof Symbol s) {
+            if (s.name().equals("Null")) return NullExpr.INSTANCE;
             if (env.has(s))
                 return env.get(s);
         }
@@ -97,16 +91,21 @@ public class FlameValuator {
         if (lambda.params().size() != args.size()) {
             throw new FlameArityException("Lambda", lambda.params().size(), args.size());
         }
-        
+
         for (int i = 0; i < lambda.params().size(); i++) {
             childEnv.set(lambda.params().get(i), args.get(i));
         }
 
         FlameVironment oldEnv = this.env;
         this.env = childEnv;
-        Expr result = eval(lambda.body());
-        this.env = oldEnv;
-        return result;
+        try {
+            Expr result = eval(lambda.body());
+            return result;
+        } catch (ReturningException r) {
+            return r.getExpr();
+        } finally {
+            this.env = oldEnv;
+        }
     }
 
     private List<Expr> flattenChildren(String head, List<Expr> children) {
@@ -137,26 +136,12 @@ public class FlameValuator {
         if (registry != null) return;
         env = new FlameVironment();
         registry = new FunctionRegistry();
-        
-        registry.register(new AddFunc());
-        registry.register(new MulFunc());
-        registry.register(new PowFunc());
 
-        registry.register(new EqFunc());
-        registry.register(new NotEqFunc());
-        registry.register(new LessFunc());
-        registry.register(new LessEqFunc());
-        registry.register(new GreaterFunc());
-        registry.register(new GreaterEqFunc());
-
-        registry.register(new AndFunc());
-        registry.register(new OrFunc());
-
-        registry.register(new HeadFunc());
-        registry.register(new SeqFunc());
-        registry.register(new SetFunc());
-        registry.register(new IfFunc());
-
-        registry.register(new ExitFunc());
+        registry.registerAll(ArithmeticRegistry.create());
+        registry.registerAll(ComparisonRegistry.create());
+        registry.registerAll(LogicalRegistry.create());
+        registry.registerAll(GeneralRegistry.create());
+        registry.registerAll(SystemRegistry.create());
+        registry.registerAll(ConstructRegistry.create());
     }
 }

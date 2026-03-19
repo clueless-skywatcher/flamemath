@@ -15,6 +15,10 @@ public class FunctionRegistry {
         return Optional.ofNullable(functions.get(name));
     }
 
+    public void registerAll(FunctionRegistry other) {
+        functions.putAll(other.functions);
+    }
+
     public boolean has(String name) {
         return functions.containsKey(name);
     }

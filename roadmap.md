@@ -5,11 +5,11 @@
 | # | Feature | Description | Status |
 |---|---------|-------------|--------|
 | 1 | Comparison builtins | `Eq`, `NotEq`, `Less`, `LessEq`, `Greater`, `GreaterEq` | Done |
-| 2 | Logical builtins | `And`, `Or`, `Not` — short-circuit evaluation | TODO |
-| 3 | `While` loop | `While(cond, body)` — only looping construct needed for v1 | TODO |
-| 4 | `Return()` | Exception-based early exit from blocks/lambdas | TODO |
-| 5 | `Print()` | Output without returning — essential for loops and debugging | TODO |
-| 6 | Curly-brace blocks | `{ stmt1; stmt2 }` desugars to `Multi(...)` | TODO |
+| 2 | Logical builtins | `And`, `Or`, `Not` — short-circuit evaluation | Done |
+| 3 | `While` loop | `While(cond, body)` — only looping construct needed for v1 | Done |
+| 4 | `Return()` | Exception-based early exit from blocks/lambdas | Done |
+| 5 | `Print()` | Output without returning — essential for loops and debugging | Done |
+| 6 | Curly-brace blocks | `{ stmt1; stmt2 }` desugars to `Seq(...)` | Done |
 
 ## Milestone 2 — Lists
 

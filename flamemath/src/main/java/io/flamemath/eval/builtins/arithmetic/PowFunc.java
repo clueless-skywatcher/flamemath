@@ -5,9 +5,9 @@ import static io.flamemath.FlameUtils.numericValue;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.flamemath.eval.FlameArityException;
 import io.flamemath.eval.FlameFunction;
 import io.flamemath.eval.FlameValuator;
+import io.flamemath.exceptions.FlameArityException;
 import io.flamemath.expr.Compound;
 import io.flamemath.expr.Expr;
 import io.flamemath.expr.IntegerAtom;

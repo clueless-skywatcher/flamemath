@@ -12,6 +12,7 @@ import io.flamemath.expr.BooleanAtom;
 import io.flamemath.expr.Compound;
 import io.flamemath.expr.Expr;
 import io.flamemath.expr.IntegerAtom;
+import io.flamemath.expr.NullExpr;
 import io.flamemath.expr.RealAtom;
 import io.flamemath.expr.StringAtom;
 import io.flamemath.expr.Symbol;
@@ -77,6 +78,8 @@ public class ExprPrinter {
                 return s;
             case BooleanAtom(boolean b):
                 return b ? "True" : "False";
+            case NullExpr ignored:
+                return "";
             case Compound(String head, List<Expr> children): {
                 if (INFIX_SYMBOL.containsKey(head)) {
                     return printInfix(head, children, outerPrecedence);

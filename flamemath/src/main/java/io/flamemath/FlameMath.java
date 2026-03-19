@@ -9,8 +9,10 @@ import io.flamemath.expr.Expr;
 import io.flamemath.lang.parser.FlameParser;
 
 public class FlameMath {
+    public static final String VERSION = "0.2.0";
+
     public static void main(String[] args) throws IOException {
-        System.out.println("FlameMath 0.1.0");
+        System.out.println("FlameMath " + VERSION);
         System.out.println("Type an expression, or \"exit\" to quit.\n");
 
         var reader = new BufferedReader(new InputStreamReader(System.in));
@@ -26,7 +28,10 @@ public class FlameMath {
 
             try {
                 Expr result = eval.eval(new FlameParser(line).parse());
-                System.out.println(ExprPrinter.print(result));
+                String resultString = ExprPrinter.print(result);
+                if (!resultString.isEmpty()) {
+                    System.out.println(resultString);
+                }
             } catch (Exception e) {
                 System.out.println("Error: " + e.getMessage());
             }

@@ -1,7 +1,8 @@
 package io.flamemath.eval.builtins.arithmetic;
 
 import io.flamemath.FlameTestingUtils;
-import io.flamemath.eval.FlameArityException;
+import io.flamemath.exceptions.FlameArityException;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
