@@ -1,7 +1,6 @@
 package io.flamemath.eval.builtins.general;
 
 import java.util.List;
-import java.util.Set;
 
 import io.flamemath.eval.FlameArityException;
 import io.flamemath.eval.FlameFunction;

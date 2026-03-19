@@ -42,12 +42,12 @@ class FlameParserTest {
 
     @Test
     void booleanTrue() throws Exception {
-        assertEquals(new BooleanAtom(true), parse("True"));
+        assertEquals(BooleanAtom.TRUE, parse("True"));
     }
 
     @Test
     void booleanFalse() throws Exception {
-        assertEquals(new BooleanAtom(false), parse("False"));
+        assertEquals(BooleanAtom.FALSE, parse("False"));
     }
 
     // --- Arithmetic ---
@@ -163,7 +163,7 @@ class FlameParserTest {
     @Test
     void logicalNot() throws Exception {
         assertEquals(
-                c("Not", new BooleanAtom(true)),
+                c("Not", BooleanAtom.TRUE),
                 parse("!True"));
     }
 
@@ -216,7 +216,7 @@ class FlameParserTest {
     @Test
     void logicalAnd() throws Exception {
         assertEquals(
-                c("And", new BooleanAtom(true), new BooleanAtom(false)),
+                c("And", BooleanAtom.TRUE, BooleanAtom.FALSE),
                 parse("True && False"));
     }
 

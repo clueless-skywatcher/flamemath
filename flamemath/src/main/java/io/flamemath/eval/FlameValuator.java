@@ -7,6 +7,14 @@ import java.util.Set;
 import io.flamemath.eval.builtins.arithmetic.AddFunc;
 import io.flamemath.eval.builtins.arithmetic.MulFunc;
 import io.flamemath.eval.builtins.arithmetic.PowFunc;
+import io.flamemath.eval.builtins.comparison.EqFunc;
+import io.flamemath.eval.builtins.comparison.NotEqFunc;
+import io.flamemath.eval.builtins.comparison.LessFunc;
+import io.flamemath.eval.builtins.comparison.LessEqFunc;
+import io.flamemath.eval.builtins.comparison.GreaterFunc;
+import io.flamemath.eval.builtins.comparison.GreaterEqFunc;
+import io.flamemath.eval.builtins.logical.AndFunc;
+import io.flamemath.eval.builtins.logical.OrFunc;
 import io.flamemath.eval.builtins.general.HeadFunc;
 import io.flamemath.eval.builtins.general.IfFunc;
 import io.flamemath.eval.builtins.general.SeqFunc;
@@ -133,6 +141,16 @@ public class FlameValuator {
         registry.register(new AddFunc());
         registry.register(new MulFunc());
         registry.register(new PowFunc());
+
+        registry.register(new EqFunc());
+        registry.register(new NotEqFunc());
+        registry.register(new LessFunc());
+        registry.register(new LessEqFunc());
+        registry.register(new GreaterFunc());
+        registry.register(new GreaterEqFunc());
+
+        registry.register(new AndFunc());
+        registry.register(new OrFunc());
 
         registry.register(new HeadFunc());
         registry.register(new SeqFunc());

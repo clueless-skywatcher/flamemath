@@ -194,9 +194,9 @@ public class FlameParser {
                     expect(FMTokenType.RPAREN);
                     yield new Compound(name, args);
                 } else if (name.equals("True")) {
-                    yield new BooleanAtom(true);
+                    yield BooleanAtom.TRUE;
                 } else if (name.equals("False")) {
-                    yield new BooleanAtom(false);
+                    yield BooleanAtom.FALSE;
                 } else {
                     yield new Symbol(name);
                 }

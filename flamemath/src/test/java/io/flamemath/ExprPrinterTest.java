@@ -46,12 +46,12 @@ class ExprPrinterTest {
 
     @Test
     void booleanTrue() {
-        assertEquals("True", print(new BooleanAtom(true)));
+        assertEquals("True", print(BooleanAtom.TRUE));
     }
 
     @Test
     void booleanFalse() {
-        assertEquals("False", print(new BooleanAtom(false)));
+        assertEquals("False", print(BooleanAtom.FALSE));
     }
 
     // --- Basic infix ---
@@ -177,7 +177,7 @@ class ExprPrinterTest {
 
     @Test
     void logicalNot() {
-        assertEquals("!True", print(c("Not", new BooleanAtom(true))));
+        assertEquals("!True", print(c("Not", BooleanAtom.TRUE)));
     }
 
     // --- Comparison and logical ---
