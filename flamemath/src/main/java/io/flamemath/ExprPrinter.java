@@ -12,6 +12,7 @@ import io.flamemath.expr.BooleanAtom;
 import io.flamemath.expr.Compound;
 import io.flamemath.expr.Expr;
 import io.flamemath.expr.IntegerAtom;
+import io.flamemath.expr.Flambda;
 import io.flamemath.expr.NullExpr;
 import io.flamemath.expr.RealAtom;
 import io.flamemath.expr.StringAtom;
@@ -80,7 +81,12 @@ public class ExprPrinter {
                 return b ? "True" : "False";
             case NullExpr ignored:
                 return "";
+            case Flambda f:
+                return "Lambda<>";
             case Compound(String head, List<Expr> children): {
+                if (head.equals("Seq") && children.stream().allMatch(c -> c instanceof Flambda)) {
+                    return "Lambda<" + children.size() + " clauses>";
+                }
                 if (INFIX_SYMBOL.containsKey(head)) {
                     return printInfix(head, children, outerPrecedence);
                 }
