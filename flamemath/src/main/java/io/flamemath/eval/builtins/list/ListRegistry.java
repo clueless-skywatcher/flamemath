@@ -13,6 +13,7 @@ public class ListRegistry  {
         registry.register(new PrependFunc());
         registry.register(new ExtendFunc());
         registry.register(new RangeFunc());
+        registry.register(new GenListFunc());
 
         return registry;
     }
