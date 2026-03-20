@@ -9,7 +9,7 @@ import io.flamemath.expr.Expr;
 import io.flamemath.lang.parser.FlameParser;
 
 public class FlameMath {
-    public static final String VERSION = "0.2.0";
+    public static final String VERSION = "0.3.0";
 
     public static void main(String[] args) throws IOException {
         System.out.println("FlameMath " + VERSION);

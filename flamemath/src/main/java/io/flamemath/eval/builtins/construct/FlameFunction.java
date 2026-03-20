@@ -1,5 +1,5 @@
 package io.flamemath.eval.builtins.construct;
 
-public interface FlameFunctionx {
+public interface FlameFunction {
 
 }
