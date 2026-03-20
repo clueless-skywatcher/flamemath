@@ -7,6 +7,7 @@ public class ListRegistry  {
         FunctionRegistry registry = new FunctionRegistry();
         
         registry.register(new ListFunc());
+        registry.register(new LenFunc());
 
         return registry;
     }
