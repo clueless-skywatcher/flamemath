@@ -15,7 +15,7 @@
 
 | # | Feature | Description | Status |
 |---|---------|-------------|--------|
-| 7 | `At` builtin | Evaluate `x[0]` indexing at runtime | TODO |
+| 7 | `At` builtin | Evaluate `x[0]` indexing at runtime | Done |
 | 8 | `Length` | `Length([1,2,3])` → `3` | TODO |
 | 9 | `Append` / `Prepend` | Build lists incrementally | TODO |
 | 10 | `Map` | `Map(f, [1,2,3])` → `[f(1), f(2), f(3)]` | TODO |
