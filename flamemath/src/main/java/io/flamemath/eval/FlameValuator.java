@@ -8,6 +8,7 @@ import io.flamemath.eval.builtins.arithmetic.ArithmeticRegistry;
 import io.flamemath.eval.builtins.comparison.ComparisonRegistry;
 import io.flamemath.eval.builtins.construct.ConstructRegistry;
 import io.flamemath.eval.builtins.general.GeneralRegistry;
+import io.flamemath.eval.builtins.list.ListRegistry;
 import io.flamemath.eval.builtins.logical.LogicalRegistry;
 import io.flamemath.eval.builtins.system.SystemRegistry;
 import io.flamemath.exceptions.FlameArityException;
@@ -15,6 +16,7 @@ import io.flamemath.exceptions.ReturningException;
 import io.flamemath.expr.Compound;
 import io.flamemath.expr.Expr;
 import io.flamemath.expr.Flambda;
+import io.flamemath.expr.ListExpr;
 import io.flamemath.expr.NullExpr;
 import io.flamemath.expr.Symbol;
 
@@ -33,6 +35,14 @@ public class FlameValuator {
 
         if (expr.isAtomic()) {
             return expr;
+        }
+
+        if (expr instanceof ListExpr l) {
+            List<Expr> finalList = new ArrayList<>();
+            for (var arg: l.exprs()) {
+                finalList.add(eval(arg));
+            }
+            return new ListExpr(finalList);
         }
 
         if (expr instanceof Flambda f) return new Flambda(f.params(), f.body(), this.env);
@@ -143,5 +153,6 @@ public class FlameValuator {
         registry.registerAll(GeneralRegistry.create());
         registry.registerAll(SystemRegistry.create());
         registry.registerAll(ConstructRegistry.create());
+        registry.registerAll(ListRegistry.create());
     }
 }

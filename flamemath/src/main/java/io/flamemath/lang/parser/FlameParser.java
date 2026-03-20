@@ -11,6 +11,7 @@ import io.flamemath.expr.Compound;
 import io.flamemath.expr.Expr;
 import io.flamemath.expr.Flambda;
 import io.flamemath.expr.IntegerAtom;
+import io.flamemath.expr.ListExpr;
 import io.flamemath.expr.RealAtom;
 import io.flamemath.expr.StringAtom;
 import io.flamemath.expr.Symbol;
@@ -230,7 +231,7 @@ public class FlameParser {
             case LBRACKET -> {
                 List<Expr> items = parseCommaSeparated(FMTokenType.RBRACKET);
                 expect(FMTokenType.RBRACKET);
-                yield new Compound("List", items);
+                yield new ListExpr(items);
             }
             case MINUS -> {
                 Expr operand = parseExpr(10); // bind tighter than +/- but looser than ^

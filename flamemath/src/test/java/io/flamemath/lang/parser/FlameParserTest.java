@@ -286,20 +286,20 @@ class FlameParserTest {
 
     @Test
     void emptyList() throws Exception {
-        assertEquals(c("List"), parse("[]"));
+        assertEquals(new ListExpr(List.of()), parse("[]"));
     }
 
     @Test
     void singletonList() throws Exception {
         assertEquals(
-                c("List", IntegerAtom.ONE),
+                new ListExpr(List.of(IntegerAtom.ONE)),
                 parse("[1]"));
     }
 
     @Test
     void multiElementList() throws Exception {
         assertEquals(
-                c("List", IntegerAtom.ONE, new IntegerAtom(2), new IntegerAtom(3)),
+                new ListExpr(List.of(IntegerAtom.ONE, new IntegerAtom(2), new IntegerAtom(3))),
                 parse("[1, 2, 3]"));
     }
 
@@ -307,16 +307,18 @@ class FlameParserTest {
     void listWithExpressions() throws Exception {
         // [x + 1, y * 2]
         assertEquals(
-                c("List",
+                new ListExpr(List.of(
                         c("Add", new Symbol("x"), IntegerAtom.ONE),
-                        c("Mul", new Symbol("y"), new IntegerAtom(2))),
+                        c("Mul", new Symbol("y"), new IntegerAtom(2)))),
                 parse("[x + 1, y * 2]"));
     }
 
     @Test
     void nestedList() throws Exception {
         assertEquals(
-                c("List", c("List", IntegerAtom.ONE, new IntegerAtom(2)), c("List", new IntegerAtom(3), new IntegerAtom(4))),
+                new ListExpr(List.of(
+                        new ListExpr(List.of(IntegerAtom.ONE, new IntegerAtom(2))),
+                        new ListExpr(List.of(new IntegerAtom(3), new IntegerAtom(4))))),
                 parse("[[1, 2], [3, 4]]"));
     }
 
@@ -332,9 +334,9 @@ class FlameParserTest {
 
     @Test
     void indexListLiteral() throws Exception {
-        // [1, 2, 3][0] → At(List(1, 2, 3), 0)
+        // [1, 2, 3][0] → At(ListExpr(1, 2, 3), 0)
         assertEquals(
-                c("At", c("List", IntegerAtom.ONE, new IntegerAtom(2), new IntegerAtom(3)), IntegerAtom.ZERO),
+                c("At", new ListExpr(List.of(IntegerAtom.ONE, new IntegerAtom(2), new IntegerAtom(3))), IntegerAtom.ZERO),
                 parse("[1, 2, 3][0]"));
     }
 

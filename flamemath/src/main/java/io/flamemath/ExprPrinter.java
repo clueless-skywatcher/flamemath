@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 import static io.flamemath.FlameUtils.*;
@@ -12,6 +13,7 @@ import io.flamemath.expr.BooleanAtom;
 import io.flamemath.expr.Compound;
 import io.flamemath.expr.Expr;
 import io.flamemath.expr.IntegerAtom;
+import io.flamemath.expr.ListExpr;
 import io.flamemath.expr.Flambda;
 import io.flamemath.expr.NullExpr;
 import io.flamemath.expr.RealAtom;
@@ -83,6 +85,13 @@ public class ExprPrinter {
                 return "";
             case Flambda f:
                 return "Lambda<>";
+            case ListExpr l: {
+                StringJoiner joiner = new StringJoiner(", ");
+                for (var exp: l.exprs()) {
+                    joiner.add(print(exp));
+                }
+                return "[" + joiner.toString() + "]";
+            }
             case Compound(String head, List<Expr> children): {
                 if (head.equals("Seq") && children.stream().allMatch(c -> c instanceof Flambda)) {
                     return "Lambda<" + children.size() + " clauses>";

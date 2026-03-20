@@ -209,12 +209,63 @@ class ExprPrinterTest {
         assertEquals("x = 5", print(c("Set", new Symbol("x"), new IntegerAtom(5))));
     }
 
-    // --- Lists (non-infix compound) ---
+    // --- ListExpr ---
 
     @Test
-    void list() {
-        assertEquals("List(1, 2, 3)",
-                print(c("List", IntegerAtom.ONE, new IntegerAtom(2), new IntegerAtom(3))));
+    void emptyListExpr() {
+        assertEquals("[]", print(new ListExpr(List.of())));
+    }
+
+    @Test
+    void singleElementListExpr() {
+        assertEquals("[1]", print(new ListExpr(List.of(IntegerAtom.ONE))));
+    }
+
+    @Test
+    void multipleElementListExpr() {
+        assertEquals("[1, 2, 3]",
+                print(new ListExpr(List.of(IntegerAtom.ONE, new IntegerAtom(2), new IntegerAtom(3)))));
+    }
+
+    @Test
+    void listExprWithMixedTypes() {
+        assertEquals("[1, 3.14, \"hello\", True, x]",
+                print(new ListExpr(List.of(
+                        IntegerAtom.ONE, new RealAtom(3.14), new StringAtom("hello"),
+                        BooleanAtom.TRUE, new Symbol("x")))));
+    }
+
+    @Test
+    void listExprWithExpressionElements() {
+        // List containing Add(x, y)
+        assertEquals("[x + y, 2]",
+                print(new ListExpr(List.of(
+                        c("Add", new Symbol("x"), new Symbol("y")),
+                        new IntegerAtom(2)))));
+    }
+
+    @Test
+    void nestedListExpr() {
+        assertEquals("[[1, 2], [3, 4]]",
+                print(new ListExpr(List.of(
+                        new ListExpr(List.of(IntegerAtom.ONE, new IntegerAtom(2))),
+                        new ListExpr(List.of(new IntegerAtom(3), new IntegerAtom(4)))))));
+    }
+
+    @Test
+    void listExprInsideFunctionCall() {
+        // Sin([1, 2]) — list as argument to a function
+        assertEquals("Sin([1, 2])",
+                print(c("Sin", new ListExpr(List.of(IntegerAtom.ONE, new IntegerAtom(2))))));
+    }
+
+    @Test
+    void listExprInsideInfix() {
+        // Add([1, 2], [3, 4])
+        assertEquals("[1, 2] + [3, 4]",
+                print(c("Add",
+                        new ListExpr(List.of(IntegerAtom.ONE, new IntegerAtom(2))),
+                        new ListExpr(List.of(new IntegerAtom(3), new IntegerAtom(4))))));
     }
 
     // --- Complex combinations ---
