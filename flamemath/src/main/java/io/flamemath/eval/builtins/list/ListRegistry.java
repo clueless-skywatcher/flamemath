@@ -9,6 +9,9 @@ public class ListRegistry  {
         registry.register(new ListFunc());
         registry.register(new LenFunc());
         registry.register(new MapFunc());
+        registry.register(new AppendFunc());
+        registry.register(new PrependFunc());
+        registry.register(new ExtendFunc());
 
         return registry;
     }

@@ -1,8 +1,12 @@
 package io.flamemath.expr;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public record ListExpr(List<Expr> exprs) implements Expr {
+    public ListExpr(List<Expr> exprs) {
+        this.exprs = new ArrayList<>(exprs);
+    }
 
     @Override
     public boolean isAtomic() {
