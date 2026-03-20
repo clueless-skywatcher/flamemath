@@ -82,7 +82,7 @@ public class ExprPrinter {
             case BooleanAtom(boolean b):
                 return b ? "True" : "False";
             case NullExpr ignored:
-                return "";
+                return "Null";
             case Flambda f:
                 return "Lambda<>";
             case ListExpr l: {

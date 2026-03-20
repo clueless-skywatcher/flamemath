@@ -29,7 +29,7 @@ public class FlameMath {
             try {
                 Expr result = eval.eval(new FlameParser(line).parse());
                 String resultString = ExprPrinter.print(result);
-                if (!resultString.isEmpty()) {
+                if (!resultString.equals("Null")) {
                     System.out.println(resultString);
                 }
             } catch (Exception e) {

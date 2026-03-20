@@ -8,6 +8,7 @@ public class ListRegistry  {
         
         registry.register(new ListFunc());
         registry.register(new LenFunc());
+        registry.register(new MapFunc());
 
         return registry;
     }

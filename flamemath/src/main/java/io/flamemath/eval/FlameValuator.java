@@ -96,7 +96,7 @@ public class FlameValuator {
         return new Compound(comp.head(), evalChildren(comp.children()));
     }
 
-    private Expr applyLambda(Flambda lambda, List<Expr> args) throws Exception {
+    public Expr applyLambda(Flambda lambda, List<Expr> args) throws Exception {
         FlameVironment childEnv = new FlameVironment(lambda.env());
         if (lambda.params().size() != args.size()) {
             throw new FlameArityException("Lambda", lambda.params().size(), args.size());

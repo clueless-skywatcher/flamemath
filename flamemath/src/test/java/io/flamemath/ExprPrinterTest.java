@@ -56,7 +56,7 @@ class ExprPrinterTest {
 
     @Test
     void nullExpr() {
-        assertEquals("", print(NullExpr.INSTANCE));
+        assertEquals("Null", print(NullExpr.INSTANCE));
     }
 
     // --- Basic infix ---
