@@ -39,22 +39,24 @@
 
 | # | Feature | Description | Status |
 |---|---------|-------------|--------|
-| 21 | Trig functions | `Sin`, `Cos`, `Tan` — numeric for numbers, symbolic for symbols | TODO |
-| 22 | `Sqrt`, `Abs`, `Log`, `Exp` | Core math functions | TODO |
-| 23 | `Mod` | Modular arithmetic | TODO |
-| 24 | `N()` | Force numeric evaluation (e.g. `N(Sqrt(2))` → `1.41421...`) | TODO |
-| 25 | `Floor`, `Ceil`, `Round` | Rounding functions | TODO |
-| 26 | Constants | `Pi`, `E` as built-in symbols with numeric values via `N()` | TODO |
+| 21 | Trig functions | `Sin`, `Cos`, `Tan` — numeric for numbers, symbolic for symbols | Done |
+| 22 | `Sqrt`, `Abs`, `Log`, `Exp` | Core math functions | Done |
+| 23 | `Mod` | Modular arithmetic | Done |
+| 24 | `N()` | Force numeric evaluation (e.g. `N(Sqrt(2))` → `1.41421...`) | Done |
+| 25 | `Floor`, `Ceil`, `Round` | Rounding functions | Done |
+| 26 | Constants | `Pi`, `E` as built-in symbols with numeric values via `N()` | Done |
 
-## Milestone 5 — Usability
+## Milestone 5 — Usability & Completeness
 
 | # | Feature | Description | Status |
 |---|---------|-------------|--------|
-| 27 | `%` / last result | Reference the previous evaluation result | TODO |
-| 28 | Multi-line input | Detect incomplete expressions and continue reading | TODO |
-| 29 | Error positions | Include line/column info in parse errors | TODO |
-| 30 | `Type()` | Runtime type checking — `Type(42)` → `"Integer"` | TODO |
-| 31 | String builtins | `ToString`, `StringJoin` — minimal string support | TODO |
+| 27 | Reading source files | Read and load functions defined in `.flame` files | Done |
+| 28 | String builtins | `ToStr`, `StrLength`, `StrJoin`, `Echo` — minimal string support | In Progress |
+| 29 | `Filter` | `Filter(f, [1,2,3])` → elements where `f` returns `True` | Done |
+| 30 | `Fold` | `Fold(f, init, [1,2,3])` — reduce a list to a single value | Done |
+| 31 | `Sort` | `Sort([3,1,2])` → `[1,2,3]` — sort a list | TODO |
+| 32 | `For` loop | `For(i, 1, 10, body)` — counted iteration | TODO |
+| 34 | Type predicates | `IsInteger`, `IsString`, `IsList`, etc. — type checking functions | TODO |
 
 ## Already Done
 

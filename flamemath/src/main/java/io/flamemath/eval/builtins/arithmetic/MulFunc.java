@@ -2,7 +2,6 @@ package io.flamemath.eval.builtins.arithmetic;
 
 import static io.flamemath.FlameUtils.numericValue;
 
-import io.flamemath.FlameUtils;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;

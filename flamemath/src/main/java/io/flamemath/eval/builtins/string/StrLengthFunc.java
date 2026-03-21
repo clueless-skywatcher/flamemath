@@ -1,18 +1,19 @@
-package io.flamemath.eval.builtins.construct;
+package io.flamemath.eval.builtins.string;
 
 import java.util.List;
 
 import io.flamemath.eval.FlameFunction;
 import io.flamemath.eval.FlameValuator;
 import io.flamemath.exceptions.FlameArityException;
-import io.flamemath.exceptions.ReturningException;
 import io.flamemath.expr.Expr;
+import io.flamemath.expr.IntegerAtom;
+import io.flamemath.expr.StringAtom;
 
-public class ReturnFunc implements FlameFunction {
+public class StrLengthFunc implements FlameFunction {
 
     @Override
     public String name() {
-       return "Return";
+        return "StrLength";
     }
 
     @Override
@@ -20,7 +21,11 @@ public class ReturnFunc implements FlameFunction {
         if (args.size() != 1) {
             throw new FlameArityException(name(), 1, args.size());
         }
-        throw new ReturningException(args.get(0));
+        if (!(args.get(0) instanceof StringAtom s)) {
+            throw new Exception("Expected string at first position");
+        }
+
+        return new IntegerAtom(s.value().length());
     }
     
 }

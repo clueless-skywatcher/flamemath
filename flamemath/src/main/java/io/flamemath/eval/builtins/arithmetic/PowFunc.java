@@ -47,6 +47,10 @@ public class PowFunc implements FlameFunction {
         // Both numeric → compute directly
         if (base.isNumeric() && exp.isNumeric()) {
             long expLong = (long) numericValue(exp);
+            // Division by zero: 0^(negative) is undefined
+            if (base.isZero() && expLong < 0) {
+                throw new ArithmeticException("Division by zero");
+            }
             // Negative integer exponent on integer base → RationalAtom
             if (base instanceof IntegerAtom && exp instanceof IntegerAtom && expLong < 0) {
                 long denom = (long) Math.pow(numericValue(base), -expLong);

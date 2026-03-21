@@ -1,0 +1,31 @@
+Factorial = (n) => {
+    If(!IsInteger(n),
+        Raw(Factorial, n),
+        If(n <= 1,
+            1,
+            n * Factorial(n - 1)
+        )
+    )
+}
+
+Sub = (a, b) => a - b
+Div = (a, b) => a / b
+
+Sum = (list) => {
+    sum = 0;
+    i = 0;
+    While(i < Len(list), {
+        sum = sum + list[i];
+        i = i + 1
+    });
+    sum
+}
+
+Triangular = (n) => Sum(Range(1, n + 1))
+
+Fibonacci = (n) => {
+    If(!IsInteger(n), Return(Raw(Fibonacci, n)));
+    If(n == 0, Return(0));
+    If(n == 1, Return(1));
+    Fibonacci(n - 1) + Fibonacci(n - 2)
+}

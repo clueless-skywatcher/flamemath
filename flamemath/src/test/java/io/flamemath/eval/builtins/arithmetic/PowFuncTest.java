@@ -247,6 +247,23 @@ class PowFuncTest {
         fm.assertExec("x", "x^2 / x");
     }
 
+    // --- Division by zero ---
+
+    @Test
+    void divisionByZeroThrows() {
+        assertThrows(ArithmeticException.class, () -> fm.execute("1 / 0"));
+    }
+
+    @Test
+    void zeroToNegativeExponentThrows() {
+        assertThrows(ArithmeticException.class, () -> fm.execute("0^(-1)"));
+    }
+
+    @Test
+    void zeroToNegativeTwoThrows() {
+        assertThrows(ArithmeticException.class, () -> fm.execute("0^(-2)"));
+    }
+
     // --- Arity errors ---
 
     @Test
