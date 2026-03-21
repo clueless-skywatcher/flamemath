@@ -22,4 +22,12 @@ public record RealAtom(double value) implements Expr {
     public int hash() {
         return Double.hashCode(value);
     }
+
+    public static Expr rationalize(RealAtom r) {
+        String[] realBroken = r.toString().split("\\.");
+        int decimals = realBroken[1].length();
+        long denom = (long) Math.pow(10, decimals);
+        long num = (long) (r.value() * denom);
+        return RationalAtom.of(num, denom);
+    }
 }

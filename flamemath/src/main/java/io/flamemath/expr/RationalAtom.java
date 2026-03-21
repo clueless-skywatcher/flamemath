@@ -62,4 +62,12 @@ public record RationalAtom(Expr num, Expr denom) implements Expr {
     public static Expr of(long num, long denom) {
         return new RationalAtom(new IntegerAtom(num), new IntegerAtom(denom)).reduce();
     }
+
+    public static RationalAtom rationalOf(Expr expr) throws Exception {
+        if (expr instanceof IntegerAtom i) 
+            return new RationalAtom(new IntegerAtom(i.value()), IntegerAtom.ONE);
+        else if (expr instanceof RationalAtom r)
+            return r;
+        throw new Exception("Cannot convert to rational");
+    }
 }

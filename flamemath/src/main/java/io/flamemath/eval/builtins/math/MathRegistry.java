@@ -17,6 +17,7 @@ public class MathRegistry {
         registry.register(new FloorFunc());
         registry.register(new CeilFunc());
         registry.register(new RoundFunc());
+        registry.register(new ModFunc());
 
         return registry;
     }
