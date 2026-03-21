@@ -157,6 +157,20 @@ public class FlameValuator {
         return result;
     }
 
+    public boolean isFunction(Expr expr) {
+        if (expr instanceof Flambda) return true;
+        if (expr instanceof Compound c
+                && c.isHead("Seq")
+                && c.children().stream().allMatch(child -> child instanceof Flambda)) {
+            return true;
+        }
+        if (expr instanceof Symbol s) {
+            if (registry.has(s.name())) return true;
+            if (env.has(s)) return isFunction(env.get(s));
+        }
+        return false;
+    }
+
     public FlameVironment getEnv() {
         return env;
     }
