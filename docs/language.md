@@ -106,7 +106,36 @@ Here are the atomic types:
 - `Symbol` — unassigned names like `x`, `y`, `foo`
 - `Null` — the absence of a value. `Null` is a singleton; there is only one of it
 
-Non-atomic types include `Compound` expressions (function calls, operators) and `Lambda` (function definitions).
+Non-atomic types include `Compound` expressions (function calls, operators), `Lambda` (function definitions), `List`, and `Dict`.
+
+## Dictionaries
+Dictionaries are key-value mappings created with braces and the `:` operator.
+```
+Flame> d = {"name": "Alice", "age": 30}
+Flame> Lookup(d, "name")
+"Alice"
+Flame> HasKey(d, "age")
+True
+```
+Keys must be hashable (any atomic type: Integer, Real, String, Symbol, Boolean, Null). Lists, Dicts, and Lambdas cannot be used as keys.
+
+Empty braces `{}` create an empty dictionary.
+```
+Flame> {}
+Dict()
+```
+
+Dictionaries are immutable. Functions like `DictSet` and `DictRemove` return new dictionaries without modifying the original.
+```
+Flame> d = {"a": 1}
+Flame> d2 = DictSet(d, "b", 2)
+Flame> Lookup(d2, "b")
+2
+Flame> HasKey(d, "b")
+False
+```
+
+See the reference pages for [Dict](reference/Dict.md), [Lookup](reference/Lookup.md), [Keys](reference/Keys.md), [Values](reference/Values.md), [HasKey](reference/HasKey.md), [DictSet](reference/DictSet.md), [DictRemove](reference/DictRemove.md), and [Merge](reference/Merge.md).
 
 ## Operators
 FlameLang uses infix operators that desugar into function calls internally. There are no "special" operators, they are all syntactic sugar.

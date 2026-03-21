@@ -21,4 +21,9 @@ public record IntegerAtom(long value) implements Expr {
     public boolean isNumeric() {
         return true;
     }
+
+    @Override
+    public int hash() {
+        return Long.hashCode(value);
+    }
 }

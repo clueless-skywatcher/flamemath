@@ -17,4 +17,9 @@ public record Compound(String head, List<Expr> children) implements Expr {
                 .collect(Collectors.joining(", "));
         return head + "(" + args + ")";
     }
+
+    @Override
+    public int hash() {
+        throw new UnsupportedOperationException("Compound expressions are not hashable");
+    }
 }

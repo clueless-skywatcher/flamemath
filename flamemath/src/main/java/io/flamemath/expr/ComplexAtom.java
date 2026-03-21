@@ -19,4 +19,9 @@ public record ComplexAtom(double re, double im) implements Expr {
     public boolean isNumeric() {
         return true;
     }
+
+    @Override
+    public int hash() {
+        return 31 * Double.hashCode(re) + Double.hashCode(im);
+    }
 }

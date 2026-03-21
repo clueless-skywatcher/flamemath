@@ -29,4 +29,9 @@ public record BooleanAtom(boolean value) implements Expr {
     public boolean isFalse() {
         return !value;
     }
+
+    @Override
+    public int hash() {
+        return Boolean.hashCode(value);
+    }
 }

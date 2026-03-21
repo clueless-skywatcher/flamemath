@@ -12,4 +12,9 @@ public record StringAtom(String value) implements Expr {
     public String toString() {
         return "\"" + value + "\"";
     }
+
+    @Override
+    public int hash() {
+        return value.hashCode();
+    }
 }

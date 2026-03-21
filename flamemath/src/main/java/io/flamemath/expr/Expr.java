@@ -3,7 +3,8 @@ package io.flamemath.expr;
 public sealed interface Expr
         permits IntegerAtom, RealAtom, ComplexAtom,
                 StringAtom, Symbol, BooleanAtom,
-                NullExpr, Compound, Flambda, ListExpr {
+                NullExpr, Compound, Flambda, ListExpr,
+                DictExpr, DictEntryExpr {
 
     boolean isAtomic();
     
@@ -32,4 +33,6 @@ public sealed interface Expr
     default boolean isFalse() {
         return false;
     }
+
+    int hash();
 }

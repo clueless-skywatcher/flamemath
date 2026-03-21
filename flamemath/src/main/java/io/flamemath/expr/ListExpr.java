@@ -17,5 +17,9 @@ public record ListExpr(List<Expr> exprs) implements Expr {
     public String head() {
         return "List";
     }
-    
+
+    @Override
+    public int hash() {
+        throw new UnsupportedOperationException("Lists are not hashable");
+    }
 }

@@ -298,7 +298,7 @@ public class FMLexer {
                     advance();
                     return new FMToken(FMTokenType.COLON_GREATER, ":>", startLine, startCol);
                 }
-                throw new Exception("Unexpected ':' at " + startLine + ":" + startCol + " (did you mean ':>'?)");
+                return new FMToken(FMTokenType.COLON, ":", startLine, startCol);
             }
 
             default -> throw new Exception("Unexpected character '" + c + "' at " + startLine + ":" + startCol);

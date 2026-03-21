@@ -1,6 +1,7 @@
 package io.flamemath.lang.parser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -8,6 +9,8 @@ import java.util.Set;
 import io.flamemath.eval.FlameVironment;
 import io.flamemath.expr.BooleanAtom;
 import io.flamemath.expr.Compound;
+import io.flamemath.expr.DictEntryExpr;
+import io.flamemath.expr.DictExpr;
 import io.flamemath.expr.Expr;
 import io.flamemath.expr.Flambda;
 import io.flamemath.expr.IntegerAtom;
@@ -29,6 +32,9 @@ public class FlameParser {
 
         // Assignment
         Map.entry(FMTokenType.EQUAL, 2),
+
+        // Dictionary entry
+        Map.entry(FMTokenType.COLON, 3),
 
         // Logical OR
         Map.entry(FMTokenType.PIPE_PIPE, 5),
@@ -174,6 +180,9 @@ public class FlameParser {
             return new Compound(
                 "At", List.of(left, index)
             );
+        } else if (operator.type() == FMTokenType.COLON) {
+            Expr value = parseExpr(precedenceOf(operator));
+            return new DictEntryExpr(left, value);
         }
         
         int precedence = precedenceOf(operator);
@@ -242,9 +251,33 @@ public class FlameParser {
                 yield new Compound("Not", List.of(operand));
             }
             case LBRACE -> {
-                Expr body = parseExpr(0);
-                expect(FMTokenType.RBRACE);
-                yield body;
+                if (peek().type() == FMTokenType.RBRACE) {
+                    advance();
+                    yield new DictExpr();
+                }
+                Expr first = parseExpr(0);
+                if (first instanceof DictEntryExpr firstEntry) {
+                    List<DictEntryExpr> entries = new ArrayList<>();
+                    entries.add(firstEntry);
+                    while (peek().type() == FMTokenType.COMMA) {
+                        advance();
+                        Expr e = parseExpr(0);
+                        if (!(e instanceof DictEntryExpr)) {
+                            throw new Exception("Expected dictionary entry");
+                        }
+                        entries.add((DictEntryExpr) e);
+                    }
+                    expect(FMTokenType.RBRACE);
+                    Map<Expr, Expr> dict = new HashMap<>();
+                    for (var entry: entries) {
+                        entry.key().hash();
+                        dict.put(entry.key(), entry.value());
+                    }
+                    yield new DictExpr(dict);
+                } else {
+                    expect(FMTokenType.RBRACE);
+                    yield first;
+                }
             }
             default -> throw new Exception("Unexpected token in prefix position: " + token);
         };

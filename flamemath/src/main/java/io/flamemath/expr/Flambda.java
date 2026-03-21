@@ -17,5 +17,10 @@ public record Flambda(
     @Override
     public String head() {
         return "Lambda";
-    }    
+    }
+
+    @Override
+    public int hash() {
+        throw new UnsupportedOperationException("Lambdas are not hashable");
+    }
 }

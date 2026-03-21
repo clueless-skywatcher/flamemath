@@ -10,10 +10,13 @@ import io.flamemath.eval.builtins.construct.ConstructRegistry;
 import io.flamemath.eval.builtins.general.GeneralRegistry;
 import io.flamemath.eval.builtins.list.ListRegistry;
 import io.flamemath.eval.builtins.logical.LogicalRegistry;
+import io.flamemath.eval.builtins.dict.DictRegistry;
 import io.flamemath.eval.builtins.system.SystemRegistry;
 import io.flamemath.exceptions.FlameArityException;
 import io.flamemath.exceptions.ReturningException;
 import io.flamemath.expr.Compound;
+import io.flamemath.expr.DictEntryExpr;
+import io.flamemath.expr.DictExpr;
 import io.flamemath.expr.Expr;
 import io.flamemath.expr.Flambda;
 import io.flamemath.expr.ListExpr;
@@ -46,6 +49,20 @@ public class FlameValuator {
         }
 
         if (expr instanceof Flambda f) return new Flambda(f.params(), f.body(), this.env);
+
+        if (expr instanceof DictExpr d) {
+            java.util.Map<Expr, Expr> evaluated = new java.util.HashMap<>();
+            for (var entry : d.dict().entrySet()) {
+                Expr key = eval(entry.getKey());
+                Expr value = eval(entry.getValue());
+                evaluated.put(key, value);
+            }
+            return new DictExpr(evaluated);
+        }
+
+        if (expr instanceof DictEntryExpr e) {
+            return new DictEntryExpr(eval(e.key()), eval(e.value()));
+        }
 
         Compound comp = (Compound) expr;
 
@@ -154,5 +171,6 @@ public class FlameValuator {
         registry.registerAll(SystemRegistry.create());
         registry.registerAll(ConstructRegistry.create());
         registry.registerAll(ListRegistry.create());
+        registry.registerAll(DictRegistry.create());
     }
 }

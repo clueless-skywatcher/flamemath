@@ -12,4 +12,9 @@ public record Symbol(String name) implements Expr {
     public String toString() {
         return name;
     }
+
+    @Override
+    public int hash() {
+        return name.hashCode();
+    }
 }

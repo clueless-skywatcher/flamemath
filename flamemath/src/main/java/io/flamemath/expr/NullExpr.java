@@ -17,4 +17,9 @@ public enum NullExpr implements Expr {
     public String toString() {
         return "Null";
     }
+
+    @Override
+    public int hash() {
+        return 0;
+    }
 }

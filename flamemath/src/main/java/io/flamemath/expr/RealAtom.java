@@ -17,4 +17,9 @@ public record RealAtom(double value) implements Expr {
     public boolean isNumeric() {
         return true;
     }
+
+    @Override
+    public int hash() {
+        return Double.hashCode(value);
+    }
 }
