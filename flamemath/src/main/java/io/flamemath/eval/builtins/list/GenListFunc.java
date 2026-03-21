@@ -4,6 +4,7 @@ import static io.flamemath.FlameUtils.numericValue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import io.flamemath.eval.FlameFunction;
 import io.flamemath.eval.FlameValuator;
@@ -87,5 +88,10 @@ public class GenListFunc implements FlameFunction {
         }
 
         return new ListExpr(finalList);
+    }
+
+    @Override
+    public Set<Integer> heldArgIndexes() {
+        return Set.of(0);
     }
 }

@@ -134,6 +134,19 @@ public class FlameParser {
         return parseExpr(0);
     }
 
+    public Expr parseAll() throws Exception {
+        Expr first = parseExpr(0);
+        if (peek().type() == FMTokenType.EOF) {
+            return first;
+        }
+        List<Expr> exprs = new ArrayList<>();
+        exprs.add(first);
+        while (peek().type() != FMTokenType.EOF) {
+            exprs.add(parseExpr(0));
+        }
+        return new Compound("Seq", exprs);
+    }
+
     private Expr parseExpr(int minPrecedence) throws Exception {
         Expr left = parsePrefix();
 

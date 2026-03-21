@@ -1,0 +1,5 @@
+IsInteger = (x) => Head(x) == Integer
+IsReal = (x) => Head(x) == Real
+IsString = (x) => Head(x) == String
+IsSymbol = (x) => Head(x) == Symbol
+IsBoolean = (x) => Head(x) == Boolean

@@ -1,0 +1,19 @@
+Filter = (f, list) => {
+    i = 0;
+    newList = [];
+    While(i < Len(list), {
+        If(f(list[i]), Append(newList, list[i]));
+        i = i + 1
+    });
+    newList
+}
+
+Fold = (f, start, list) => {
+    i = 0;
+    folded = start;
+    While(i < Len(list), {
+        folded = f(folded, list[i]);
+        i = i + 1
+    });
+    folded
+}

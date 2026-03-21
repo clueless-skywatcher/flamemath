@@ -8,6 +8,7 @@ public class SystemRegistry {
 
         registry.register(new ExitFunc());
         registry.register(new PrintLnFunc());
+        registry.register(new EchoFunc());
         
         return registry;
     }

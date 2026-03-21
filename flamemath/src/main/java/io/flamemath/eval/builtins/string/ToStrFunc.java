@@ -1,18 +1,18 @@
-package io.flamemath.eval.builtins.construct;
+package io.flamemath.eval.builtins.string;
 
 import java.util.List;
 
 import io.flamemath.eval.FlameFunction;
 import io.flamemath.eval.FlameValuator;
 import io.flamemath.exceptions.FlameArityException;
-import io.flamemath.exceptions.ReturningException;
 import io.flamemath.expr.Expr;
+import io.flamemath.expr.StringAtom;
 
-public class ReturnFunc implements FlameFunction {
+public class ToStrFunc implements FlameFunction {
 
     @Override
     public String name() {
-       return "Return";
+        return "ToStr";
     }
 
     @Override
@@ -20,7 +20,7 @@ public class ReturnFunc implements FlameFunction {
         if (args.size() != 1) {
             throw new FlameArityException(name(), 1, args.size());
         }
-        throw new ReturningException(args.get(0));
+        return new StringAtom(args.get(0).toString());
     }
     
 }

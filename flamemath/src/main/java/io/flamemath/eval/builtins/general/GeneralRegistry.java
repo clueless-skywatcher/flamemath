@@ -15,6 +15,7 @@ public class GeneralRegistry {
         registry.register(new IfFunc());
         registry.register(new WhileFunc());
         registry.register(new AtFunc());
+        registry.register(new RawFunc());
         return registry;
     }
 }
