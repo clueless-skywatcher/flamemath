@@ -1,14 +1,15 @@
 package io.flamemath.eval.builtins.math;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.junit.jupiter.api.Test;
+
 import io.flamemath.FlameTestingUtils;
 import io.flamemath.FlameUtils;
 import io.flamemath.exceptions.FlameArityException;
-import io.flamemath.expr.IntegerAtom;
 import io.flamemath.expr.RealAtom;
 import io.flamemath.expr.Symbol;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class NumFuncTest {
 

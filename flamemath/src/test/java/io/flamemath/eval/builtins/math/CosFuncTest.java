@@ -1,12 +1,13 @@
 package io.flamemath.eval.builtins.math;
 
-import io.flamemath.FlameTestingUtils;
-import io.flamemath.exceptions.FlameArityException;
-import io.flamemath.expr.IntegerAtom;
-import io.flamemath.expr.RealAtom;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import io.flamemath.FlameTestingUtils;
+import io.flamemath.exceptions.FlameArityException;
+import io.flamemath.expr.RealAtom;
 
 class CosFuncTest {
 

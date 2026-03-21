@@ -14,6 +14,9 @@ public class MathRegistry {
         registry.register(new SinFunc());
         registry.register(new CosFunc());
         registry.register(new TanFunc());
+        registry.register(new FloorFunc());
+        registry.register(new CeilFunc());
+        registry.register(new RoundFunc());
 
         return registry;
     }

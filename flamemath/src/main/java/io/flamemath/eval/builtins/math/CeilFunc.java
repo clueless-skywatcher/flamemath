@@ -1,21 +1,21 @@
 package io.flamemath.eval.builtins.math;
 
-import static io.flamemath.FlameUtils.numericValue;
-
 import java.util.List;
+
+import static io.flamemath.FlameUtils.numericValue;
 
 import io.flamemath.eval.FlameFunction;
 import io.flamemath.eval.FlameValuator;
 import io.flamemath.exceptions.FlameArityException;
 import io.flamemath.expr.Compound;
 import io.flamemath.expr.Expr;
-import io.flamemath.expr.RealAtom;
-import io.flamemath.expr.Symbol;
+import io.flamemath.expr.IntegerAtom;
 
-public class ExpFunc implements FlameFunction {
+public class CeilFunc implements FlameFunction {
+
     @Override
     public String name() {
-        return "Exp";
+        return "Ceil";
     }
 
     @Override
@@ -24,14 +24,14 @@ public class ExpFunc implements FlameFunction {
             throw new FlameArityException(name(), 1, args.size());
         }
 
-        Expr arg = args.get(0);
+        Expr n = args.get(0);
+        if (n.isNumeric()) {
+            double numVal = numericValue(n);
+            return new IntegerAtom((long) Math.ceil(numVal));
+        }
 
-        // Exp(x) → Pow(E, x)
-        return evaluator.eval(new Compound("Pow", List.of(new Symbol("E"), arg)));
+        return new Compound(name(), args);
     }
-
-    @Override
-    public Expr numerify(List<Expr> args) throws Exception {
-        return new RealAtom(Math.exp(numericValue(args.get(0))));
-    }
+    
 }
+
