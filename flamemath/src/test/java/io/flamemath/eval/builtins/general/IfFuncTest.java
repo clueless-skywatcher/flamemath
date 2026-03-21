@@ -122,7 +122,7 @@ class IfFuncTest {
 
     @Test
     void ifInsideLambda() throws Exception {
-        fm.assertExec("1", "Abs = (x) => If(True, x, 0 - x); Abs(1)");
+        fm.assertExec("1", "MyAbs = (x) => If(True, x, 0 - x); MyAbs(1)");
     }
 
     // --- Two-arg If (no else branch) ---

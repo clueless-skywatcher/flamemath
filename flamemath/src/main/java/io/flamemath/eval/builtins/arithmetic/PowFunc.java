@@ -11,6 +11,7 @@ import io.flamemath.exceptions.FlameArityException;
 import io.flamemath.expr.Compound;
 import io.flamemath.expr.Expr;
 import io.flamemath.expr.IntegerAtom;
+import io.flamemath.expr.RationalAtom;
 import io.flamemath.expr.RealAtom;
 
 public class PowFunc implements FlameFunction {
@@ -29,10 +30,29 @@ public class PowFunc implements FlameFunction {
         Expr base = args.get(0);
         Expr exp = args.get(1);
 
+        // Integer base with rational exponent 1/2 → perfect square check
+        if (base instanceof IntegerAtom baseInt
+                && exp instanceof RationalAtom r
+                && r.num() instanceof IntegerAtom rn && rn.value() == 1
+                && r.denom() instanceof IntegerAtom rd && rd.value() == 2) {
+            long val = baseInt.value();
+            long root = (long) Math.sqrt(val);
+            if (root * root == val) {
+                return new IntegerAtom(root);
+            }
+            // Non-perfect square: stay symbolic as Pow(n, (1/2))
+            return new Compound("Pow", List.of(base, exp));
+        }
+
         // Both numeric → compute directly
         if (base.isNumeric() && exp.isNumeric()) {
             long expLong = (long) numericValue(exp);
-            // Negative integer exponent → promote to real
+            // Negative integer exponent on integer base → RationalAtom
+            if (base instanceof IntegerAtom && exp instanceof IntegerAtom && expLong < 0) {
+                long denom = (long) Math.pow(numericValue(base), -expLong);
+                return new RationalAtom(IntegerAtom.ONE, new IntegerAtom(denom)).reduce();
+            }
+            // Negative integer exponent on real base → promote to real
             if (exp instanceof IntegerAtom && expLong < 0) {
                 return new RealAtom(Math.pow(numericValue(base), expLong));
             }

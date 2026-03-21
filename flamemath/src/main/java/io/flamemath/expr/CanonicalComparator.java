@@ -11,6 +11,7 @@ public class CanonicalComparator implements Comparator<Expr> {
         "Integer", 0,
         "Real", 0,
         "Complex", 0,
+        "Rational", 0,
         "Symbol", 1,
         "String", 3,
         "Boolean", 3

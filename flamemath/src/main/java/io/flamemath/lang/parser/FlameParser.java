@@ -76,9 +76,9 @@ public class FlameParser {
     // Maps operator tokens to their Compound head names
     private static final Map<FMTokenType, String> HEAD = Map.ofEntries(
         Map.entry(FMTokenType.PLUS, "Add"),
-        Map.entry(FMTokenType.MINUS, "Add"),       // a - b → Plus(a, Times(-1, b))
+        Map.entry(FMTokenType.MINUS, "Add"),       // a - b → Add(a, Mul(-1, b))
         Map.entry(FMTokenType.STAR, "Mul"),
-        Map.entry(FMTokenType.SLASH, "Mul"),       // a / b → Times(a, Power(b, -1))
+        Map.entry(FMTokenType.SLASH, "Mul"),       // a / b → Mul(a, Pow(b, -1))
         Map.entry(FMTokenType.CARET, "Pow"),
 
         Map.entry(FMTokenType.EQUAL_EQUAL, "Eq"),

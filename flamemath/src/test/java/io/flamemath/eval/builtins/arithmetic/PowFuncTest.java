@@ -50,13 +50,29 @@ class PowFuncTest {
     }
 
     @Test
-    void negativeExponentPromotesToReal() throws Exception {
-        fm.assertExec("0.5", "2^(-1)");
+    void negativeExponentOnInteger() throws Exception {
+        fm.assertExec("(1/2)", "2^(-1)");
     }
 
     @Test
-    void negativeExponentOnFour() throws Exception {
-        fm.assertExec("0.0625", "4^(-2)");
+    void negativeExponentSquaredOnInteger() throws Exception {
+        fm.assertExec("(1/16)", "4^(-2)");
+    }
+
+    @Test
+    void negativeExponentOnThree() throws Exception {
+        fm.assertExec("(1/3)", "3^(-1)");
+    }
+
+    @Test
+    void negativeExponentOnRealStaysReal() throws Exception {
+        fm.assertExec("0.5", "2.0^(-1)");
+    }
+
+    @Test
+    void negativeExponentOnOneReducesToInteger() throws Exception {
+        // 1^(-1) → RationalAtom(1, 1) → reduced to 1
+        fm.assertExec("1", "1^(-1)");
     }
 
     @Test

@@ -1,6 +1,7 @@
 package io.flamemath;
 
 import io.flamemath.expr.*;
+import io.flamemath.expr.RationalAtom;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -284,5 +285,43 @@ class ExprPrinterTest {
         assertEquals("1 + 2*x^3",
                 print(c("Add", IntegerAtom.ONE,
                         c("Mul", new IntegerAtom(2), c("Pow", new Symbol("x"), new IntegerAtom(3))))));
+    }
+
+    // --- RationalAtom ---
+
+    @Test
+    void rationalSimple() {
+        // RationalAtom(1, 2) → (1/2)
+        assertEquals("(1/2)",
+                print(new RationalAtom(IntegerAtom.ONE, new IntegerAtom(2))));
+    }
+
+    @Test
+    void rationalThreeOverFour() {
+        assertEquals("(3/4)",
+                print(new RationalAtom(new IntegerAtom(3), new IntegerAtom(4))));
+    }
+
+    @Test
+    void rationalNegativeNumerator() {
+        assertEquals("(-1/3)",
+                print(new RationalAtom(IntegerAtom.MINUS_ONE, new IntegerAtom(3))));
+    }
+
+    @Test
+    void rationalInAdd() {
+        // Add(x, RationalAtom(1, 2)) → x + (1/2)
+        assertEquals("x + (1/2)",
+                print(c("Add", new Symbol("x"),
+                        new RationalAtom(IntegerAtom.ONE, new IntegerAtom(2)))));
+    }
+
+    @Test
+    void rationalInMul() {
+        // Mul(RationalAtom(1, 2), x) → (1/2)*x
+        assertEquals("(1/2)*x",
+                print(c("Mul",
+                        new RationalAtom(IntegerAtom.ONE, new IntegerAtom(2)),
+                        new Symbol("x"))));
     }
 }

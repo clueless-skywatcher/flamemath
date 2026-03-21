@@ -260,6 +260,148 @@ class MulFuncTest {
         fm.assertExec("1", "x^2 * x^(-2)");
     }
 
+    // --- Rationalization ---
+
+    @Test
+    void integerTimesRational() throws Exception {
+        fm.assertExec("(3/2)", "3 * 2^(-1)");
+    }
+
+    @Test
+    void oneOverTwo() throws Exception {
+        fm.assertExec("(1/2)", "1 * 2^(-1)");
+    }
+
+    @Test
+    void integerTimesInverseSquare() throws Exception {
+        fm.assertExec("(3/4)", "3 * 2^(-2)");
+    }
+
+    @Test
+    void multipleDenominators() throws Exception {
+        fm.assertExec("(3/10)", "3 * 2^(-1) * 5^(-1)");
+    }
+
+    @Test
+    void numeratorProduct() throws Exception {
+        fm.assertExec("(6/5)", "2 * 3 * 5^(-1)");
+    }
+
+    @Test
+    void symbolicBaseDoesNotRationalize() throws Exception {
+        fm.assertExec("Mul(3, Pow(x, -1))", "3 * x^(-1)");
+    }
+
+    @Test
+    void symbolicExponentDoesNotRationalize() throws Exception {
+        fm.assertExec("Mul(3, Pow(2, Mul(-1, x)))", "3 * 2^(-x)");
+    }
+
+    @Test
+    void mixedSymbolicAndIntegerDoesNotRationalize() throws Exception {
+        fm.assertExec("Mul((1/2), x)", "x * 2^(-1)");
+    }
+
+    @Test
+    void positiveExponentDoesNotRationalize() throws Exception {
+        fm.assertExec("12", "3 * 2^2");
+    }
+
+    // --- Rational reduction ---
+
+    @Test
+    void rationalReducesToSimplestForm() throws Exception {
+        // 6 * 4^(-1) → (6/4) → reduced to (3/2)
+        fm.assertExec("(3/2)", "6 * 4^(-1)");
+    }
+
+    @Test
+    void rationalReducesToInteger() throws Exception {
+        // 6 * 3^(-1) → (6/3) → reduced to 2
+        fm.assertExec("2", "6 * 3^(-1)");
+    }
+
+    @Test
+    void rationalReducesLargeNums() throws Exception {
+        // 12 * 8^(-1) → (12/8) → reduced to (3/2)
+        fm.assertExec("(3/2)", "12 * 8^(-1)");
+    }
+
+    @Test
+    void rationalAlreadyReduced() throws Exception {
+        // 7 * 3^(-1) → (7/3) — already in simplest form
+        fm.assertExec("(7/3)", "7 * 3^(-1)");
+    }
+
+    @Test
+    void rationalReducesWithMultipleDenominators() throws Exception {
+        // 12 * 2^(-1) * 3^(-1) → (12/6) → reduced to 2
+        fm.assertExec("2", "12 * 2^(-1) * 3^(-1)");
+    }
+
+    @Test
+    void rationalReducesNegativeNumerator() throws Exception {
+        // -6 * 4^(-1) → (-6/4) → reduced to (-3/2)
+        fm.assertExec("(-3/2)", "(-6) * 4^(-1)");
+    }
+
+    // --- Slash (division) producing rationals ---
+
+    @Test
+    void slashSimple() throws Exception {
+        fm.assertExec("(1/2)", "1 / 2");
+    }
+
+    @Test
+    void slashProducesReducedRational() throws Exception {
+        fm.assertExec("(1/2)", "3 / 6");
+    }
+
+    @Test
+    void slashReducesToInteger() throws Exception {
+        fm.assertExec("2", "6 / 3");
+    }
+
+    @Test
+    void slashAlreadyReduced() throws Exception {
+        fm.assertExec("(7/3)", "7 / 3");
+    }
+
+    @Test
+    void slashLargeReduction() throws Exception {
+        fm.assertExec("(3/4)", "12 / 16");
+    }
+
+    @Test
+    void slashNegativeNumerator() throws Exception {
+        fm.assertExec("(-1/2)", "(-1) / 2");
+    }
+
+    @Test
+    void slashNegativeDenominator() throws Exception {
+        fm.assertExec("(-1/2)", "1 / (-2)");
+    }
+
+    @Test
+    void slashBothNegative() throws Exception {
+        fm.assertExec("(1/2)", "(-1) / (-2)");
+    }
+
+    @Test
+    void slashOneOverOne() throws Exception {
+        fm.assertExec("1", "1 / 1");
+    }
+
+    @Test
+    void slashSymbolicStaysSymbolic() throws Exception {
+        fm.assertExec("Mul(x, Pow(y, -1))", "x / y");
+    }
+
+    @Test
+    void slashIntegerOverSymbol() throws Exception {
+        fm.assertExec("Mul(3, Pow(x, -1))", "3 / x");
+    }
+
     // --- Large products ---
 
     @Test

@@ -25,7 +25,19 @@ Numeric exponentiation:
 Flame> 2 ^ 3
 8
 Flame> 2 ^ -1
-0.5
+(1/2)
+Flame> 4 ^ -2
+(1/16)
+```
+
+Rational exponents and square roots:
+```
+Flame> Sqrt(4)
+2
+Flame> Sqrt(2)
+Pow(2, (1/2))
+Flame> Sqrt(2) * Sqrt(2)
+2
 ```
 
 Symbolic simplification:
@@ -54,7 +66,9 @@ a^2*b^2
 
 ## Notes
 - `^` is right-associative: `2^3^4` is `2^(3^4)`
-- Negative integer exponents promote to real (e.g., `2^-1` returns `0.5`)
+- Negative integer exponents on integer bases produce `RationalAtom` (e.g., `2^-1` returns `(1/2)`)
+- Negative integer exponents on real bases produce `RealAtom` (e.g., `2.0^-1` returns `0.5`)
+- `Pow(n, (1/2))` returns the integer root for perfect squares, stays symbolic otherwise
 - `0^0` evaluates to `1` (by convention)
 
 ## Errors

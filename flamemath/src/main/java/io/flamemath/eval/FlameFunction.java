@@ -1,5 +1,6 @@
 package io.flamemath.eval;
 
+import io.flamemath.expr.Compound;
 import io.flamemath.expr.Expr;
 
 import java.util.List;
@@ -24,5 +25,9 @@ public interface FlameFunction {
 
     default boolean holdAll() {
         return false;
+    }
+
+    default Expr numerify(List<Expr> args) throws Exception {
+        return new Compound(name(), args);
     }
 }

@@ -2,6 +2,7 @@ package io.flamemath.eval.builtins.arithmetic;
 
 import static io.flamemath.FlameUtils.numericValue;
 
+import io.flamemath.FlameUtils;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -13,6 +14,7 @@ import io.flamemath.expr.CanonicalComparator;
 import io.flamemath.expr.Compound;
 import io.flamemath.expr.Expr;
 import io.flamemath.expr.IntegerAtom;
+import io.flamemath.expr.RationalAtom;
 import io.flamemath.expr.RealAtom;
 
 public class MulFunc implements FlameFunction {
@@ -30,8 +32,36 @@ public class MulFunc implements FlameFunction {
             return args.get(0);
         }
 
+        // Rationalize: Mul(integers..., RationalAtom...) → RationalAtom
+        long numerator = 1;
+        long denominator = 1;
+        boolean isRational = true;
+        boolean hasRational = false;
+
+        for (Expr arg : args) {
+            if (arg instanceof IntegerAtom i) {
+                numerator *= i.value();
+            } else if (arg instanceof RationalAtom r
+                    && r.num() instanceof IntegerAtom rNum
+                    && r.denom() instanceof IntegerAtom rDenom) {
+                numerator *= rNum.value();
+                denominator *= rDenom.value();
+                hasRational = true;
+            } else {
+                isRational = false;
+                break;
+            }
+        }
+
+        if (isRational && hasRational) {
+            return new RationalAtom(new IntegerAtom(numerator), new IntegerAtom(denominator)).reduce();
+        }
+
         boolean hasReal = false;
-        double numericProduct = 1.0;
+        boolean hasRatCoeff = false;
+        long intNum = 1;
+        long intDenom = 1;
+        double realProduct = 1.0;
 
         List<Expr> results = new ArrayList<>();
 
@@ -52,10 +82,19 @@ public class MulFunc implements FlameFunction {
                     baseToExp.put(baseAndExp.get(0), baseAndExp.get(1));
                 }
             } else {
-                if (args.get(i) instanceof RealAtom) {
+                Expr a = args.get(i);
+                if (a instanceof RealAtom) {
                     hasReal = true;
+                    realProduct *= numericValue(a);
+                } else if (a instanceof RationalAtom r
+                        && r.num() instanceof IntegerAtom rn
+                        && r.denom() instanceof IntegerAtom rd) {
+                    hasRatCoeff = true;
+                    intNum *= rn.value();
+                    intDenom *= rd.value();
+                } else if (a instanceof IntegerAtom ia) {
+                    intNum *= ia.value();
                 }
-                numericProduct *= numericValue(args.get(i));
             }
         }
 
@@ -72,9 +111,19 @@ public class MulFunc implements FlameFunction {
             }
         }
 
-        if (numericProduct != 1 || results.isEmpty()) {
-            Expr num = hasReal ? new RealAtom(numericProduct) : new IntegerAtom((long) numericProduct);
-            results.addFirst(num);
+        double numericProduct = hasReal ? realProduct * ((double) intNum / intDenom) : 0;
+
+        if (hasReal) {
+            if (numericProduct != 1 || results.isEmpty()) {
+                results.addFirst(new RealAtom(numericProduct));
+            }
+        } else {
+            Expr coeff = hasRatCoeff
+                    ? new RationalAtom(new IntegerAtom(intNum), new IntegerAtom(intDenom)).reduce()
+                    : new IntegerAtom(intNum);
+            if (!coeff.isOne() || results.isEmpty()) {
+                results.addFirst(coeff);
+            }
         }
 
         if (results.size() == 1) {

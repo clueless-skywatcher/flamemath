@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Set;
 
 public class SetFunc implements FlameFunction {
+    private final List<String> PROTECTED = List.of(
+        "Pi", "E", "True", "False"
+    );
 
     @Override
     public String name() {
@@ -23,6 +26,10 @@ public class SetFunc implements FlameFunction {
 
         if (!(args.get(0) instanceof Symbol s)) {
             throw new Exception("Left side of Set must be a symbol");
+        }
+
+        if (PROTECTED.contains(s.name()) || evaluator.getRegistry().has(s.name())) {
+            throw new Exception(s.name() + " is a protected constant/function name");
         }
 
         evaluator.getEnv().set(s, args.get(1));

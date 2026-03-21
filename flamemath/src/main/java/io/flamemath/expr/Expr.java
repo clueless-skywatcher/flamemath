@@ -1,7 +1,7 @@
 package io.flamemath.expr;
 
 public sealed interface Expr
-        permits IntegerAtom, RealAtom, ComplexAtom,
+        permits IntegerAtom, RealAtom, ComplexAtom, RationalAtom,
                 StringAtom, Symbol, BooleanAtom,
                 NullExpr, Compound, Flambda, ListExpr,
                 DictExpr, DictEntryExpr {

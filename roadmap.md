@@ -26,14 +26,14 @@
 
 | # | Feature | Description | Status |
 |---|---------|-------------|--------|
-| 13 | Dictionary literals | `{"a": 1, "b": 2}>` syntax for creating dictionaries | TODO |
-| 14 | `Keys` | `Keys({"a": 1})` → `["a"]` — return all keys | TODO |
-| 15 | `Values` | `Values({"a": 1})` → `[1]` — return all values | TODO |
-| 16 | `Lookup` | `Lookup(dict, "a")` → `1` — retrieve value by key | TODO |
-| 17 | `HasKey` | `HasKey(dict, "a")` → `True` — check key existence | TODO |
-| 18 | `DictSet` | `DictSet(dict, "c", 3)` — return new dict with key added/updated | TODO |
-| 19 | `DictRemove` | `DictRemove(dict, "a")` — return new dict with key removed | TODO |
-| 20 | `Merge` | `Merge(dict1, dict2)` — combine dictionaries, later keys win | TODO |
+| 13 | Dictionary literals | `{"a": 1, "b": 2}>` syntax for creating dictionaries | Done |
+| 14 | `Keys` | `Keys({"a": 1})` → `["a"]` — return all keys | Done |
+| 15 | `Values` | `Values({"a": 1})` → `[1]` — return all values | Done |
+| 16 | `Lookup` | `Lookup(dict, "a")` → `1` — retrieve value by key | Done |
+| 17 | `HasKey` | `HasKey(dict, "a")` → `True` — check key existence | Done |
+| 18 | `DictSet` | `DictSet(dict, "c", 3)` — return new dict with key added/updated | Done |
+| 19 | `DictRemove` | `DictRemove(dict, "a")` — return new dict with key removed | Done |
+| 20 | `Merge` | `Merge(dict1, dict2)` — combine dictionaries, later keys win | Done |
 
 ## Milestone 4 — Math Builtins
 
