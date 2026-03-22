@@ -6,8 +6,8 @@
 
 | # | Feature | Description | Type | Status |
 |---|---------|-------------|------|--------|
-| 1 | `Apply` | `Apply(Add, [1,2,3])` → `6` — splat a list as arguments to a function | Java | |
-| 2 | `ReplaceAll` | `ReplaceAll(x^2 + x, x, 3)` → `12` — substitute a symbol with a value in an expression | Java | |
+| 1 | `Apply` | `Apply(Add, [1,2,3])` → `6` — splat a list as arguments to a function | Java | Done |
+| 2 | `ReplaceAll` | `ReplaceAll(x^2 + x, x, 3)` → `12` — substitute a symbol with a value in an expression | Java | Done |
 | 3 | Lambda pretty-print | Variadic lambdas print `(...rest)` instead of `Lambda<>` | Java | |
 
 ### Phase 2 — Number Theory (stdlib)
@@ -34,7 +34,7 @@
 |---|---------|-------------|------|--------|
 | 12 | `D` | `D(x^2, x)` → `2*x` — symbolic differentiation with sum, product, chain rules | Java | |
 | 13 | `Expand` | `Expand((x+1)*(x+2))` → `x^2 + 3*x + 2` — distribute products over sums | Java | |
-| 14 | `Coefficient` | `Coefficient(3*x^2 + 5*x, x, 2)` → `3` — extract coefficient of a power | Java | |
+| 14 | `Coefficient` | `Coefficient(3*x^2 + 5*x, x^2)` → `3` — extract coefficient of a power | Java | |
 
 ### Phase 5 — Polish
 
