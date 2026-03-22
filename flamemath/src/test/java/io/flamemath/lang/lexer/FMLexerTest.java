@@ -204,7 +204,7 @@ class FMLexerTest {
     @Test
     void slashSlash() throws Exception {
         var tokens = lex("//");
-        assertTypes(tokens, FMTokenType.SLASH_SLASH, FMTokenType.EOF);
+        assertTypes(tokens, FMTokenType.EOF);
     }
 
     @Test
@@ -217,6 +217,63 @@ class FMLexerTest {
     void slashSemi() throws Exception {
         var tokens = lex("/;");
         assertTypes(tokens, FMTokenType.SLASH_SEMI, FMTokenType.EOF);
+    }
+
+    // --- Comments ---
+
+    @Test
+    void commentIgnoresRestOfLine() throws Exception {
+        var tokens = lex("x + 1 // this is a comment");
+        assertTypes(tokens,
+                FMTokenType.IDENT, FMTokenType.PLUS, FMTokenType.INTEGER,
+                FMTokenType.EOF);
+    }
+
+    @Test
+    void commentOnlyLine() throws Exception {
+        var tokens = lex("// nothing here");
+        assertTypes(tokens, FMTokenType.EOF);
+    }
+
+    @Test
+    void commentDoesNotAffectNextLine() throws Exception {
+        var tokens = lex("x // comment\ny");
+        assertTypes(tokens,
+                FMTokenType.IDENT, FMTokenType.IDENT, FMTokenType.EOF);
+        assertEquals("x", tokens.get(0).value());
+        assertEquals("y", tokens.get(1).value());
+    }
+
+    @Test
+    void emptyComment() throws Exception {
+        var tokens = lex("//\nx");
+        assertTypes(tokens, FMTokenType.IDENT, FMTokenType.EOF);
+        assertEquals("x", tokens.get(0).value());
+    }
+
+    @Test
+    void slashAloneIsNotComment() throws Exception {
+        var tokens = lex("a / b");
+        assertTypes(tokens,
+                FMTokenType.IDENT, FMTokenType.SLASH, FMTokenType.IDENT,
+                FMTokenType.EOF);
+    }
+
+    @Test
+    void slashDotNotComment() throws Exception {
+        var tokens = lex("x /. y -> 5");
+        assertTypes(tokens,
+                FMTokenType.IDENT, FMTokenType.SLASH_DOT,
+                FMTokenType.IDENT, FMTokenType.ARROW, FMTokenType.INTEGER,
+                FMTokenType.EOF);
+    }
+
+    @Test
+    void commentAfterExpression() throws Exception {
+        var tokens = lex("F(x) // call F");
+        assertTypes(tokens,
+                FMTokenType.IDENT, FMTokenType.LPAREN, FMTokenType.IDENT, FMTokenType.RPAREN,
+                FMTokenType.EOF);
     }
 
     // --- Underscores (pattern matching) ---
@@ -365,6 +422,51 @@ class FMLexerTest {
         assertEquals(0, tokens.get(0).col());
         assertEquals(2, tokens.get(1).col());
         assertEquals(4, tokens.get(2).col());
+    }
+
+    // --- Triple dot ---
+
+    @Test
+    void tripleDot() throws Exception {
+        var tokens = lex("...");
+        assertTypes(tokens, FMTokenType.TRIPLE_DOT, FMTokenType.EOF);
+        assertEquals("...", tokens.get(0).value());
+    }
+
+    @Test
+    void tripleDotBeforeIdent() throws Exception {
+        var tokens = lex("...rest");
+        assertTypes(tokens, FMTokenType.TRIPLE_DOT, FMTokenType.IDENT, FMTokenType.EOF);
+        assertEquals("rest", tokens.get(1).value());
+    }
+
+    @Test
+    void variadicLambda() throws Exception {
+        var tokens = lex("(a, ...rest) => body");
+        assertTypes(tokens,
+                FMTokenType.LPAREN, FMTokenType.IDENT, FMTokenType.COMMA,
+                FMTokenType.TRIPLE_DOT, FMTokenType.IDENT, FMTokenType.RPAREN,
+                FMTokenType.FAT_ARROW, FMTokenType.IDENT,
+                FMTokenType.EOF);
+    }
+
+    @Test
+    void allVariadicLambda() throws Exception {
+        var tokens = lex("(...args) => args");
+        assertTypes(tokens,
+                FMTokenType.LPAREN, FMTokenType.TRIPLE_DOT, FMTokenType.IDENT, FMTokenType.RPAREN,
+                FMTokenType.FAT_ARROW, FMTokenType.IDENT,
+                FMTokenType.EOF);
+    }
+
+    @Test
+    void bareDoubleDotThrows() {
+        assertThrows(Exception.class, () -> lex(".."));
+    }
+
+    @Test
+    void bareSingleDotThrows() {
+        assertThrows(Exception.class, () -> lex("."));
     }
 
     // --- Error cases ---

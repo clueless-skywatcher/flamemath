@@ -19,46 +19,18 @@ Sum = (x, ...xs) => If(Eq(Len(xs), 0), x, x + Sum(Head(xs), ...Tail(xs)));
 
 ## Pipeline Changes
 
-### 1. Lexer (`FMLexer.java`)
+### 1. Lexer — Done
 
-Add a new token type `DOTDOTDOT` (`...`).
+The `TRIPLE_DOT` token (`...`) already existed in `FMTokenType.java` and `FMLexer.java`. The `'.'` case was moved to a dedicated `lexVariadic()` method, and errors for bare `.` and `..` were added.
 
-In `lexOperatorOrDelimiter()`, when the current character is `.`, peek ahead for two more `.` characters. If found, emit `DOTDOTDOT`. Otherwise, fall through to existing behavior.
+### 2. Parser — Done
 
-**Token type addition** in `FMTokenType.java`:
-```java
-DOTDOTDOT,  // ...
-```
+- `TRIPLE_DOT` is handled as a prefix operator in `parsePrefix()`, yielding a `VariadicArgument(symbol)` record.
+- In the `LPAREN` branch, `parseCommaSeparated()` naturally picks up `VariadicArgument` nodes. When `FAT_ARROW` follows, the param list is iterated: `Symbol` nodes become regular params, a `VariadicArgument` sets `variadic = true` on the `Flambda` and must be last.
+- `Flambda` record has a new `boolean variadic` field.
+- `VariadicArgument` is a new record implementing the sealed `Expr` interface.
 
-### 2. Parser (`FlameParser.java`)
-
-In the `LPAREN` branch of `parsePrefix()`, after parsing comma-separated params and before the `FAT_ARROW` check:
-
-- When iterating params to build the `symbols` list, check if the last element was preceded by a `DOTDOTDOT` token.
-- If so, mark it as a rest parameter.
-
-Two options for AST representation:
-
-**Option A — New AST node:** Create a `RestParam` wrapper that extends `Expr`, wrapping a `Symbol`. The parser emits `RestParam(Symbol("rest"))` for `...rest`. `Flambda` keeps its `List<Symbol>` but the last entry is special-cased.
-
-**Option B — Flag on Flambda:** Add a `boolean variadic` field to the `Flambda` record. When `true`, the last param in the list is the rest parameter.
-
-**Recommended: Option B.** It avoids a new AST node and keeps changes localized. The `Flambda` record becomes:
-
-```java
-record Flambda(
-    List<Symbol> params,
-    Expr body,
-    FlameVironment env,
-    boolean variadic
-) implements Expr
-```
-
-**Parser validation:**
-- `...` is only allowed before the last parameter. Error otherwise.
-- At most one `...` parameter per lambda.
-
-### 3. Evaluator (`FlameValuator.java`)
+### 3. Evaluator (`FlameValuator.java`) — TODO
 
 Modify `applyLambda()`:
 
@@ -75,7 +47,7 @@ else:
 
 Also update the **overloaded dispatch** logic (the `Seq` of lambdas branch). A variadic clause should match when `args.size() >= params.size() - 1`. Non-variadic clauses should still be checked first for exact matches.
 
-### 4. Printer (`ExprPrinter.java`)
+### 4. Printer (`ExprPrinter.java`) — TODO
 
 Update `Flambda` printing to emit `...` before the last param when `variadic` is true, so round-tripping works:
 
@@ -85,16 +57,18 @@ Update `Flambda` printing to emit `...` before the last param when `variadic` is
 
 ---
 
-## Files to Change
+## Files Changed
 
-| File | Change |
-|------|--------|
-| `FMTokenType.java` | Add `DOTDOTDOT` |
-| `FMLexer.java` | Recognize `...` |
-| `Flambda.java` | Add `boolean variadic` field |
-| `FlameParser.java` | Parse `...param`, set variadic flag |
-| `FlameValuator.java` | Rest-arg binding in `applyLambda()`, overload dispatch |
-| `ExprPrinter.java` | Print `...` prefix for variadic lambdas |
+| File | Change | Status |
+|------|--------|--------|
+| `FMLexer.java` | Moved `...` recognition to `lexVariadic()` | Done |
+| `FMTokenType.java` | `TRIPLE_DOT` already existed | — |
+| `VariadicArgument.java` | New `Expr` record wrapping a `Symbol` | Done |
+| `Expr.java` | Added `VariadicArgument` to sealed permits | Done |
+| `Flambda.java` | Added `boolean variadic` field | Done |
+| `FlameParser.java` | `TRIPLE_DOT` prefix → `VariadicArgument`; LPAREN branch detects it | Done |
+| `FlameValuator.java` | Rest-arg binding in `applyLambda()`, overload dispatch | TODO |
+| `ExprPrinter.java` | Print `...` prefix for variadic lambdas | TODO |
 
 ---
 

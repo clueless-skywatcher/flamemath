@@ -235,6 +235,34 @@ Flame> F(5)
 10
 ```
 The correct clause is selected based on the number of arguments. If no clause matches, you get an arity error.
+### Variadic arguments
+A lambda can accept a variable number of arguments using the `...` rest parameter syntax. The rest parameter collects all remaining arguments into a list.
+```
+Flame> F = (first, ...rest) => rest
+Flame> F(1, 2, 3, 4)
+[2, 3, 4]
+Flame> F(1)
+[]
+```
+The rest parameter must be the last parameter. You can also use it as the only parameter to collect all arguments.
+```
+Flame> G = (...all) => Len(all)
+Flame> G(1, 2, 3)
+3
+Flame> G()
+0
+```
+Variadic lambdas work with overloading. Non-variadic clauses are tried first for an exact arity match, and variadic clauses are used as a fallback.
+```
+Flame> F = {
+    (a, b) => a + b;
+    (a, ...rest) => Len(rest)
+}
+Flame> F(1, 2)
+3
+Flame> F(1, 2, 3, 4)
+3
+```
 ### Nested closures
 Since lambdas are closures, you can return a lambda from a lambda and it remembers its enclosing scope.
 ```

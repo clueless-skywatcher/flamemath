@@ -8,7 +8,7 @@
 |---|---------|-------------|--------|
 | 1 | Comments | `//` line comments — token already lexed, needs parser support | TODO |
 | 2 | `For` loop | `For(var, list, body)` — iterate over lists | TODO |
-| 3 | Variadic arguments | `(a, b, ...rest) => body` — rest parameter collects remaining args into a list | TODO |
+| 3 | Variadic arguments | `(a, b, ...rest) => body` — rest parameter collects remaining args into a list | Done |
 
 ### List Functions (Java builtins)
 
@@ -30,9 +30,9 @@
 
 | # | Feature | Description | Status |
 |---|---------|-------------|--------|
-| 10 | `StrJoin` | `StrJoin(["a","b","c"], ",")` → `"a,b,c"` | TODO |
-| 11 | `SubStr` | `SubStr("hello", 1, 3)` → `"ell"` | TODO |
-| 12 | `StrSplit` | `StrSplit("a,b,c", ",")` → `["a","b","c"]` | TODO |
+| 10 | `StrJoin` | `StrJoin(["a","b","c"], ",")` → `"a,b,c"` | Done |
+| 11 | `SubStr` | `SubStr("hello", 1, 3)` → `"ell"` | Done |
+| 12 | `StrSplit` | `StrSplit("a,b,c", ",")` → `["a","b","c"]` | Done |
 
 ### Math (stdlib)
 

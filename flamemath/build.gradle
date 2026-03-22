@@ -49,7 +49,7 @@ jar {
 tasks.named('test') {
     useJUnitPlatform()
     testLogging {
-        events "skipped", "failed"
+        events "passed", "skipped", "failed"
         showStandardStreams = true
         exceptionFormat = "full"
     }
