@@ -1,0 +1,2 @@
+ConstructRaw = (f, args) => 
+    Apply(Raw, Join([f], args))

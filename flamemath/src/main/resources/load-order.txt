@@ -1,3 +1,4 @@
+stdlib/general.flame
 stdlib/types.flame
 stdlib/list.flame
 stdlib/math.flame

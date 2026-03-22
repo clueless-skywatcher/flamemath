@@ -24,7 +24,7 @@ public class RawFunc implements FlameFunction {
         }
         if (!(args.get(0) instanceof Symbol s)) {
             throw new Exception("First argument must be a symbol");
-        } 
+        }
         return new Compound(s.name(), args.subList(1, args.size()));
     }
 

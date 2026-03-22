@@ -8,8 +8,10 @@ Factorial = (n) => {
     )
 }
 
-Sub = (a, b) => a - b
-Div = (a, b) => a / b
+Sub = (a, b) => 
+    a - b
+Div = (a, b) => 
+    a / b
 
 Sum = (list) => {
     If(!IsList(list), Return(Raw(Sum, list)));
@@ -21,7 +23,8 @@ Product = (list) => {
     Fold(Mul, 1, list)
 }
 
-Triangular = (n) => Sum(Range(n + 1))
+Triangular = (n) => 
+    Sum(Range(n + 1))
 
 Fibonacci = (n) => {
     If(!IsInteger(n), Return(Raw(Fibonacci, n)));
@@ -50,5 +53,14 @@ Binomial = (n, k) => {
     If(!(IsInteger(n) && IsInteger(k)), Return(Raw(Binomial, n, k)));
     Product(Range(n - k + 1, n + 1)) / 
     Product(Range(1, k + 1))
+}
+
+Multinomial = (n, ...k) => {
+    raw = ConstructRaw(Hold(Multinomial), Join([n], k));
+    If(!IsInteger(n) || !Fold((a, b) => a && IsInteger(b), True, k),
+        Return(raw)
+    );
+    If(n != Sum(k), Return(raw));
+    Product(Range(1, n + 1)) / Product(Map((ki) => Product(Range(1, ki + 1)), k))
 }
     
