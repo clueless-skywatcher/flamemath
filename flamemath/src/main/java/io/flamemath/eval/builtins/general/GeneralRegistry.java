@@ -9,6 +9,7 @@ import io.flamemath.eval.builtins.construct.WhileFunc;
 public class GeneralRegistry {
     public static FunctionRegistry create() {
         FunctionRegistry registry = new FunctionRegistry();
+        
         registry.register(new HeadFunc());
         registry.register(new SeqFunc());
         registry.register(new SetFunc());
@@ -16,6 +17,8 @@ public class GeneralRegistry {
         registry.register(new WhileFunc());
         registry.register(new AtFunc());
         registry.register(new RawFunc());
+        registry.register(new ApplyFunc());
+
         return registry;
     }
 }
