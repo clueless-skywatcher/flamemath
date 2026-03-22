@@ -4,7 +4,7 @@ public sealed interface Expr
         permits IntegerAtom, RealAtom, ComplexAtom, RationalAtom,
                 StringAtom, Symbol, BooleanAtom,
                 NullExpr, Compound, Flambda, ListExpr,
-                DictExpr, DictEntryExpr {
+                DictExpr, DictEntryExpr, VariadicArgument {
 
     boolean isAtomic();
     

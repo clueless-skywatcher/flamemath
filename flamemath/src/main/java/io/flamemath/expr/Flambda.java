@@ -7,7 +7,8 @@ import io.flamemath.eval.FlameVironment;
 public record Flambda(
     List<Symbol> params,
     Expr body,
-    FlameVironment env
+    FlameVironment env,
+    boolean variadic
 ) implements Expr {
     @Override
     public boolean isAtomic() {

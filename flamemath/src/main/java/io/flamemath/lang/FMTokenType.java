@@ -60,6 +60,8 @@ public enum FMTokenType {
     TRIPLE_UNDER,   // ___
     SLASH_SEMI,     // /;  (condition)
 
+    TRIPLE_DOT,     //... (variadic arguments)
+
     // Special
     EOF
 }

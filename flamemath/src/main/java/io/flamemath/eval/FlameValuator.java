@@ -33,7 +33,8 @@ public class FlameValuator {
         init();
 
         if (expr instanceof Symbol s) {
-            if (s.name().equals("Null")) return NullExpr.INSTANCE;
+            if (s.name().equals("Null"))
+                return NullExpr.INSTANCE;
             if (env.has(s))
                 return env.get(s);
         }
@@ -44,13 +45,14 @@ public class FlameValuator {
 
         if (expr instanceof ListExpr l) {
             List<Expr> finalList = new ArrayList<>();
-            for (var arg: l.exprs()) {
+            for (var arg : l.exprs()) {
                 finalList.add(eval(arg));
             }
             return new ListExpr(finalList);
         }
 
-        if (expr instanceof Flambda f) return new Flambda(f.params(), f.body(), this.env);
+        if (expr instanceof Flambda f)
+            return new Flambda(f.params(), f.body(), this.env, f.variadic());
 
         if (expr instanceof DictExpr d) {
             java.util.Map<Expr, Expr> evaluated = new java.util.HashMap<>();
@@ -98,12 +100,17 @@ public class FlameValuator {
                 if (value instanceof Flambda lambda) {
                     return applyLambda(lambda, evaluatedArgs);
                 } else if (value instanceof Compound c
-                    && c.isHead("Seq")
-                    && c.children().stream().allMatch(child -> child instanceof Flambda)
-                ) {
-                    for (Expr child: c.children()) {
+                        && c.isHead("Seq")
+                        && c.children().stream().allMatch(child -> child instanceof Flambda)) {
+                    for (Expr child : c.children()) {
                         Flambda lambda = (Flambda) child;
-                        if (lambda.params().size() == evaluatedArgs.size()) {
+                        if (!lambda.variadic() && lambda.params().size() == evaluatedArgs.size()) {
+                            return applyLambda(lambda, evaluatedArgs);
+                        }
+                    }
+                    for (Expr child : c.children()) {
+                        Flambda lambda = (Flambda) child;
+                        if (lambda.variadic() && evaluatedArgs.size() >= lambda.params().size() - 1) {
                             return applyLambda(lambda, evaluatedArgs);
                         }
                     }
@@ -120,12 +127,23 @@ public class FlameValuator {
 
     public Expr applyLambda(Flambda lambda, List<Expr> args) throws Exception {
         FlameVironment childEnv = new FlameVironment(lambda.env());
-        if (lambda.params().size() != args.size()) {
-            throw new FlameArityException("Lambda", lambda.params().size(), args.size());
-        }
-
-        for (int i = 0; i < lambda.params().size(); i++) {
-            childEnv.set(lambda.params().get(i), args.get(i));
+        if (lambda.variadic()) {
+            int requiredCount = lambda.params().size() - 1;
+            if (args.size() < requiredCount) {
+                throw new FlameArityException("Lambda", requiredCount, args.size());
+            }
+            for (int i = 0; i < requiredCount; i++) {
+                childEnv.set(lambda.params().get(i), args.get(i));
+            }
+            childEnv.set(lambda.params().get(requiredCount), new ListExpr(args.subList(requiredCount,
+                    args.size())));
+        } else {
+            if (lambda.params().size() != args.size()) {
+                throw new FlameArityException("Lambda", lambda.params().size(), args.size());
+            }
+            for (int i = 0; i < lambda.params().size(); i++) {
+                childEnv.set(lambda.params().get(i), args.get(i));
+            }
         }
 
         FlameVironment oldEnv = this.env;
@@ -161,15 +179,18 @@ public class FlameValuator {
     }
 
     public boolean isFunction(Expr expr) {
-        if (expr instanceof Flambda) return true;
+        if (expr instanceof Flambda)
+            return true;
         if (expr instanceof Compound c
                 && c.isHead("Seq")
                 && c.children().stream().allMatch(child -> child instanceof Flambda)) {
             return true;
         }
         if (expr instanceof Symbol s) {
-            if (registry.has(s.name())) return true;
-            if (env.has(s)) return isFunction(env.get(s));
+            if (registry.has(s.name()))
+                return true;
+            if (env.has(s))
+                return isFunction(env.get(s));
         }
         return false;
     }
@@ -183,7 +204,8 @@ public class FlameValuator {
     }
 
     private void init() {
-        if (registry != null) return;
+        if (registry != null)
+            return;
         env = new FlameVironment();
         registry = new FunctionRegistry();
 

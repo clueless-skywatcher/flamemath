@@ -23,6 +23,20 @@ public class FMLexer {
         List<FMToken> tokens = new ArrayList<>();
 
         while (pos < code.length()) {
+            if (peek() == '/') {
+                if (peek(1) == '/') {
+                    advance();
+                    advance();
+                    while (pos < code.length() && peek() != '\n' && peek() != '\r') {
+                        advance();
+                    }
+                    continue;
+                } else {
+                    tokens.add(lexOperatorOrDelimiter());
+                    continue;
+                }
+            }
+            
             char c = peek();
 
             if (Character.isWhitespace(c)) {
@@ -33,9 +47,9 @@ public class FMLexer {
             if (c == '.' || Character.isDigit(c)) {
                 // Leading dot: only numeric if followed by a digit
                 if (c == '.' && (pos + 1 >= code.length() || !Character.isDigit(code.charAt(pos + 1)))) {
-                    // Not a number — fall through to slash-dot etc. won't reach here
-                    // since '.' alone is not a valid token in our language.
-                    throw new Exception("Unexpected '.' at " + line + ":" + col);
+                    // Could be variadic (...), delegate to lexVariadic
+                    tokens.add(lexVariadic());
+                    continue;
                 }
                 tokens.add(lexNumeric());
                 continue;
@@ -56,7 +70,8 @@ public class FMLexer {
                 continue;
             }
 
-            tokens.add(lexOperatorOrDelimiter());
+            FMToken tok = lexOperatorOrDelimiter();
+            if (tok != null) tokens.add(tok);
         }
 
         tokens.add(new FMToken(FMTokenType.EOF, "", line, col));
@@ -69,10 +84,10 @@ public class FMLexer {
         return code.charAt(pos);
     }
 
-    // private char peek(int offset) {
-    //     int idx = pos + offset;
-    //     return idx < code.length() ? code.charAt(idx) : '\0';
-    // }
+    private char peek(int offset) {
+        int idx = pos + offset;
+        return idx < code.length() ? code.charAt(idx) : '\0';
+    }
 
     private char advance() {
         char c = code.charAt(pos);
@@ -165,7 +180,10 @@ public class FMLexer {
                     case 't' -> sb.append('\t');
                     case '\\' -> sb.append('\\');
                     case '"' -> sb.append('"');
-                    default -> { sb.append('\\'); sb.append(escaped); }
+                    default -> {
+                        sb.append('\\');
+                        sb.append(escaped);
+                    }
                 }
             } else {
                 sb.append(c);
@@ -190,6 +208,23 @@ public class FMLexer {
             return new FMToken(FMTokenType.DOUBLE_UNDER, "__", startLine, startCol);
         }
         return new FMToken(FMTokenType.UNDERSCORE, "_", startLine, startCol);
+    }
+
+    // --- Variadic: ... ---
+
+    private FMToken lexVariadic() throws Exception {
+        int startCol = col;
+        int startLine = line;
+        advance(); // first .
+        if (pos < code.length() && peek() == '.') {
+            advance(); // second .
+            if (pos < code.length() && peek() == '.') {
+                advance(); // third .
+                return new FMToken(FMTokenType.TRIPLE_DOT, "...", startLine, startCol);
+            }
+            throw new Exception("Unexpected token '..' at " + startLine + ":" + startCol);
+        }
+        throw new Exception("Unexpected character '.' at " + startLine + ":" + startCol);
     }
 
     // --- Operators and delimiters ---
@@ -284,7 +319,10 @@ public class FMLexer {
                 }
                 if (pos < code.length() && peek() == '/') {
                     advance();
-                    return new FMToken(FMTokenType.SLASH_SLASH, "//", startLine, startCol);
+                    while (pos < code.length() && peek() != '\n' && peek() != '\r') {
+                        advance();
+                    }
+                    return null;
                 }
                 if (pos < code.length() && peek() == ';') {
                     advance();
@@ -300,8 +338,6 @@ public class FMLexer {
                 }
                 return new FMToken(FMTokenType.COLON, ":", startLine, startCol);
             }
-
             default -> throw new Exception("Unexpected character '" + c + "' at " + startLine + ":" + startCol);
         }
-    }
-}
+}}
