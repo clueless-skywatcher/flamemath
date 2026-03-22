@@ -34,6 +34,10 @@ public class FlameVironment {
         return exprs.containsKey(symbol.name()) || (parent != null && parent.has(symbol));
     }
 
+    public boolean hasLocal(Symbol symbol) {
+        return exprs.containsKey(symbol.name());
+    }
+
     public void clear(Symbol symbol) {
         exprs.remove(symbol.name());
     }
