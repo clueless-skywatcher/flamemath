@@ -32,18 +32,21 @@ public class ForFunc implements FlameFunction {
             throw new IllegalArgumentException("Second argument to For must be a list");
         }
 
-        // For(var, list, body)
-        FlameVironment oldEnv = evaluator.getEnv();
-        evaluator.setEnv(new FlameVironment(oldEnv));
+        FlameVironment env = evaluator.getEnv();
+        boolean hadPrevious = env.hasLocal(s);
+        Expr previous = hadPrevious ? env.get(s) : null;
 
         try {
             for (int i = 0; i < l.exprs().size(); i++) {
-                Expr value = l.exprs().get(i);
-                evaluator.getEnv().set(s, value);
+                env.set(s, l.exprs().get(i));
                 evaluator.eval(args.get(2));
             }
         } finally {
-            evaluator.setEnv(oldEnv);
+            if (hadPrevious) {
+                env.set(s, previous);
+            } else {
+                env.clear(s);
+            }
         }
 
         return NullExpr.INSTANCE;
