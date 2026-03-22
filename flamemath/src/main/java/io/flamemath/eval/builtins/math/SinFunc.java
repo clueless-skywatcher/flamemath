@@ -11,6 +11,7 @@ import io.flamemath.expr.Expr;
 import io.flamemath.expr.IntegerAtom;
 import io.flamemath.expr.RationalAtom;
 import io.flamemath.expr.RealAtom;
+import static io.flamemath.FlameUtils.toNumericAtom;
 import io.flamemath.FlameUtils;
 
 public class SinFunc implements FlameFunction {
@@ -46,10 +47,10 @@ public class SinFunc implements FlameFunction {
 
         // Numeric → compute directly
         if (arg instanceof IntegerAtom i) {
-            return new RealAtom(Math.sin(i.value()));
+            return toNumericAtom(Math.sin(i.value()));
         }
         if (arg instanceof RealAtom r) {
-            return new RealAtom(Math.sin(r.value()));
+            return toNumericAtom(Math.sin(r.value()));
         }
 
         // Try to extract Pi coefficient
@@ -119,7 +120,7 @@ public class SinFunc implements FlameFunction {
 
     @Override
     public Expr numerify(List<Expr> args) throws Exception {
-        return new RealAtom(Math.sin(FlameUtils.numericValue(args.get(0))));
+        return toNumericAtom(Math.sin(FlameUtils.numericValue(args.get(0))));
     }
 
     private static long gcd(long a, long b) {

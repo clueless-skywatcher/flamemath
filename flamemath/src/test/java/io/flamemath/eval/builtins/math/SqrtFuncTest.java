@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import io.flamemath.FlameTestingUtils;
 import io.flamemath.exceptions.FlameArityException;
+import io.flamemath.expr.IntegerAtom;
 import io.flamemath.expr.RealAtom;
 
 class SqrtFuncTest {
@@ -117,7 +118,7 @@ class SqrtFuncTest {
 
     @Test
     void sqrtRealFour() throws Exception {
-        assertEquals(new RealAtom(2.0), fm.execute("Sqrt(4.0)"));
+        assertEquals(new IntegerAtom(2), fm.execute("Sqrt(4.0)"));
     }
 
     @Test

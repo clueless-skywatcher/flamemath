@@ -12,6 +12,7 @@ import io.flamemath.expr.IntegerAtom;
 import io.flamemath.expr.RationalAtom;
 import io.flamemath.expr.RealAtom;
 import io.flamemath.expr.Symbol;
+import static io.flamemath.FlameUtils.toNumericAtom;
 import io.flamemath.FlameUtils;
 
 public class CosFunc implements FlameFunction {
@@ -47,10 +48,10 @@ public class CosFunc implements FlameFunction {
         Expr arg = args.get(0);
 
         if (arg instanceof IntegerAtom i) {
-            return new RealAtom(Math.cos(i.value()));
+            return toNumericAtom(Math.cos(i.value()));
         }
         if (arg instanceof RealAtom r) {
-            return new RealAtom(Math.cos(r.value()));
+            return toNumericAtom(Math.cos(r.value()));
         }
 
         long[] rationalCoeff = extractPiCoeffs(arg);
@@ -109,7 +110,7 @@ public class CosFunc implements FlameFunction {
 
     @Override
     public Expr numerify(List<Expr> args) throws Exception {
-        return new RealAtom(Math.cos(FlameUtils.numericValue(args.get(0))));
+        return toNumericAtom(Math.cos(FlameUtils.numericValue(args.get(0))));
     }
 
     private static long gcd(long a, long b) {

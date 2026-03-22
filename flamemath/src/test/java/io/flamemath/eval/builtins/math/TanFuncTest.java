@@ -2,6 +2,7 @@ package io.flamemath.eval.builtins.math;
 
 import io.flamemath.FlameTestingUtils;
 import io.flamemath.exceptions.FlameArityException;
+import io.flamemath.expr.IntegerAtom;
 import io.flamemath.expr.RealAtom;
 import org.junit.jupiter.api.Test;
 
@@ -34,7 +35,7 @@ class TanFuncTest {
 
     @Test
     void tanIntegerZero() throws Exception {
-        assertEquals(new RealAtom(0.0), fm.execute("Tan(0)"));
+        assertEquals(IntegerAtom.ZERO, fm.execute("Tan(0)"));
     }
 
     @Test

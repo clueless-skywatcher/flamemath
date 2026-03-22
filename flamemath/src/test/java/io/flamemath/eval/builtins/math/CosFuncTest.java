@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import io.flamemath.FlameTestingUtils;
 import io.flamemath.exceptions.FlameArityException;
+import io.flamemath.expr.IntegerAtom;
 import io.flamemath.expr.RealAtom;
 
 class CosFuncTest {
@@ -36,7 +37,7 @@ class CosFuncTest {
 
     @Test
     void cosIntegerZero() throws Exception {
-        assertEquals(new RealAtom(1.0), fm.execute("Cos(0)"));
+        assertEquals(IntegerAtom.ONE, fm.execute("Cos(0)"));
     }
 
     @Test
