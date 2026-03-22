@@ -13,14 +13,14 @@
 
 | # | Feature | Description | Status |
 |---|---------|-------------|--------|
-| 3 | `Sort` | `Sort([3,1,2])` → `[1,2,3]`, optional comparator | TODO |
+| 3 | `Sort` | `Sort([3,1,2])` → `[1,2,3]`, optional comparator | Done |
 | 4 | `Slice` | `Slice(list, start, end)` — sublist extraction | TODO |
 
 ### List Functions (stdlib)
 
 | # | Feature | Description | Status |
 |---|---------|-------------|--------|
-| 5 | `Reverse` | `Reverse([1,2,3])` → `[3,2,1]` — via Fold + Prepend | TODO |
+| 5 | `Reverse` | `Reverse([1,2,3])` → `[3,2,1]` — via While + Prepend | TODO |
 | 6 | `Flatten` | `Flatten([[1,2],[3,[4]]])` → `[1,2,3,4]` — recursive with IsList | TODO |
 | 7 | `Zip` | `Zip([1,2],[3,4])` → `[[1,3],[2,4]]` — via Range + Map | TODO |
 
