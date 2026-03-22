@@ -220,4 +220,8 @@ public class FlameValuator {
         registry.registerAll(MathRegistry.create());
         registry.registerAll(StringRegistry.create());
     }
+
+    public void setEnv(FlameVironment env) {
+        this.env = env;
+    }
 }

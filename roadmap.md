@@ -6,8 +6,8 @@
 
 | # | Feature | Description | Status |
 |---|---------|-------------|--------|
-| 1 | Comments | `//` line comments — token already lexed, needs parser support | TODO |
-| 2 | `For` loop | `For(var, list, body)` — iterate over lists | TODO |
+| 1 | Comments | `//` line comments — token already lexed, needs parser support | Done |
+| 2 | `For` loop | `For(var, list, body)` — iterate over lists | Done |
 | 3 | Variadic arguments | `(a, b, ...rest) => body` — rest parameter collects remaining args into a list | Done |
 
 ### List Functions (Java builtins)
