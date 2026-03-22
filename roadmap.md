@@ -1,42 +1,43 @@
 # FlameMath Roadmap
 
-## v1.1.0 — Quality of Life & Completeness
+## v1.2.0 — Mathematical Foundations
 
-### Language Features (Java)
+### Phase 1 — Plumbing (Language Improvements)
 
-| # | Feature | Description | Status |
-|---|---------|-------------|--------|
-| 1 | Comments | `//` line comments — token already lexed, needs parser support | Done |
-| 2 | `For` loop | `For(var, list, body)` — iterate over lists | Done |
-| 3 | Variadic arguments | `(a, b, ...rest) => body` — rest parameter collects remaining args into a list | Done |
+| # | Feature | Description | Type | Status |
+|---|---------|-------------|------|--------|
+| 1 | `Apply` | `Apply(Add, [1,2,3])` → `6` — splat a list as arguments to a function | Java | |
+| 2 | `ReplaceAll` | `ReplaceAll(x^2 + x, x, 3)` → `12` — substitute a symbol with a value in an expression | Java | |
+| 3 | Lambda pretty-print | Variadic lambdas print `(...rest)` instead of `Lambda<>` | Java | |
 
-### List Functions (Java builtins)
+### Phase 2 — Number Theory (stdlib)
 
-| # | Feature | Description | Status |
-|---|---------|-------------|--------|
-| 4 | `Sort` | `Sort([3,1,2])` → `[1,2,3]`, optional comparator | Done |
-| 5 | `Slice` | `Slice(list, start, end)` — sublist extraction | Done |
+| # | Feature | Description | Type | Status |
+|---|---------|-------------|------|--------|
+| 4 | `GCD` / `LCM` | `GCD(12, 8)` → `4`, extend to lists via Fold | stdlib | |
+| 5 | `IsPrime` | `IsPrime(17)` → `True` — trial division | stdlib | |
+| 6 | `PrimeFactors` | `PrimeFactors(60)` → `[2, 2, 3, 5]` | stdlib | |
+| 7 | `Divisors` | `Divisors(12)` → `[1, 2, 3, 4, 6, 12]` | stdlib | |
+| 8 | `Binomial` | `Binomial(5, 2)` → `10` — multiplicative formula, avoids full factorials | stdlib | |
 
-### List Functions (stdlib)
+### Phase 3 — Inverse Trig & Hyperbolics
 
-| # | Feature | Description | Status |
-|---|---------|-------------|--------|
-| 6 | `Reverse` | `Reverse([1,2,3])` → `[3,2,1]` — via While + Prepend | Done |
-| 7 | `Flatten` | `Flatten([[1,2],[3,[4]]])` → `[1,2,3,4]` — recursive with IsList | Done |
-| 8 | `Zip` | `Zip([1,2],[3,4])` → `[[1,3],[2,4]]` — via Range + Map | Done |
-| 9 | `Outer` | `Outer(f, [a,b], [x,y])` → `[[f(a,x),f(a,y)],[f(b,x),f(b,y)]]` — via GenList + Map | Done |
+| # | Feature | Description | Type | Status |
+|---|---------|-------------|------|--------|
+| 9 | `ArcSin` / `ArcCos` / `ArcTan` | Inverse trig — numeric eval + symbolic for special values | Java | |
+| 10 | `Sinh` / `Cosh` / `Tanh` | Hyperbolic functions — e.g. `Sinh(x)` = `(Exp(x) - Exp(-x))/2` | stdlib or Java | |
+| 11 | `ArcTan2` | `ArcTan2(y, x)` — two-argument arctangent | Java | |
 
-### String Functions (Java builtins)
+### Phase 4 — Symbolic Algebra
 
-| # | Feature | Description | Status |
-|---|---------|-------------|--------|
-| 10 | `StrJoin` | `StrJoin(["a","b","c"], ",")` → `"a,b,c"` | Done |
-| 11 | `SubStr` | `SubStr("hello", 1, 3)` → `"ell"` | Done |
-| 12 | `StrSplit` | `StrSplit("a,b,c", ",")` → `["a","b","c"]` | Done |
+| # | Feature | Description | Type | Status |
+|---|---------|-------------|------|--------|
+| 12 | `D` | `D(x^2, x)` → `2*x` — symbolic differentiation with sum, product, chain rules | Java | |
+| 13 | `Expand` | `Expand((x+1)*(x+2))` → `x^2 + 3*x + 2` — distribute products over sums | Java | |
+| 14 | `Coefficient` | `Coefficient(3*x^2 + 5*x, x, 2)` → `3` — extract coefficient of a power | Java | |
 
-### Math (stdlib)
+### Phase 5 — Polish
 
-| # | Feature | Description | Status |
-|---|---------|-------------|--------|
-| 13 | `Min` / `Max` | Work on both two args and lists — via Fold | Done |
-| 14 | `Product` | `Product([2,3,4])` → `24` — via Fold with Mul | Done |
+| # | Feature | Description | Type | Status |
+|---|---------|-------------|------|--------|
+| 15 | Multi-line REPL input | Detect unclosed `(`, `[`, `{` and wait for continuation lines | Java | |
