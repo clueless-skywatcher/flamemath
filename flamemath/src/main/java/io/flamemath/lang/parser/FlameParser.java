@@ -18,6 +18,7 @@ import io.flamemath.expr.ListExpr;
 import io.flamemath.expr.RealAtom;
 import io.flamemath.expr.StringAtom;
 import io.flamemath.expr.Symbol;
+import io.flamemath.expr.VariadicArgument;
 import io.flamemath.lang.FMToken;
 import io.flamemath.lang.FMTokenType;
 import io.flamemath.lang.lexer.FMLexer;
@@ -230,18 +231,27 @@ public class FlameParser {
             case LPAREN -> {
                 List<Expr> params = parseCommaSeparated(FMTokenType.RPAREN);
                 expect(FMTokenType.RPAREN);
+
                 if (peek().type() == FMTokenType.FAT_ARROW) {
                     List<Symbol> symbols = new ArrayList<>();
-                    for (var param: params) {
-                        if (param.isHead("Symbol")) {
-                            symbols.add((Symbol) param);
+                    boolean variadic = false;
+                    for (int i = 0; i < params.size(); i++) {
+                        Expr p = params.get(i);
+                        if (p.isHead("Symbol")) {
+                            symbols.add((Symbol) p);
+                        } else if (p instanceof VariadicArgument va) {
+                            if (i != params.size() - 1) {
+                                throw new Exception("Variadic parameter must be last");
+                            }
+                            symbols.add(va.symbol());
+                            variadic = true;
                         } else {
                             throw new Exception("Lambda parameters contain only Symbols");
                         }
                     }
                     expect(FMTokenType.FAT_ARROW);
                     Expr body = parseExpr(1);
-                    yield new Flambda(symbols, body, new FlameVironment());
+                    yield new Flambda(symbols, body, new FlameVironment(), variadic);
                 } else if (params.size() == 1) {
                     yield params.get(0);
                 } else if (params.size() > 1) {
@@ -262,6 +272,13 @@ public class FlameParser {
             case BANG -> {
                 Expr operand = parseExpr(10);
                 yield new Compound("Not", List.of(operand));
+            }
+            case TRIPLE_DOT -> {
+                Expr operand = parseExpr(10);
+                if (!(operand instanceof Symbol s)) {
+                    throw new Exception("Variadic parameter must be a symbol");
+                }
+                yield new VariadicArgument(s);
             }
             case LBRACE -> {
                 if (peek().type() == FMTokenType.RBRACE) {

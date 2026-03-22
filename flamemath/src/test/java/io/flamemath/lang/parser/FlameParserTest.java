@@ -442,4 +442,78 @@ class FlameParserTest {
     void danglingOperatorThrows() {
         assertThrows(Exception.class, () -> parse("1 +"));
     }
+
+    // --- Comments ---
+
+    @Test
+    void commentAfterExpression() throws Exception {
+        assertEquals(
+                c("Add", IntegerAtom.ONE, new IntegerAtom(2)),
+                parse("1 + 2 // this is ignored"));
+    }
+
+    @Test
+    void commentOnlyIsEmpty() {
+        assertThrows(Exception.class, () -> parse("// just a comment"));
+    }
+
+    @Test
+    void commentPreservesCodeBefore() throws Exception {
+        assertEquals(new Symbol("x"), parse("x // the rest is gone"));
+    }
+
+    @Test
+    void commentInMiddleOfSeq() throws Exception {
+        // a; // comment\n b → Seq(a, b)
+        assertEquals(
+                c("Seq", new Symbol("a"), new Symbol("b")),
+                parse("a; // comment\nb"));
+    }
+
+    @Test
+    void commentAfterAssignment() throws Exception {
+        assertEquals(
+                c("Set", new Symbol("x"), new IntegerAtom(5)),
+                parse("x = 5 // assign x"));
+    }
+
+    @Test
+    void commentAfterFunctionCall() throws Exception {
+        assertEquals(
+                c("Sin", new Symbol("x")),
+                parse("Sin(x) // compute sine"));
+    }
+
+    @Test
+    void multipleCommentedLines() throws Exception {
+        assertEquals(
+                c("Seq", c("Set", new Symbol("x"), IntegerAtom.ONE), new Symbol("x")),
+                parse("x = 1; // set x\nx // return x"));
+    }
+
+    // --- Comments that break expressions ---
+
+    @Test
+    void commentBreaksInfixOperator() {
+        // 1 + // 2  →  the "2" is commented out, so "1 +" is a dangling operator
+        assertThrows(Exception.class, () -> parse("1 + // 2"));
+    }
+
+    @Test
+    void commentBreaksFunctionArgs() {
+        // Add(1, // 2)  →  the "2)" is commented out, so parens are unmatched
+        assertThrows(Exception.class, () -> parse("Add(1, // 2)"));
+    }
+
+    @Test
+    void commentBreaksListLiteral() {
+        // [1, // 2, 3]  →  the rest of the line is gone, bracket unmatched
+        assertThrows(Exception.class, () -> parse("[1, // 2, 3]"));
+    }
+
+    @Test
+    void commentBreaksAssignmentRhs() {
+        // x = // 5  →  nothing after =
+        assertThrows(Exception.class, () -> parse("x = // 5"));
+    }
 }

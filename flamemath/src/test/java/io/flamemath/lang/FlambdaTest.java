@@ -355,4 +355,114 @@ class FlambdaTest {
         """);
         assertEquals("3\n8\n15\n", capturedOut.toString());
     }
+
+    // --- Variadic lambdas ---
+
+    @Test
+    void variadicCollectsRemainingArgs() throws Exception {
+        fm.assertExec("[2, 3, 4]", "F = (a, ...rest) => rest; F(1, 2, 3, 4)");
+    }
+
+    @Test
+    void variadicFirstParam() throws Exception {
+        fm.assertExec("1", "F = (a, ...rest) => a; F(1, 2, 3)");
+    }
+
+    @Test
+    void variadicEmptyRest() throws Exception {
+        fm.assertExec("[]", "F = (a, ...rest) => rest; F(1)");
+    }
+
+    @Test
+    void variadicAllArgs() throws Exception {
+        fm.assertExec("[1, 2, 3]", "F = (...all) => all; F(1, 2, 3)");
+    }
+
+    @Test
+    void variadicAllArgsEmpty() throws Exception {
+        fm.assertExec("[]", "F = (...all) => all; F()");
+    }
+
+    @Test
+    void variadicLenOfRest() throws Exception {
+        fm.assertExec("3", "F = (...all) => Len(all); F(1, 2, 3)");
+    }
+
+    @Test
+    void variadicTwoRequiredParams() throws Exception {
+        fm.assertExec("[3, 4, 5]", "F = (a, b, ...rest) => rest; F(1, 2, 3, 4, 5)");
+    }
+
+    @Test
+    void variadicTooFewArgsThrows() {
+        assertThrows(Exception.class, () -> fm.execute("F = (a, b, ...rest) => rest; F(1)"));
+    }
+
+    @Test
+    void variadicInBlock() throws Exception {
+        fm.assertExec("[2, 3]", """
+        {
+            F = (first, ...rest) => rest;
+            F(1, 2, 3)
+        }
+        """);
+    }
+
+    @Test
+    void variadicWithComputation() throws Exception {
+        fm.assertExec("6", """
+        {
+            F = (a, ...rest) => a + Len(rest);
+            F(3, 10, 20, 30)
+        }
+        """);
+    }
+
+    // --- Variadic overloaded dispatch ---
+
+    @Test
+    void overloadExactMatchPreferredOverVariadic() throws Exception {
+        fm.assertExec("3", """
+        {
+            F = {
+                (a, b) => a + b;
+                (a, ...rest) => Len(rest)
+            };
+            F(1, 2)
+        }
+        """);
+    }
+
+    @Test
+    void overloadFallsBackToVariadic() throws Exception {
+        fm.assertExec("3", """
+        {
+            F = {
+                (a, b) => a + b;
+                (a, ...rest) => Len(rest)
+            };
+            F(1, 2, 3, 4)
+        }
+        """);
+    }
+
+    @Test
+    void overloadVariadicWithZeroRequired() throws Exception {
+        fm.assertExec("10", """
+        {
+            F = {
+                (a) => a * 2;
+                (...all) => Len(all)
+            };
+            F(5)
+        }
+        """);
+    }
+
+    // --- Variadic parsing errors ---
+
+    @Test
+    void variadicNotLastThrows() {
+        assertThrows(Exception.class, () -> fm.execute("F = (a, ...b, c) => b; F(1, 2, 3)"));
+    }
 }

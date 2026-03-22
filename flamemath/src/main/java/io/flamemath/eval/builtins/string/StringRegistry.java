@@ -8,6 +8,9 @@ public class StringRegistry {
 
         registry.register(new StrLengthFunc());
         registry.register(new ToStrFunc());
+        registry.register(new StrJoinFunc());
+        registry.register(new StrSplitFunc());
+        registry.register(new SubStrFunc());
         
         return registry;
     }

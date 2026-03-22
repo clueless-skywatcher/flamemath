@@ -14,6 +14,8 @@ public class ListRegistry  {
         registry.register(new ExtendFunc());
         registry.register(new RangeFunc());
         registry.register(new GenListFunc());
+        registry.register(new SortFunc());
+        registry.register(new SliceFunc());
 
         return registry;
     }

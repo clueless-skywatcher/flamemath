@@ -17,3 +17,51 @@ Fold = (f, start, list) => {
     });
     folded
 }
+
+Reverse = (list) => {
+    If(!IsList(list), Return(Raw(Reverse, list)));
+    newList = [];
+    i = 0;
+    While(i < Len(list), {
+        Prepend(newList, list[i]);
+        i = i + 1
+    });
+    newList
+}
+
+Flatten = (list) => {
+    If(!IsList(list), Return(Raw(Flatten, list)));
+    i = 0;
+    newList = [];
+    While(i < Len(list), {
+        If(IsList(list[i]), 
+            Extend(newList, Flatten(list[i])), 
+            Append(newList, list[i])
+        );
+        i = i + 1
+    });
+    newList
+}
+
+Zip = (list1, list2) => {
+    If(!(IsList(list1) && IsList(list2)), Return(Raw(Zip, list1, list2)));
+    i = 0;
+    minLen = If(Len(list1) <= Len(list2), Len(list1), Len(list2));
+    newList = [];
+    While (i < minLen, {
+        Append(newList, [list1[i], list2[i]]);
+        i = i + 1
+    });
+    newList
+}
+
+Outer = (f, list1, list2) => {
+    If(!(IsList(list1) && IsList(list2)), Return(Raw(Outer, f, list1, list2)));
+    Map(
+        (a) => Map(
+            (b) => f(a, b),
+            list2
+        ),
+        list1
+    )
+}

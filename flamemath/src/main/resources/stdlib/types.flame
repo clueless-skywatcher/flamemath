@@ -3,3 +3,4 @@ IsReal = (x) => Head(x) == Real
 IsString = (x) => Head(x) == String
 IsSymbol = (x) => Head(x) == Symbol
 IsBoolean = (x) => Head(x) == Boolean
+IsList = (x) => Head(x) == List

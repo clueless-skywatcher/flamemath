@@ -13,6 +13,7 @@ public class ConstructRegistry {
         registry.register(new IfFunc());
         registry.register(new WhileFunc());
         registry.register(new ReturnFunc());
+        registry.register(new ForFunc());
         return registry;
     }
 }
