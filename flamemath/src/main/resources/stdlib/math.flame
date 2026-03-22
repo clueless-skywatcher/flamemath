@@ -12,20 +12,36 @@ Sub = (a, b) => a - b
 Div = (a, b) => a / b
 
 Sum = (list) => {
-    sum = 0;
-    i = 0;
-    While(i < Len(list), {
-        sum = sum + list[i];
-        i = i + 1
-    });
-    sum
+    If(!IsList(list), Return(Raw(Sum, list)));
+    Fold(Add, 0, list)
 }
 
-Triangular = (n) => Sum(Range(1, n + 1))
+Product = (list) => {
+    If(!IsList(list), Return(Raw(Product, list)));
+    Fold(Mul, 1, list)
+}
+
+Triangular = (n) => Sum(Range(n + 1))
 
 Fibonacci = (n) => {
     If(!IsInteger(n), Return(Raw(Fibonacci, n)));
     If(n == 0, Return(0));
     If(n == 1, Return(1));
     Fibonacci(n - 1) + Fibonacci(n - 2)
+}
+
+Min = {
+    (a, b) => If(a <= b, a, b);
+    (list) => {
+        If(!IsList(list), Return(list));
+        Fold(Min, list[0], list)
+    }
+}
+
+Max = {
+    (a, b) => If(a >= b, a, b);
+    (list) => {
+        If(!IsList(list), Return(list));
+        Fold(Max, list[0], list)
+    }
 }

@@ -54,3 +54,14 @@ Zip = (list1, list2) => {
     });
     newList
 }
+
+Outer = (f, list1, list2) => {
+    If(!(IsList(list1) && IsList(list2)), Return(Raw(Outer, f, list1, list2)));
+    Map(
+        (a) => Map(
+            (b) => f(a, b),
+            list2
+        ),
+        list1
+    )
+}

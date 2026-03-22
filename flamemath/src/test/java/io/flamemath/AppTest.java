@@ -15,11 +15,11 @@ class AppTest {
 
     @Test
     void exprCompoundImmutable() {
-        var compound = new Compound("Plus", List.of(
+        var compound = new Compound("Add", List.of(
                 IntegerAtom.ONE,
                 new IntegerAtom(2)
         ));
-        assertEquals("Plus", compound.head());
+        assertEquals("Add", compound.head());
         assertEquals(2, compound.children().size());
     }
 
