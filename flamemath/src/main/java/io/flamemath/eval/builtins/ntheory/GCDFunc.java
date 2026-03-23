@@ -18,18 +18,25 @@ public class GCDFunc implements FlameFunction {
 
     @Override
     public Expr apply(List<Expr> args, FlameValuator evaluator) throws Exception {
-        if (args.size() != 2) {
-            throw new FlameArityException(name(), 2, args.size());
-        }
-        if (!(args.get(0) instanceof IntegerAtom i1)) {
-            throw new Exception("First argument must be an integer");
+        if (args.size() < 1) {
+            throw FlameArityException.atLeast(name(), 1, args.size());
         }
 
-        if (!(args.get(0) instanceof IntegerAtom i2)) {
-            throw new Exception("Second argument must be an integer");
+        for (var arg: args) {
+            if (!(arg instanceof IntegerAtom)) {
+                throw new Exception("GCD arguments should be Integers");
+            }
         }
 
-        return new IntegerAtom(FlameUtils.gcd(i1.value(), i2.value()));
+        long gcd = ((IntegerAtom) args.get(0)).value();
+        for (int i = 1; i < args.size(); i++) {
+            long argInt = ((IntegerAtom) args.get(i)).value();
+            gcd = FlameUtils.gcd(gcd, argInt);
+        }
+
+        if (gcd < 0) gcd = -gcd;
+
+        return new IntegerAtom(gcd);
     }
     
 }

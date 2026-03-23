@@ -6,7 +6,8 @@ public class NumberTheoryRegistry {
     public static FunctionRegistry create() {
         FunctionRegistry registry = new FunctionRegistry();
 
-        
+        registry.register(new GCDFunc());
+        registry.register(new LCMFunc());
 
         return registry;
     }
