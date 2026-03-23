@@ -95,7 +95,7 @@ public class SinFunc implements FlameFunction {
         }
 
         // Now n/d is in [0, 1/2] — look up seed table
-        long gcd = gcd(n, d);
+        long gcd = FlameUtils.gcd(n, d);
         long rp = n / gcd;
         long rq = d / gcd;
 
@@ -123,14 +123,4 @@ public class SinFunc implements FlameFunction {
         return toNumericAtom(Math.sin(FlameUtils.numericValue(args.get(0))));
     }
 
-    private static long gcd(long a, long b) {
-        a = Math.abs(a);
-        b = Math.abs(b);
-        while (b != 0) {
-            long temp = b;
-            b = a % b;
-            a = temp;
-        }
-        return a;
-    }
 }

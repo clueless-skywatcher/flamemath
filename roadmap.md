@@ -18,7 +18,7 @@
 | 5 | `IsPrime` | `IsPrime(17)` → `True` — trial division | stdlib | |
 | 6 | `PrimeFactors` | `PrimeFactors(60)` → `[2, 2, 3, 5]` | stdlib | |
 | 7 | `Divisors` | `Divisors(12)` → `[1, 2, 3, 4, 6, 12]` | stdlib | |
-| 8 | `Binomial` | `Binomial(5, 2)` → `10` — multiplicative formula, avoids full factorials | stdlib | |
+| 8 | `Binomial` | `Binomial(5, 2)` → `10` — multiplicative formula, avoids full factorials | stdlib | Done |
 
 ### Phase 3 — Inverse Trig & Hyperbolics
 

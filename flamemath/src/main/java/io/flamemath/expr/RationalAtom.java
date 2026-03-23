@@ -1,16 +1,8 @@
 package io.flamemath.expr;
 
+import io.flamemath.FlameUtils;
+
 public record RationalAtom(Expr num, Expr denom) implements Expr {
-    private long gcd(long a, long b) {
-        a = Math.abs(a);
-        b = Math.abs(b);
-        while (b != 0) {
-            long temp = b;
-            b = a % b;
-            a = temp;
-        }
-        return a;
-    }
 
     @Override
     public boolean isAtomic() {
@@ -42,7 +34,7 @@ public record RationalAtom(Expr num, Expr denom) implements Expr {
             long numlong = numI.value();
             long denomlong = denomI.value();
 
-            long gcd = gcd(numlong, denomlong);
+            long gcd = FlameUtils.gcd(numlong, denomlong);
             numlong /= gcd;
             denomlong /= gcd;
             if (denomlong < 0) {

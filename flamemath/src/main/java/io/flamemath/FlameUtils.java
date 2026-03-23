@@ -57,4 +57,15 @@ public class FlameUtils {
     public static boolean isPerfectSquare(long value) {
         return isPerfectSquare((double) value);
     }
+
+    public static long gcd(long a, long b) {
+        a = Math.abs(a);
+        b = Math.abs(b);
+        while (b != 0) {
+            long temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return a;
+    }
 }
