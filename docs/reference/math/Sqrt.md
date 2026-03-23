@@ -67,5 +67,5 @@ Sqrt(x)
 - Throws `FlameArityException` if not exactly 1 argument is provided
 
 ## See Also
-- [Pow](Pow.md) — exponentiation
+- [Pow](../arithmetic/Pow.md) — exponentiation
 - [Num](Num.md) — force numeric evaluation

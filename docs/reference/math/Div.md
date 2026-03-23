@@ -32,5 +32,5 @@ Flame> Div(5.0, 2.0)
 - Division by zero throws an error.
 
 ## See Also
-- [Mul](Mul.md) — multiplication
+- [Mul](../arithmetic/Mul.md) — multiplication
 - [Sub](Sub.md) — subtraction

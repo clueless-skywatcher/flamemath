@@ -64,4 +64,4 @@ Flame> GCD(5)
 
 ## See Also
 - [LCM](LCM.md) — least common multiple
-- [Mod](Mod.md) — modular remainder
+- [Mod](../math/Mod.md) — modular remainder

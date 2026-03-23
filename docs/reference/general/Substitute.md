@@ -71,5 +71,5 @@ y + 1
 - Throws if any even-indexed argument (after the first) is not a symbol
 
 ## See Also
-- [Set](Set.md) — permanent variable assignment
+- [Set](../construct/Set.md) — permanent variable assignment
 - [Apply](Apply.md) — apply a function to a list of arguments

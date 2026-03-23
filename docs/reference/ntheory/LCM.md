@@ -72,4 +72,4 @@ Flame> LCM(5)
 
 ## See Also
 - [GCD](GCD.md) — greatest common divisor
-- [Mod](Mod.md) — modular remainder
+- [Mod](../math/Mod.md) — modular remainder

@@ -35,4 +35,4 @@ Flame> Fold((acc, x) => acc + 1, 0, [10, 20, 30])
 ## See Also
 - [Map](Map.md) — apply a function to each element
 - [Filter](Filter.md) — select elements by predicate
-- [Sum](Sum.md) — sum all elements of a list
+- [Sum](../math/Sum.md) — sum all elements of a list

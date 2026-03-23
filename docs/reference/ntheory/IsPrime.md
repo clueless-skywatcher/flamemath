@@ -77,4 +77,4 @@ False
 ## See Also
 - [GCD](GCD.md) — greatest common divisor
 - [LCM](LCM.md) — least common multiple
-- [Mod](Mod.md) — modular remainder
+- [Mod](../math/Mod.md) — modular remainder

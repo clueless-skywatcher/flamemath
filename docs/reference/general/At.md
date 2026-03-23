@@ -52,5 +52,5 @@ x[0]
 - Throws an error if the index is out of bounds
 
 ## See Also
-- [List](List.md) — list construction
-- [Len](Len.md) — list length
+- [List](../list/List.md) — list construction
+- [Len](../list/Len.md) — list length

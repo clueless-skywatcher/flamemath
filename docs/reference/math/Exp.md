@@ -55,5 +55,5 @@ Flame> Num(Exp(2))
 
 ## See Also
 - [Log](Log.md) — natural logarithm (inverse of Exp)
-- [Pow](Pow.md) — exponentiation
+- [Pow](../arithmetic/Pow.md) — exponentiation
 - [Num](Num.md) — force numeric evaluation

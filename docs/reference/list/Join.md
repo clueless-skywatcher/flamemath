@@ -63,4 +63,4 @@ Join(x, [1, 2])
 ## See Also
 - [Extend](Extend.md) — mutating list concatenation
 - [Append](Append.md) — append a single element
-- [Apply](Apply.md) — apply a function to a list of arguments
+- [Apply](../general/Apply.md) — apply a function to a list of arguments

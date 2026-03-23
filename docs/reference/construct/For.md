@@ -71,4 +71,4 @@ Flame> For(i, l, PrintLn(i))
 
 ## See Also
 - [While](While.md) — loop with a condition
-- [Map](Map.md) — apply a function to each element and collect results
+- [Map](../list/Map.md) — apply a function to each element and collect results

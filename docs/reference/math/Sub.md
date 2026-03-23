@@ -31,5 +31,5 @@ Flame> Sub(2.5, 1.0)
 - A convenience wrapper around the `-` operator.
 
 ## See Also
-- [Add](Add.md) — addition
+- [Add](../arithmetic/Add.md) — addition
 - [Div](Div.md) — division

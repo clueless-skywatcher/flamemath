@@ -79,5 +79,5 @@ Apply(42, [1, 2])
 - Throws `FlameArityException` if not exactly 2 arguments are provided
 
 ## See Also
-- [Map](Map.md) — apply a function to each element of a list
-- [Fold](Fold.md) — reduce a list with a function
+- [Map](../list/Map.md) — apply a function to each element of a list
+- [Fold](../list/Fold.md) — reduce a list with a function

@@ -1,0 +1,6 @@
+WieferichPrime = (n) => {
+    If(!IsInteger(n), Return(Raw(Wieferich, n)));
+    For(p, Range(2, n + 1), {
+        If(IsPrime(p) && PowMod(2, p - 1, p^2) == 1, Return(p))
+    })
+}

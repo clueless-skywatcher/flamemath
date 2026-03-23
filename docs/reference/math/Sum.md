@@ -32,5 +32,5 @@ Flame> Sum([])
 - Iterates through the list, accumulating the total.
 
 ## See Also
-- [Fold](Fold.md) — generalized list reduction
+- [Fold](../list/Fold.md) — generalized list reduction
 - [Triangular](Triangular.md) — sum of integers from 1 to n

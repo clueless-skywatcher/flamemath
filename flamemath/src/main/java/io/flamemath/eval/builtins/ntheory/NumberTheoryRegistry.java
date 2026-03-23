@@ -9,6 +9,7 @@ public class NumberTheoryRegistry {
         registry.register(new GCDFunc());
         registry.register(new LCMFunc());
         registry.register(new IsPrimeFunc());
+        registry.register(new PowModFunc());
 
         return registry;
     }
