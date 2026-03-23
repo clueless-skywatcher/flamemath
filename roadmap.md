@@ -20,27 +20,28 @@
 | 7 | `WieferichPrime` | `WieferichPrime(2000)` → `1093` — finds smallest Wieferich prime up to n | stdlib | Done |
 | 8 | `PrimeFactors` | `PrimeFactors(60)` → `[2, 2, 3, 5]` | stdlib | |
 | 9 | `Divisors` | `Divisors(12)` → `[1, 2, 3, 4, 6, 12]` | stdlib | |
-| 10 | `PrimeSieve` | `PrimeSieve(100)` → `[2, 3, 5, ..., 97]` — Sieve of Eratosthenes, returns all primes up to n | Java | |
-| 11 | `Binomial` | `Binomial(5, 2)` → `10` — multiplicative formula, avoids full factorials | stdlib | Done |
+| 10 | `PrimesInRange` | `PrimesInRange(1, 100)` → `[2, 3, 5, ..., 97]` — segmented Sieve of Eratosthenes, returns all primes in range [m, n] | Java | |
+| 11 | `PrimeSieve` | `PrimeSieve(100)` → `[2, 3, 5, ..., 97]` — wrapper over `PrimesInRange(2, n)` | Java | |
+| 12 | `Binomial` | `Binomial(5, 2)` → `10` — multiplicative formula, avoids full factorials | stdlib | Done |
 
 ### Phase 3 — Inverse Trig & Hyperbolics
 
 | # | Feature | Description | Type | Status |
 |---|---------|-------------|------|--------|
-| 12 | `ArcSin` / `ArcCos` / `ArcTan` | Inverse trig — numeric eval + symbolic for special values | Java | |
-| 13 | `Sinh` / `Cosh` / `Tanh` | Hyperbolic functions — e.g. `Sinh(x)` = `(Exp(x) - Exp(-x))/2` | stdlib or Java | |
-| 14 | `ArcTan2` | `ArcTan2(y, x)` — two-argument arctangent | Java | |
+| 13 | `ArcSin` / `ArcCos` / `ArcTan` | Inverse trig — numeric eval + symbolic for special values | Java | |
+| 14 | `Sinh` / `Cosh` / `Tanh` | Hyperbolic functions — e.g. `Sinh(x)` = `(Exp(x) - Exp(-x))/2` | stdlib or Java | |
+| 15 | `ArcTan2` | `ArcTan2(y, x)` — two-argument arctangent | Java | |
 
 ### Phase 4 — Symbolic Algebra
 
 | # | Feature | Description | Type | Status |
 |---|---------|-------------|------|--------|
-| 15 | `D` | `D(x^2, x)` → `2*x` — symbolic differentiation with sum, product, chain rules | Java | |
-| 16 | `Expand` | `Expand((x+1)*(x+2))` → `x^2 + 3*x + 2` — distribute products over sums | Java | |
-| 17 | `Coefficient` | `Coefficient(3*x^2 + 5*x, x^2)` → `3` — extract coefficient of a power | Java | |
+| 16 | `D` | `D(x^2, x)` → `2*x` — symbolic differentiation with sum, product, chain rules | Java | |
+| 17 | `Expand` | `Expand((x+1)*(x+2))` → `x^2 + 3*x + 2` — distribute products over sums | Java | |
+| 18 | `Coefficient` | `Coefficient(3*x^2 + 5*x, x^2)` → `3` — extract coefficient of a power | Java | |
 
 ### Phase 5 — Polish
 
 | # | Feature | Description | Type | Status |
 |---|---------|-------------|------|--------|
-| 18 | Multi-line REPL input | Detect unclosed `(`, `[`, `{` and wait for continuation lines | Java | |
+| 19 | Multi-line REPL input | Detect unclosed `(`, `[`, `{` and wait for continuation lines | Java | |
