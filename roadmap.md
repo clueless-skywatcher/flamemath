@@ -21,27 +21,46 @@
 | 8 | `PrimeFactors` | `PrimeFactors(60)` → `[2, 2, 3, 5]` | stdlib | |
 | 9 | `Divisors` | `Divisors(12)` → `[1, 2, 3, 4, 6, 12]` | stdlib | |
 | 10 | `PrimesInRange` | `PrimesInRange(1, 100)` → `[2, 3, 5, ..., 97]` — segmented Sieve of Eratosthenes, returns all primes in range [m, n] | Java | |
-| 11 | `PrimeSieve` | `PrimeSieve(100)` → `[2, 3, 5, ..., 97]` — wrapper over `PrimesInRange(2, n)` | Java | |
-| 12 | `Binomial` | `Binomial(5, 2)` → `10` — multiplicative formula, avoids full factorials | stdlib | Done |
+| 11 | `Binomial` | `Binomial(5, 2)` → `10` — multiplicative formula, avoids full factorials | stdlib | Done |
 
 ### Phase 3 — Inverse Trig & Hyperbolics
 
 | # | Feature | Description | Type | Status |
 |---|---------|-------------|------|--------|
-| 13 | `ArcSin` / `ArcCos` / `ArcTan` | Inverse trig — numeric eval + symbolic for special values | Java | |
-| 14 | `Sinh` / `Cosh` / `Tanh` | Hyperbolic functions — e.g. `Sinh(x)` = `(Exp(x) - Exp(-x))/2` | stdlib or Java | |
-| 15 | `ArcTan2` | `ArcTan2(y, x)` — two-argument arctangent | Java | |
+| 12 | `ArcSin` / `ArcCos` / `ArcTan` | Inverse trig — numeric eval + symbolic for special values | Java | |
+| 13 | `Sinh` / `Cosh` / `Tanh` | Hyperbolic functions — e.g. `Sinh(x)` = `(Exp(x) - Exp(-x))/2` | stdlib or Java | |
+| 14 | `ArcTan2` | `ArcTan2(y, x)` — two-argument arctangent | Java | |
 
-### Phase 4 — Symbolic Algebra
-
-| # | Feature | Description | Type | Status |
-|---|---------|-------------|------|--------|
-| 16 | `D` | `D(x^2, x)` → `2*x` — symbolic differentiation with sum, product, chain rules | Java | |
-| 17 | `Expand` | `Expand((x+1)*(x+2))` → `x^2 + 3*x + 2` — distribute products over sums | Java | |
-| 18 | `Coefficient` | `Coefficient(3*x^2 + 5*x, x^2)` → `3` — extract coefficient of a power | Java | |
-
-### Phase 5 — Polish
+### Phase 4 — List Operations
 
 | # | Feature | Description | Type | Status |
 |---|---------|-------------|------|--------|
-| 19 | Multi-line REPL input | Detect unclosed `(`, `[`, `{` and wait for continuation lines | Java | |
+| 15 | `Take` / `Drop` | `Take([1,2,3,4], 2)` → `[1,2]`, `Drop([1,2,3,4], 2)` → `[3,4]` | Java | |
+| 16 | `Count` | `Count([1, 2, 1, 3], 1)` → `2` — count occurrences of a value in a list | Java | |
+
+### Phase 5 — Numeric Utilities
+
+| # | Feature | Description | Type | Status |
+|---|---------|-------------|------|--------|
+| 17 | `Sign` | `Sign(-5)` → `-1`, `Sign(0)` → `0`, `Sign(3)` → `1` | Java | |
+| 18 | `Clamp` | `Clamp(7, 1, 5)` → `5` — restricts a value to a given range `[lo, hi]` | Java | |
+
+### Phase 6 — String Functions
+
+| # | Feature | Description | Type | Status |
+|---|---------|-------------|------|--------|
+| 20 | `StringReplace` | `StringReplace("hello world", "world", "flame")` → `"hello flame"` | Java | |
+| 21 | `StringContains` | `StringContains("hello", "ell")` → `True` | Java | |
+
+### Phase 7 — Number Theory (additional)
+
+| # | Feature | Description | Type | Status |
+|---|---------|-------------|------|--------|
+| 22 | `EulerPhi` | `EulerPhi(12)` → `4` — Euler's totient function | stdlib | |
+| 23 | `NextPrime` | `NextPrime(10)` → `11` — smallest prime greater than n | stdlib | |
+
+### Phase 8 — Polish
+
+| # | Feature | Description | Type | Status |
+|---|---------|-------------|------|--------|
+| 24 | Multi-line REPL input | Detect unclosed `(`, `[`, `{` and wait for continuation lines | Java | |

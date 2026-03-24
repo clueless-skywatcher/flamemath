@@ -10,6 +10,7 @@ public class NumberTheoryRegistry {
         registry.register(new LCMFunc());
         registry.register(new IsPrimeFunc());
         registry.register(new PowModFunc());
+        registry.register(new PrimesInRangeFunc());
 
         return registry;
     }

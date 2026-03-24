@@ -25,10 +25,17 @@ import io.flamemath.expr.Flambda;
 import io.flamemath.expr.ListExpr;
 import io.flamemath.expr.NullExpr;
 import io.flamemath.expr.Symbol;
+import io.flamemath.ntheory.PrimeSieve;
 
 public class FlameValuator {
     private FunctionRegistry registry;
     private FlameVironment env;
+    public static final long SIEVE_LIMIT = (long) Math.pow(10, 8);
+    private PrimeSieve sieve = new PrimeSieve();
+    
+    public PrimeSieve getSieve() {
+        return this.sieve;
+    }
 
     public Expr eval(Expr expr) throws Exception {
         init();
