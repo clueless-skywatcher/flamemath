@@ -8,15 +8,11 @@ import io.flamemath.exceptions.FlameArityException;
 import io.flamemath.expr.Compound;
 import io.flamemath.expr.Expr;
 import io.flamemath.expr.IntegerAtom;
-import io.flamemath.expr.RationalAtom;
 import io.flamemath.expr.RealAtom;
-import io.flamemath.expr.Symbol;
 import static io.flamemath.FlameUtils.toNumericAtom;
 import io.flamemath.FlameUtils;
 
 public class ArcTan2Func implements FlameFunction {
-
-    private static final Expr PI = new Symbol("Pi");
 
     @Override
     public String name() {

@@ -19,14 +19,6 @@ public class ArcSinFunc implements FlameFunction {
 
     private static final Expr PI = new Symbol("Pi");
 
-    private static final Expr SQRT_2_OVER_2 = new Compound("Mul", List.of(
-            RationalAtom.of(1, 2),
-            new Compound("Sqrt", List.of(new IntegerAtom(2)))));
-
-    private static final Expr SQRT_3_OVER_2 = new Compound("Mul", List.of(
-            RationalAtom.of(1, 2),
-            new Compound("Sqrt", List.of(new IntegerAtom(3)))));
-
     // Maps Sin values back to their Pi-coefficient angles in [0, Pi/2]
     // ArcSin(0)=0, ArcSin(1/2)=Pi/6, ArcSin(Sqrt(2)/2)=Pi/4, ArcSin(Sqrt(3)/2)=Pi/3, ArcSin(1)=Pi/2
     private static final Map<String, Expr> SPECIAL_TABLE = Map.of(

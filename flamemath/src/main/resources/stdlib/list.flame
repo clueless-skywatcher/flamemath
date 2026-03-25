@@ -43,16 +43,21 @@ Flatten = (list) => {
     newList
 }
 
-Zip = (list1, list2) => {
-    If(!(IsList(list1) && IsList(list2)), Return(Raw(Zip, list1, list2)));
-    i = 0;
-    minLen = If(Len(list1) <= Len(list2), Len(list1), Len(list2));
-    newList = [];
-    While (i < minLen, {
-        Append(newList, [list1[i], list2[i]]);
-        i = i + 1
+Zip = (...lists) => {
+    raw = ConstructRaw(Hold(Zip), lists);
+    For(list, lists, {
+        If(!IsList(list), Return(raw))
     });
-    newList
+    minLen = Min(Map(Len, lists));
+    zipList = [];
+    For(i, Range(minLen), {
+        element = [];
+        For(j, lists, {
+            Append(element, j[i])
+        });
+        Append(zipList, element)
+    });
+    zipList
 }
 
 Outer = (f, list1, list2) => {
