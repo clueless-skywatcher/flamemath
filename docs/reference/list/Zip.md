@@ -57,7 +57,7 @@ Flame> Zip([1, 2, 3])
 [[1], [2], [3]]
 ```
 
-Symbolic arguments:
+Symbolic/Non-list arguments:
 ```
 Flame> Zip(x, y)
 Zip(x, y)

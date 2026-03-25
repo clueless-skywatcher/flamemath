@@ -70,3 +70,27 @@ Outer = (f, list1, list2) => {
         list1
     )
 }
+
+Take = (l, n) => {
+    raw = ConstructRaw(Hold(Take), [l, n]);
+    If(!(IsList(l) && IsInteger(n)), Return(raw));
+    If(n >= 0, Slice(l, 0, n), Slice(l, Len(l) + n, Len(l)))
+}
+
+Drop = (l, n) => {
+    raw = ConstructRaw(Hold(Drop), [l, n]);
+    If(!(IsList(l) && IsInteger(n)), Return(raw));
+    If(n >= 0, Slice(l, n, Len(l)), Slice(l, 0, Len(l) + n))
+}
+
+First = (l) => {
+    raw = ConstructRaw(Hold(First), [l]);
+    If(!IsList(l), Return(raw));
+    If(Len(l) > 0, l[0], Null)
+}
+
+Last = (l) => {
+    raw = ConstructRaw(Hold(Last), [l]);
+    If(!IsList(l), Return(raw));
+    If(Len(l) > 0, l[-1], Null)
+}
