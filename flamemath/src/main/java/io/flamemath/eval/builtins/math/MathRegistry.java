@@ -18,6 +18,13 @@ public class MathRegistry {
         registry.register(new CeilFunc());
         registry.register(new RoundFunc());
         registry.register(new ModFunc());
+        registry.register(new ArcSinFunc());
+        registry.register(new ArcCosFunc());
+        registry.register(new ArcTanFunc());
+        registry.register(new SinhFunc());
+        registry.register(new CoshFunc());
+        registry.register(new TanhFunc());
+        registry.register(new ArcTan2Func());
 
         return registry;
     }
