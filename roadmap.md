@@ -49,8 +49,8 @@
 
 | # | Feature | Description | Type | Status |
 |---|---------|-------------|------|--------|
-| 20 | `StringReplace` | `StringReplace("hello world", "world", "flame")` → `"hello flame"` | Java | |
-| 21 | `StringContains` | `StringContains("hello", "ell")` → `True` | Java | |
+| 20 | `StrReplace` | `StrReplace("hello world", "world", "flame")` → `"hello flame"` | Java | Done |
+| 21 | `StrHas` | `StrHas("hello", "ell")` → `True` | Java | Done |
 
 ### Phase 7 — Number Theory (additional)
 
