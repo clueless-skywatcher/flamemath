@@ -63,4 +63,21 @@ Multinomial = (n, ...k) => {
     If(n != Sum(k), Return(raw));
     Product(Range(1, n + 1)) / Product(Map((ki) => Product(Range(1, ki + 1)), k))
 }
-    
+
+Sign = (n) => {
+    raw = ConstructRaw(Hold(Sign), [n]);
+    If(!IsInteger(n), Return(raw), 
+        If(n < 0, 
+            -1, 
+            If(n > 0, 1, 0)
+        )
+    )
+}   
+
+Clamp = (n, low, hi) => {
+    raw = ConstructRaw(Hold(Clamp), [n, low, hi]);
+    If(!(IsNumeric(n) && IsNumeric(low) && IsNumeric(hi)), Return(raw));
+    If(n >= hi, Return(hi));
+    If(n <= low, Return(low));
+    n
+}

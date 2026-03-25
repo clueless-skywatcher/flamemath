@@ -42,8 +42,8 @@
 
 | # | Feature | Description | Type | Status |
 |---|---------|-------------|------|--------|
-| 17 | `Sign` | `Sign(-5)` → `-1`, `Sign(0)` → `0`, `Sign(3)` → `1` | Java | |
-| 18 | `Clamp` | `Clamp(7, 1, 5)` → `5` — restricts a value to a given range `[lo, hi]` | Java | |
+| 17 | `Sign` | `Sign(-5)` → `-1`, `Sign(0)` → `0`, `Sign(3)` → `1` | FlameLang | Done |
+| 18 | `Clamp` | `Clamp(7, 1, 5)` → `5` — restricts a value to a given range `[lo, hi]` | FlameLang | Done |
 
 ### Phase 6 — String Functions
 

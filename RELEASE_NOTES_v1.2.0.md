@@ -27,6 +27,10 @@
 - **`Cosh(x)`** — Hyperbolic cosine
 - **`Tanh(x)`** — Hyperbolic tangent
 
+### Numeric Utilities
+- **`Sign(n)`** — Returns the sign of an integer: `-1`, `0`, or `1`
+- **`Clamp(n, low, hi)`** — Restricts a numeric value to a given range `[low, hi]`
+
 ### List Operations
 - **`Join(list1, list2, ...)`** — Concatenate multiple lists into one
 - **`Take(list, n)`** — Return the first `n` elements (positive) or last `|n|` elements (negative)

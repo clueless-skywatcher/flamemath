@@ -3,9 +3,6 @@ package io.flamemath.stdlib;
 import org.junit.jupiter.api.Test;
 
 import io.flamemath.FlameStdlibTestUtils;
-import io.flamemath.expr.IntegerAtom;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class FirstTest {
 
