@@ -37,12 +37,17 @@ application {
     mainClass = 'io.flamemath.FlameMath'
 }
 
-version = '1.1.1'
-
 jar {
     archiveBaseName = 'flamemath'
     manifest {
         attributes 'Main-Class': application.mainClass
+    }
+}
+
+def projectVersion = version
+processResources {
+    filesMatching('version.properties') {
+        expand('version': projectVersion)
     }
 }
 
