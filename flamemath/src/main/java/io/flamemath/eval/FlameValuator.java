@@ -83,20 +83,20 @@ public class FlameValuator {
             Set<Integer> held = fn.heldArgIndexes();
             List<Expr> args = new ArrayList<>();
 
-            List<Expr> children = fn.isFlat()
-                    ? flattenChildren(comp.head(), comp.children())
-                    : comp.children();
-
             if (fn.holdAll()) {
-                args.addAll(children);
+                args.addAll(comp.children());
             } else {
-                for (int i = 0; i < children.size(); i++) {
+                for (int i = 0; i < comp.children().size(); i++) {
                     if (held.contains(i)) {
-                        args.add(children.get(i));
+                        args.add(comp.children().get(i));
                     } else {
-                        args.add(eval(children.get(i)));
+                        args.add(eval(comp.children().get(i)));
                     }
                 }
+            }
+
+            if (fn.isFlat()) {
+                args = flattenChildren(comp.head(), args);
             }
 
             return fn.apply(args, this);

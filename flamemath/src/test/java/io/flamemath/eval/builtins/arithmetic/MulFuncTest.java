@@ -78,20 +78,19 @@ class MulFuncTest {
 
     @Test
     void twoSymbols() throws Exception {
-        fm.assertExec("Mul(x, y)", "x * y");
+        fm.assertExec("x * y", "x * y");
     }
 
     // --- Mixed numeric + symbolic ---
 
     @Test
     void integerTimesSymbol() throws Exception {
-        // 2 * x → Mul(2, x), coefficient preserved
-        fm.assertExec("Mul(2, x)", "2 * x");
+        fm.assertExec("2 * x", "2 * x");
     }
 
     @Test
     void symbolTimesInteger() throws Exception {
-        fm.assertExec("Mul(2, x)", "x * 2");
+        fm.assertExec("2 * x", "x * 2");
     }
 
     @Test
@@ -101,33 +100,29 @@ class MulFuncTest {
 
     @Test
     void oneTimesSymbol() throws Exception {
-        // 1 * x → x, identity eliminated
         fm.assertExec("x", "1 * x");
     }
 
     @Test
     void multipleNumericAndSymbolic() throws Exception {
-        // 2 * x * 3 * y → Mul(6, x, y)
-        fm.assertExec("Mul(6, x, y)", "2 * x * 3 * y");
+        fm.assertExec("6 * x * y", "2 * x * 3 * y");
     }
 
     @Test
     void realAndSymbolic() throws Exception {
-        // 1.5 * x * 2 → Mul(3.0, x)
-        fm.assertExec("Mul(3.0, x)", "1.5 * x * 2");
+        fm.assertExec("3.0 * x", "1.5 * x * 2");
     }
 
     // --- Nested compound args ---
 
     @Test
     void compoundArgs() throws Exception {
-        fm.assertExec("Mul(Sin(x), Cos(y))", "Sin(x) * Cos(y)");
+        fm.assertExec("Sin(x) * Cos(y)", "Sin(x) * Cos(y)");
     }
 
     @Test
     void compoundTimesNumeric() throws Exception {
-        // 2 * Sin(x) * 3 → Mul(6, Sin(x))
-        fm.assertExec("Mul(6, Sin(x))", "2 * Sin(x) * 3");
+        fm.assertExec("6 * Sin(x)", "2 * Sin(x) * 3");
     }
 
     // --- Edge: all ones ---
@@ -163,12 +158,12 @@ class MulFuncTest {
 
     @Test
     void negativeIntegers() throws Exception {
-        fm.assertExec("-6", "Mul(2, -3)");
+        fm.assertExec("-6", "2 * (-3)");
     }
 
     @Test
     void twoNegatives() throws Exception {
-        fm.assertExec("6", "Mul(-2, -3)");
+        fm.assertExec("6", "(-2) * (-3)");
     }
 
     @Test
@@ -178,80 +173,69 @@ class MulFuncTest {
 
     @Test
     void nestedMulGetsFlattenedAndNumericsCollected() throws Exception {
-        fm.assertExec("Mul(24, x, y)", "Mul(2, Mul(3, x), Mul(4, y))");
+        fm.assertExec("24 * x * y", "2 * (3 * x) * (4 * y)");
     }
 
     @Test
     void addExpressionRemainsAsSymbolicFactor() throws Exception {
-        fm.assertExec("Mul(2, Add(x, y))", "2 * (x + y)");
+        fm.assertExec("2 * (x + y)", "2 * (x + y)");
     }
 
     // --- Base grouping (decomposeMultiplicative) ---
 
     @Test
     void duplicateSymbolsCombineIntoPow() throws Exception {
-        // x * x → x^2
-        fm.assertExec("Pow(x, 2)", "x * x");
+        fm.assertExec("x^2", "x * x");
     }
 
     @Test
     void tripleSymbolCombinesIntoPow() throws Exception {
-        // x * x * x → x^3
-        fm.assertExec("Pow(x, 3)", "x * x * x");
+        fm.assertExec("x^3", "x * x * x");
     }
 
     @Test
     void duplicateSymbolWithCoefficient() throws Exception {
-        // 2 * x * x → 2 * x^2
-        fm.assertExec("Mul(2, Pow(x, 2))", "2 * x * x");
+        fm.assertExec("2 * x^2", "2 * x * x");
     }
 
     @Test
     void powTimesSameBase() throws Exception {
-        // x^2 * x → x^3
-        fm.assertExec("Pow(x, 3)", "x^2 * x");
+        fm.assertExec("x^3", "x^2 * x");
     }
 
     @Test
     void powTimesPow() throws Exception {
-        // x^2 * x^3 → x^5
-        fm.assertExec("Pow(x, 5)", "x^2 * x^3");
+        fm.assertExec("x^5", "x^2 * x^3");
     }
 
     @Test
     void powTimesInversePow() throws Exception {
-        // x^2 * x^(-1) → x
-        fm.assertExec("Pow(x, 1)", "x^2 * x^(-1)");
+        fm.assertExec("x^1", "x^2 * x^(-1)");
     }
 
     @Test
     void differentBasesNotGrouped() throws Exception {
-        // x * y stays as Mul(x, y)
-        fm.assertExec("Mul(x, y)", "x * y");
+        fm.assertExec("x * y", "x * y");
     }
 
     @Test
     void mixedBasesGrouped() throws Exception {
-        // x * y * x → Mul(x^2, y)
-        fm.assertExec("Mul(Pow(x, 2), y)", "x * y * x");
+        fm.assertExec("x^2 * y", "x * y * x");
     }
 
     @Test
     void symbolicExponentGrouping() throws Exception {
-        // x^a * x^b → x^(a + b)
-        fm.assertExec("Pow(x, Add(a, b))", "x^a * x^b");
+        fm.assertExec("x^(a + b)", "x^a * x^b");
     }
 
     @Test
     void coefficientAndBaseGrouping() throws Exception {
-        // 3 * x^2 * 2 * x^3 → 6 * x^5
-        fm.assertExec("Mul(6, Pow(x, 5))", "3 * x^2 * 2 * x^3");
+        fm.assertExec("6 * x^5", "3 * x^2 * 2 * x^3");
     }
 
     @Test
     void baseGroupingWithMultipleBases() throws Exception {
-        // x * y * x * y → x^2 * y^2
-        fm.assertExec("Mul(Pow(x, 2), Pow(y, 2))", "x * y * x * y");
+        fm.assertExec("x^2 * y^2", "x * y * x * y");
     }
 
     @Test
@@ -289,17 +273,17 @@ class MulFuncTest {
 
     @Test
     void symbolicBaseDoesNotRationalize() throws Exception {
-        fm.assertExec("Mul(3, Pow(x, -1))", "3 * x^(-1)");
+        fm.assertExec("3 * x^(-1)", "3 * x^(-1)");
     }
 
     @Test
     void symbolicExponentDoesNotRationalize() throws Exception {
-        fm.assertExec("Mul(3, Pow(2, Mul(-1, x)))", "3 * 2^(-x)");
+        fm.assertExec("3 * 2^(-x)", "3 * 2^(-x)");
     }
 
     @Test
     void mixedSymbolicAndIntegerDoesNotRationalize() throws Exception {
-        fm.assertExec("Mul((1/2), x)", "x * 2^(-1)");
+        fm.assertExec("(1/2) * x", "x * 2^(-1)");
     }
 
     @Test
@@ -394,12 +378,45 @@ class MulFuncTest {
 
     @Test
     void slashSymbolicStaysSymbolic() throws Exception {
-        fm.assertExec("Mul(x, Pow(y, -1))", "x / y");
+        fm.assertExec("x * y^(-1)", "x / y");
     }
 
     @Test
     void slashIntegerOverSymbol() throws Exception {
-        fm.assertExec("Mul(3, Pow(x, -1))", "3 / x");
+        fm.assertExec("3 * x^(-1)", "3 / x");
+    }
+
+    // --- Post-evaluation flattening (inner expressions that evaluate to Mul) ---
+
+    @Test
+    void addResultTimesSymbolCombinesBases() throws Exception {
+        // (3*x + x) → 4*x, then 4*x * x should flatten and combine: 4*x^2
+        fm.assertExec("4 * x^2", "(3*x + x) * x");
+    }
+
+    @Test
+    void symbolTimesAddResult() throws Exception {
+        fm.assertExec("5 * x^2", "x * (2*x + 3*x)");
+    }
+
+    @Test
+    void addResultTimesAddResult() throws Exception {
+        fm.assertExec("12 * x^2", "(2*x + x) * (x + 3*x)");
+    }
+
+    @Test
+    void nestedMulFromEvalGetsFlattenedAndGrouped() throws Exception {
+        fm.assertExec("3 * x^3", "(2*x + x) * x * x");
+    }
+
+    @Test
+    void addResultWithDifferentBases() throws Exception {
+        fm.assertExec("2 * x * y", "(x + x) * y");
+    }
+
+    @Test
+    void addResultTimesMatchingPow() throws Exception {
+        fm.assertExec("3 * x^3", "(x + 2*x) * x^2");
     }
 
     // --- Large products ---
