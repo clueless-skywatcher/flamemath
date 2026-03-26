@@ -6,7 +6,7 @@ import java.math.BigInteger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class FlameIntAddTest {
+class FlameIntAddSubTest {
 
     /**
      * Convert a FlameInt back to BigInteger for verification.

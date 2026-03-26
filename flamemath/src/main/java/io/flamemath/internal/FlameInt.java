@@ -118,4 +118,29 @@ public class FlameInt {
         }
         return 0;
     }
+
+    public FlameInt mul(FlameInt b) {
+        if (this.signum * b.signum == 0) return ZERO;
+        return schoolBookMultiply(this, b);
+    }
+
+    private static FlameInt schoolBookMultiply(FlameInt a, FlameInt b) {
+        int[] magA = a.mags;
+        int[] magB = b.mags;
+
+        int finalSgn = a.signum * b.signum;
+
+        int[] result = new int[magA.length + magB.length];
+
+        int carry = 0;
+        for (int i = 0; i < magA.length; i++) {
+            for (int j = 0; j < magB.length; j++) {
+                long prod = (magA[i] & 0xFFFFFFFFL) * (magB[j] & 0xFFFFFFFFL) + carry;
+                result[i + j + 1] = (int) prod;
+                carry = (int) (prod >>> 32);
+            }
+        }
+
+        return new FlameInt(finalSgn, result);
+    }
 }
