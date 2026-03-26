@@ -37,6 +37,7 @@
 - **`Drop(list, n)`** — Remove the first `n` elements (positive) or last `|n|` elements (negative)
 - **`First(list)`** — Return the first element, or `Null` if empty
 - **`Last(list)`** — Return the last element, or `Null` if empty
+- **`Count(list, value)`** — Count occurrences of a value in a list
 
 ### String Functions
 - **`StrHas(str, substring)`** — Tests whether a string contains a given substring. Case-sensitive
@@ -53,3 +54,4 @@
 ## Internal
 - Number theory utilities (`PrimeSieve`, `NumberTheoryUtils`) added as shared infrastructure
 - Function references compartmentalized into separate folders by category
+- IntegerAtom will now use BigInteger instead of Long

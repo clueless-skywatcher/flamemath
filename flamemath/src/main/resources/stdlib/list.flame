@@ -94,3 +94,11 @@ Last = (l) => {
     If(!IsList(l), Return(raw));
     If(Len(l) > 0, l[-1], Null)
 }
+
+Count = (l, elem) => {
+    raw = ConstructRaw(Hold(Count), [l, elem]);
+    If(!IsList(l), Return(raw));
+    i = 0;
+    For(e, l, If(e == elem, i = i + 1));
+    i
+}

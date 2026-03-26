@@ -36,7 +36,7 @@
 | # | Feature | Description | Type | Status |
 |---|---------|-------------|------|--------|
 | 15 | `Take` / `Drop` | `Take([1,2,3,4], 2)` → `[1,2]`, `Drop([1,2,3,4], 2)` → `[3,4]` | FlameLang |  |
-| 16 | `Count` | `Count([1, 2, 1, 3], 1)` → `2` — count occurrences of a value in a list | FlameLang |  |
+| 16 | `Count` | `Count([1, 2, 1, 3], 1)` → `2` — count occurrences of a value in a list | FlameLang | Done |
 
 ### Phase 5 — Numeric Utilities
 
