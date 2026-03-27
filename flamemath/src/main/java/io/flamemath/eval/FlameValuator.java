@@ -12,6 +12,7 @@ import io.flamemath.eval.builtins.list.ListRegistry;
 import io.flamemath.eval.builtins.logical.LogicalRegistry;
 import io.flamemath.eval.builtins.dict.DictRegistry;
 import io.flamemath.eval.builtins.math.MathRegistry;
+import io.flamemath.eval.builtins.ntheory.NumberTheoryRegistry;
 import io.flamemath.eval.builtins.string.StringRegistry;
 import io.flamemath.eval.builtins.system.SystemRegistry;
 import io.flamemath.exceptions.FlameArityException;
@@ -24,10 +25,17 @@ import io.flamemath.expr.Flambda;
 import io.flamemath.expr.ListExpr;
 import io.flamemath.expr.NullExpr;
 import io.flamemath.expr.Symbol;
+import io.flamemath.ntheory.PrimeSieve;
 
 public class FlameValuator {
     private FunctionRegistry registry;
     private FlameVironment env;
+    public static final long SIEVE_LIMIT = (long) Math.pow(10, 8);
+    private PrimeSieve sieve = new PrimeSieve();
+    
+    public PrimeSieve getSieve() {
+        return this.sieve;
+    }
 
     public Expr eval(Expr expr) throws Exception {
         init();
@@ -75,20 +83,20 @@ public class FlameValuator {
             Set<Integer> held = fn.heldArgIndexes();
             List<Expr> args = new ArrayList<>();
 
-            List<Expr> children = fn.isFlat()
-                    ? flattenChildren(comp.head(), comp.children())
-                    : comp.children();
-
             if (fn.holdAll()) {
-                args.addAll(children);
+                args.addAll(comp.children());
             } else {
-                for (int i = 0; i < children.size(); i++) {
+                for (int i = 0; i < comp.children().size(); i++) {
                     if (held.contains(i)) {
-                        args.add(children.get(i));
+                        args.add(comp.children().get(i));
                     } else {
-                        args.add(eval(children.get(i)));
+                        args.add(eval(comp.children().get(i)));
                     }
                 }
+            }
+
+            if (fn.isFlat()) {
+                args = flattenChildren(comp.head(), args);
             }
 
             return fn.apply(args, this);
@@ -219,6 +227,7 @@ public class FlameValuator {
         registry.registerAll(DictRegistry.create());
         registry.registerAll(MathRegistry.create());
         registry.registerAll(StringRegistry.create());
+        registry.registerAll(NumberTheoryRegistry.create());
     }
 
     public void setEnv(FlameVironment env) {

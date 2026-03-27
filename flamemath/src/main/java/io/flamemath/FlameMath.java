@@ -4,13 +4,24 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.Properties;
 
 import io.flamemath.eval.FlameValuator;
 import io.flamemath.expr.Expr;
 import io.flamemath.lang.parser.FlameParser;
 
 public class FlameMath {
-    public static final String VERSION = "1.1.1";
+    public static final String VERSION = loadVersion();
+
+    private static String loadVersion() {
+        try (InputStream is = FlameMath.class.getClassLoader().getResourceAsStream("version.properties")) {
+            Properties props = new Properties();
+            props.load(is);
+            return props.getProperty("version", "unknown");
+        } catch (Exception e) {
+            return "unknown";
+        }
+    }
 
     public static void main(String[] args) throws Exception {
         FlameValuator eval = new FlameValuator();

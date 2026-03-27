@@ -10,6 +10,8 @@ import io.flamemath.expr.Expr;
 import io.flamemath.expr.IntegerAtom;
 import io.flamemath.expr.RealAtom;
 
+import static io.flamemath.FlameUtils.toNumericAtom;
+
 public class TanFunc implements FlameFunction {
 
     @Override
@@ -27,10 +29,10 @@ public class TanFunc implements FlameFunction {
 
         // Numeric → compute directly
         if (arg instanceof IntegerAtom i) {
-            return new RealAtom(Math.tan(i.value()));
+            return toNumericAtom(Math.tan(i.value().toDouble()));
         }
         if (arg instanceof RealAtom r) {
-            return new RealAtom(Math.tan(r.value()));
+            return toNumericAtom(Math.tan(r.value()));
         }
 
         // Delegate: Tan(x) = Sin(x) / Cos(x)
@@ -60,6 +62,6 @@ public class TanFunc implements FlameFunction {
 
     @Override
     public Expr numerify(List<Expr> args) throws Exception {
-        return new RealAtom(Math.tan(io.flamemath.FlameUtils.numericValue(args.get(0))));
+        return toNumericAtom(Math.tan(io.flamemath.FlameUtils.numericValue(args.get(0))));
     }
 }

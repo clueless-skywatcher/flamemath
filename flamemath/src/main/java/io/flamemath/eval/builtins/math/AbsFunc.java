@@ -23,9 +23,8 @@ public class AbsFunc implements FlameFunction {
         }
 
         if (args.get(0) instanceof IntegerAtom i) {
-            long value = i.value();
-            if (value < 0)
-                return new IntegerAtom(-value);
+            if (i.value().isNegative())
+                return new IntegerAtom(i.value().negate());
             return i;
         }
         if (args.get(0) instanceof RealAtom r) {

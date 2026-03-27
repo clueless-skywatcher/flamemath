@@ -1,16 +1,8 @@
 package io.flamemath.expr;
 
+import io.flamemath.internal.FlameInt;
+
 public record RationalAtom(Expr num, Expr denom) implements Expr {
-    private long gcd(long a, long b) {
-        a = Math.abs(a);
-        b = Math.abs(b);
-        while (b != 0) {
-            long temp = b;
-            b = a % b;
-            a = temp;
-        }
-        return a;
-    }
 
     @Override
     public boolean isAtomic() {
@@ -39,21 +31,21 @@ public record RationalAtom(Expr num, Expr denom) implements Expr {
 
     public Expr reduce() {
         if (num instanceof IntegerAtom numI && denom instanceof IntegerAtom denomI) {
-            long numlong = numI.value();
-            long denomlong = denomI.value();
+            FlameInt n = numI.value();
+            FlameInt d = denomI.value();
 
-            long gcd = gcd(numlong, denomlong);
-            numlong /= gcd;
-            denomlong /= gcd;
-            if (denomlong < 0) {
-                numlong = -numlong;
-                denomlong = -denomlong;
+            FlameInt gcd = n.gcd(d);
+            n = n.divide(gcd);
+            d = d.divide(gcd);
+            if (d.isNegative()) {
+                n = n.negate();
+                d = d.negate();
             }
 
-            if (denomlong == 1) {
-                return new IntegerAtom(numlong);
+            if (d.isOne()) {
+                return new IntegerAtom(n);
             }
-            return new RationalAtom(new IntegerAtom(numlong), new IntegerAtom(denomlong));
+            return new RationalAtom(new IntegerAtom(n), new IntegerAtom(d));
         }
 
         return this;
@@ -65,7 +57,7 @@ public record RationalAtom(Expr num, Expr denom) implements Expr {
 
     public static RationalAtom rationalOf(Expr expr) throws Exception {
         if (expr instanceof IntegerAtom i) 
-            return new RationalAtom(new IntegerAtom(i.value()), IntegerAtom.ONE);
+            return new RationalAtom(i, IntegerAtom.ONE);
         else if (expr instanceof RationalAtom r)
             return r;
         throw new Exception("Cannot convert to rational");

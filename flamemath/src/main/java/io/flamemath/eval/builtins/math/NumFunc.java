@@ -47,7 +47,7 @@ public class NumFunc implements FlameFunction {
 
         // Integer → convert to RealAtom
         if (arg instanceof IntegerAtom i) {
-            return new RealAtom((double) i.value());
+            return new RealAtom(i.value().toDouble());
         }
 
         // RationalAtom → convert to RealAtom

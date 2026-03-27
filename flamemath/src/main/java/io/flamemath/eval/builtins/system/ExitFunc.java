@@ -22,7 +22,7 @@ public class ExitFunc implements FlameFunction {
         }
         if (args.size() == 1) {                                                                                     
             if (args.get(0) instanceof IntegerAtom intArg) {                                    
-                System.exit((int) intArg.value());                                                                  
+                System.exit((int) intArg.value().toLong());                                                                  
             }                                                                                                       
         }
 

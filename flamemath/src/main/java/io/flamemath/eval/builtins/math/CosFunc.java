@@ -12,6 +12,7 @@ import io.flamemath.expr.IntegerAtom;
 import io.flamemath.expr.RationalAtom;
 import io.flamemath.expr.RealAtom;
 import io.flamemath.expr.Symbol;
+import static io.flamemath.FlameUtils.toNumericAtom;
 import io.flamemath.FlameUtils;
 
 public class CosFunc implements FlameFunction {
@@ -47,10 +48,10 @@ public class CosFunc implements FlameFunction {
         Expr arg = args.get(0);
 
         if (arg instanceof IntegerAtom i) {
-            return new RealAtom(Math.cos(i.value()));
+            return toNumericAtom(Math.cos(i.value().toDouble()));
         }
         if (arg instanceof RealAtom r) {
-            return new RealAtom(Math.cos(r.value()));
+            return toNumericAtom(Math.cos(r.value()));
         }
 
         long[] rationalCoeff = extractPiCoeffs(arg);
@@ -84,7 +85,7 @@ public class CosFunc implements FlameFunction {
             sign = -sign;
         }
 
-        long gcd = gcd(n, d);
+        long gcd = FlameUtils.gcd(n, d);
         long rp = n / gcd;
         long rq = d / gcd;
 
@@ -97,10 +98,10 @@ public class CosFunc implements FlameFunction {
 
         if (sign == -1) {
             if (value.isZero()) return IntegerAtom.ZERO;
-            if (value instanceof IntegerAtom i) return new IntegerAtom(-i.value());
+            if (value instanceof IntegerAtom i) return new IntegerAtom(i.value().negate());
             if (value instanceof RationalAtom r
                     && r.num() instanceof IntegerAtom rn) {
-                return new RationalAtom(new IntegerAtom(-rn.value()), r.denom());
+                return new RationalAtom(new IntegerAtom(rn.value().negate()), r.denom());
             }
             return new Compound("Mul", List.of(IntegerAtom.MINUS_ONE, value));
         }
@@ -109,19 +110,7 @@ public class CosFunc implements FlameFunction {
 
     @Override
     public Expr numerify(List<Expr> args) throws Exception {
-        return new RealAtom(Math.cos(FlameUtils.numericValue(args.get(0))));
-    }
-
-    private static long gcd(long a, long b) {
-        a = Math.abs(a);
-        b = Math.abs(b);
-        while (b != 0) {
-            long temp = b;
-            b = a % b;
-            a = temp;
-        }
-
-        return a;
+        return toNumericAtom(Math.cos(FlameUtils.numericValue(args.get(0))));
     }
 
     static long[] extractPiCoeffs(Expr arg) {
@@ -137,12 +126,12 @@ public class CosFunc implements FlameFunction {
                 if (!foundPi && child instanceof Symbol s && s.name().equals("Pi")) {
                     foundPi = true;
                 } else if (child instanceof IntegerAtom i) {
-                    num *= i.value();
+                    num *= i.value().toLong();
                 } else if (child instanceof RationalAtom r
                         && r.num() instanceof IntegerAtom n
                         && r.denom() instanceof IntegerAtom d) {
-                    num *= n.value();
-                    denom *= d.value();
+                    num *= n.value().toLong();
+                    denom *= d.value().toLong();
                 } else {
                     // Non-numeric, non-Pi child — not a rational multiple of Pi
                     return null;

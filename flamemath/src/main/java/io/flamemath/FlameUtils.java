@@ -8,13 +8,13 @@ import io.flamemath.expr.RealAtom;
 public class FlameUtils {
     public static double numericValue(Expr expr) throws IllegalArgumentException {
         if (expr instanceof IntegerAtom integer) {
-            return (double) integer.value();
+            return integer.value().toDouble();
         } else if (expr instanceof RealAtom real) {
             return real.value();
         } else if (expr instanceof RationalAtom r
                 && r.num() instanceof IntegerAtom n
                 && r.denom() instanceof IntegerAtom d) {
-            return (double) n.value() / d.value();
+            return n.value().toDouble() / d.value().toDouble();
         }
         throw new IllegalArgumentException("Wrong argument type for numeric conversion: " + expr.head());
     }
@@ -44,7 +44,7 @@ public class FlameUtils {
     }
 
     public static boolean isNegativeNumeric(Expr expr) {
-        if (expr instanceof IntegerAtom integer) return integer.value() < 0;
+        if (expr instanceof IntegerAtom integer) return integer.value().isNegative();
         if (expr instanceof RealAtom real) return real.value() < 0;
         return false;
     }
@@ -56,5 +56,16 @@ public class FlameUtils {
 
     public static boolean isPerfectSquare(long value) {
         return isPerfectSquare((double) value);
+    }
+
+    public static long gcd(long a, long b) {
+        a = Math.abs(a);
+        b = Math.abs(b);
+        while (b != 0) {
+            long temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return a;
     }
 }

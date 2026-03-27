@@ -31,7 +31,7 @@ public class SqrtFunc implements FlameFunction {
         }
 
         if (arg instanceof RealAtom r) {
-            return new RealAtom(Math.sqrt(r.value()));
+            return io.flamemath.FlameUtils.toNumericAtom(Math.sqrt(r.value()));
         }
 
         return new Compound(name(), args);

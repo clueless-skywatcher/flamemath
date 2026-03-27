@@ -10,6 +10,9 @@ public interface FlameFunction {
     String name();
     Expr apply(List<Expr> args, FlameValuator evaluator) throws Exception;
 
+    /**
+     * Indexes of arguments whose auto-evaluation is held until needed
+     */
     default Set<Integer> heldArgIndexes() {
         return Set.of();
     }
@@ -23,6 +26,9 @@ public interface FlameFunction {
         return false;
     }
 
+    /**
+     * Whether the function should hold the auto-evaluation of arguments
+     */
     default boolean holdAll() {
         return false;
     }

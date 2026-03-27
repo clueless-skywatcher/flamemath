@@ -11,7 +11,9 @@ public class StringRegistry {
         registry.register(new StrJoinFunc());
         registry.register(new StrSplitFunc());
         registry.register(new SubStrFunc());
-        
+        registry.register(new StrHasFunc());
+        registry.register(new StrReplaceFunc());
+
         return registry;
     }
 }

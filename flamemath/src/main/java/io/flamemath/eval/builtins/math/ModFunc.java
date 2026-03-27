@@ -39,10 +39,10 @@ public class ModFunc implements FlameFunction {
                     && (b instanceof IntegerAtom || b instanceof RationalAtom)) {
                 RationalAtom ra = RationalAtom.rationalOf(a);
                 RationalAtom rb = RationalAtom.rationalOf(b);
-                long an = ((IntegerAtom) ra.num()).value();
-                long ad = ((IntegerAtom) ra.denom()).value();
-                long bn = ((IntegerAtom) rb.num()).value();
-                long bd = ((IntegerAtom) rb.denom()).value();
+                long an = ((IntegerAtom) ra.num()).value().toLong();
+                long ad = ((IntegerAtom) ra.denom()).value().toLong();
+                long bn = ((IntegerAtom) rb.num()).value().toLong();
+                long bd = ((IntegerAtom) rb.denom()).value().toLong();
 
                 long floor = Math.floorDiv(an * bd, ad * bn);
 

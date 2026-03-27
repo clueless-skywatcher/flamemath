@@ -67,4 +67,18 @@ class ProductTest {
     void productOfRange() throws Exception {
         fm.assertExec("24", "Product(Range(1, 5))");
     }
+
+    // --- Big values (overflow long) ---
+
+    @Test
+    void productOfRangeTwenty() throws Exception {
+        // 20! = 2432902008176640000 (fits long)
+        fm.assertExec("2432902008176640000", "Product(Range(1, 21))");
+    }
+
+    @Test
+    void productOfRangeThirty() throws Exception {
+        // 30! = 20! * Product(21..30), verify via identity
+        fm.assertExec("Factorial(30)", "Product(Range(1, 31))");
+    }
 }
