@@ -187,4 +187,5 @@ class AddFuncTest {
     void realAndIntegerCoefficientsMergeOnSameSymbolicCore() throws Exception {
         fm.assertExec("3.5*x", "1.5*x + 2*x");
     }
+
 }

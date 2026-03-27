@@ -113,4 +113,18 @@ class LCMFuncTest {
     void largeNumbers() throws Exception {
         fm.assertExec("13548070123626141", "LCM(123456789, 987654321)");
     }
+
+    // --- Big values (overflow long) ---
+
+    @Test
+    void lcmBigPowersOfTwo() throws Exception {
+        // LCM(2^100, 2^80) = 2^100
+        fm.assertExec("2^100", "LCM(2^100, 2^80)");
+    }
+
+    @Test
+    void lcmBigCoprime() throws Exception {
+        // LCM of coprimes = product: 2^64 * 3^40
+        fm.assertExec("2^64 * 3^40", "LCM(2^64, 3^40)");
+    }
 }

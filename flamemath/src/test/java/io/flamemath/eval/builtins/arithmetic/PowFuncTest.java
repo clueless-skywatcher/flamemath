@@ -264,6 +264,26 @@ class PowFuncTest {
         assertThrows(ArithmeticException.class, () -> fm.execute("0^(-2)"));
     }
 
+    // --- Big values (overflow long) ---
+
+    @Test
+    void bigPowIdentity() throws Exception {
+        // 2^100 = 2^50 * 2^50
+        fm.assertExec("2^50 * 2^50", "2^100");
+    }
+
+    @Test
+    void bigPowChain() throws Exception {
+        // (2^10)^10 = 2^100
+        fm.assertExec("2^100", "(2^10)^10");
+    }
+
+    @Test
+    void bigNegativeExponent() throws Exception {
+        // 2^(-50) * 2^50 = 1
+        fm.assertExec("1", "2^(-50) * 2^50");
+    }
+
     // --- Arity errors ---
 
     @Test

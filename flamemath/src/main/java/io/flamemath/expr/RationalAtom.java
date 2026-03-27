@@ -1,6 +1,5 @@
 package io.flamemath.expr;
 
-import io.flamemath.FlameUtils;
 import io.flamemath.internal.FlameInt;
 
 public record RationalAtom(Expr num, Expr denom) implements Expr {

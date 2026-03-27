@@ -113,4 +113,18 @@ class GCDFuncTest {
     void largeNumbers() throws Exception {
         fm.assertExec("9", "GCD(123456789, 987654321)");
     }
+
+    // --- Big values (overflow long) ---
+
+    @Test
+    void gcdBigPowersOfTwo() throws Exception {
+        // GCD(2^100, 2^80) = 2^80
+        fm.assertExec("2^80", "GCD(2^100, 2^80)");
+    }
+
+    @Test
+    void gcdBigCoprime() throws Exception {
+        // 2^64 and 3^40 are coprime
+        fm.assertExec("1", "GCD(2^64, 3^40)");
+    }
 }

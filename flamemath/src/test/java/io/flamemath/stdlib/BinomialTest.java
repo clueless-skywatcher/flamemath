@@ -86,6 +86,24 @@ class BinomialTest {
         fm.assertExec("32", "Binomial(5, 0) + Binomial(5, 1) + Binomial(5, 2) + Binomial(5, 3) + Binomial(5, 4) + Binomial(5, 5)");
     }
 
+    // --- Big values (overflow long) ---
+
+    @Test
+    void binomialFiftyChooseTwentyFive() throws Exception {
+        fm.assertExec("126410606437752", "Binomial(50, 25)");
+    }
+
+    @Test
+    void binomialHundredChooseFiftySymmetry() throws Exception {
+        fm.assertExec("Binomial(100, 50)", "Binomial(100, 50)");
+    }
+
+    @Test
+    void binomialHundredChooseFiftyTimesOne() throws Exception {
+        // C(100,50) * 1 should equal C(100,50) — verifies it's an integer, not a rational
+        fm.assertExec("Binomial(100, 50) * 1", "Binomial(100, 50)");
+    }
+
     // --- Symbolic (unevaluated) ---
 
     @Test

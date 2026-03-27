@@ -132,4 +132,18 @@ class PowModFuncTest {
     void nonIntegerThrows() {
         assertThrows(Exception.class, () -> fm.execute("PowMod(2.5, 3, 5)"));
     }
+
+    // --- Big values (overflow long) ---
+
+    @Test
+    void bigBaseAndModulus() throws Exception {
+        // 10^20 mod 97 = 10^20 mod 97
+        fm.assertExec("73", "PowMod(10, 20, 97)");
+    }
+
+    @Test
+    void bigExponentBigModulus() throws Exception {
+        // 2^1000 mod 1000000007 (large prime)
+        fm.assertExec("688423210", "PowMod(2, 1000, 1000000007)");
+    }
 }

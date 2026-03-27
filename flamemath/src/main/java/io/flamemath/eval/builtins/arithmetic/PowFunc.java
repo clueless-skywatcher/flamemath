@@ -53,8 +53,8 @@ public class PowFunc implements FlameFunction {
                 throw new ArithmeticException("Division by zero");
             }
             // Negative integer exponent on integer base → RationalAtom
-            if (base instanceof IntegerAtom && exp instanceof IntegerAtom && expLong < 0) {
-                long denom = (long) Math.pow(numericValue(base), -expLong);
+            if (base instanceof IntegerAtom baseInt && exp instanceof IntegerAtom && expLong < 0) {
+                FlameInt denom = baseInt.value().pow(-expLong);
                 return new RationalAtom(IntegerAtom.ONE, new IntegerAtom(denom)).reduce();
             }
             // Negative integer exponent on real base → promote to real
@@ -64,8 +64,12 @@ public class PowFunc implements FlameFunction {
             if (base instanceof RealAtom || exp instanceof RealAtom) {
                 return new RealAtom(Math.pow(numericValue(base), numericValue(exp)));
             }
+            // Integer base, positive integer exponent
+            if (base instanceof IntegerAtom baseInt && exp instanceof IntegerAtom) {
+                return new IntegerAtom(baseInt.value().pow(expLong));
+            }
             // 0^0 → 1 (common convention)
-            return new IntegerAtom((long) Math.pow(numericValue(base), numericValue(exp)));
+            return new RealAtom(Math.pow(numericValue(base), numericValue(exp)));
         }
 
         // x^0 → 1

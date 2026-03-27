@@ -72,6 +72,26 @@ class MultinomialTest {
         fm.assertExec("1", "Multinomial(5, 5, 0)");
     }
 
+    // --- Big values (overflow long) ---
+
+    @Test
+    void multinomialTwentyTenFiveFive() throws Exception {
+        // 20! / (10! * 5! * 5!) = 46558512
+        fm.assertExec("46558512", "Multinomial(20, 10, 5, 5)");
+    }
+
+    @Test
+    void multinomialThirtyTenTenTen() throws Exception {
+        // 30! / (10! * 10! * 10!) = 5550996791340
+        fm.assertExec("5550996791340", "Multinomial(30, 10, 10, 10)");
+    }
+
+    @Test
+    void multinomialReducesToBinomial() throws Exception {
+        // Multinomial(n, k, n-k) = Binomial(n, k)
+        fm.assertExec("Binomial(100, 50)", "Multinomial(100, 50, 50)");
+    }
+
     // --- n != Sum(k) returns raw ---
 
     @Test

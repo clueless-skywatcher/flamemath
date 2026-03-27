@@ -7,9 +7,9 @@ public class FlameInt {
     private final int signum; // Sign of the integer
     // Each element of the magnitude contributes 2^32
     // So [2, 3, 26] will mean 2 * 2^64 + 3 * 2^32 + 26
-    // Basically FlameInt is like a base-2^32 integer 
-    private final int[] mags; 
-    
+    // Basically FlameInt is like a base-2^32 integer
+    private final int[] mags;
+
     public static final FlameInt ONE = new FlameInt(1);
     public static final FlameInt ZERO = new FlameInt(0);
     public static final FlameInt MINUS_ONE = new FlameInt(-1);
@@ -22,7 +22,7 @@ public class FlameInt {
     public FlameInt(int value) {
         this.signum = value < 0 ? -1 : (value > 0 ? 1 : 0);
         long abs = value < 0 ? -(long) value : value;
-        this.mags = new int[]{(int) abs};
+        this.mags = new int[] { (int) abs };
     }
 
     public FlameInt(long value) {
@@ -30,16 +30,17 @@ public class FlameInt {
         long abs = value == Long.MIN_VALUE ? Long.MIN_VALUE : (value < 0 ? -value : value);
         int lower32 = (int) abs;
         if ((abs >>> 32) == 0) {
-            this.mags = new int[]{lower32};
+            this.mags = new int[] { lower32 };
         } else {
             int higher32 = (int) (abs >>> 32);
-            this.mags = new int[]{higher32, lower32};
+            this.mags = new int[] { higher32, lower32 };
         }
     }
 
     @Override
     public String toString() {
-        if (signum == 0) return "0";
+        if (signum == 0)
+            return "0";
 
         String digits = "";
         int[] currentMags = mags;
@@ -55,7 +56,8 @@ public class FlameInt {
             }
         }
 
-        if (signum == -1) digits = "-" + digits;
+        if (signum == -1)
+            digits = "-" + digits;
         return digits;
     }
 
@@ -77,12 +79,12 @@ public class FlameInt {
             return new FlameInt(this.signum, addMagnitudes(this.mags, b.mags));
         }
         int comparison = compareMagnitudes(this.mags, b.mags);
-        if (comparison == 0) return ZERO;
+        if (comparison == 0)
+            return ZERO;
         FlameInt smaller = comparison == -1 ? this : b;
         FlameInt larger = comparison == -1 ? b : this;
-        return new FlameInt(larger.signum, 
-            subtractMagnitudes(larger.mags, smaller.mags)
-        );
+        return new FlameInt(larger.signum,
+                subtractMagnitudes(larger.mags, smaller.mags));
     }
 
     private int[] subtractMagnitudes(int[] larger, int[] smaller) {
@@ -124,7 +126,7 @@ public class FlameInt {
 
             long limbSum = (limbA & 0xFFFFFFFFL) + (limbB & 0xFFFFFFFFL) + carry;
             result[last - i] = (int) limbSum;
-            carry = (int)(limbSum >>> 32);
+            carry = (int) (limbSum >>> 32);
         }
 
         result[0] = carry;
@@ -135,17 +137,21 @@ public class FlameInt {
     }
 
     private int compareMagnitudes(int[] a, int[] b) {
-        if (a.length > b.length) return 1;
-        if (a.length < b.length) return -1;
+        if (a.length > b.length)
+            return 1;
+        if (a.length < b.length)
+            return -1;
         for (int i = 0; i < a.length; i++) {
             int compare = Integer.compareUnsigned(a[i], b[i]);
-            if (compare != 0) return compare > 0 ? 1 : -1;
+            if (compare != 0)
+                return compare > 0 ? 1 : -1;
         }
         return 0;
     }
 
     public FlameInt mul(FlameInt b) {
-        if (this.signum * b.signum == 0) return ZERO;
+        if (this.signum * b.signum == 0)
+            return ZERO;
         return schoolBookMultiply(this, b);
     }
 
@@ -158,14 +164,103 @@ public class FlameInt {
         return quotRem;
     }
 
+    private static List<int[]> divideByKnuthD(int[] u, int[] v) {
+        int n = v.length;
+        int m = u.length - n;
+
+        // Normalization — prepend 0 to u BEFORE shifting to catch overflow
+        int shift = Integer.numberOfLeadingZeros(v[0]);
+        int[] newU = new int[u.length + 1];
+        System.arraycopy(u, 0, newU, 1, u.length);
+        u = shiftLeft(newU, shift);
+        v = shiftLeft(v, shift);
+
+        int[] q = new int[m + 1];
+
+        for (int j = 0; j <= m; j++) {
+            long uHi = ((long) u[j] << 32) | (u[j + 1] & 0xFFFFFFFFL);
+            long qHat;
+            if (u[j] == v[0]) {
+                qHat = 0xFFFFFFFFL;
+            } else {
+                qHat = Long.divideUnsigned(uHi, v[0] & 0xFFFFFFFFL);
+            }
+
+            long rHat = uHi - qHat * (v[0] & 0xFFFFFFFFL);
+
+            while (qHat >= 0x100000000L || Long.compareUnsigned(qHat * (v[1] & 0xFFFFFFFFL), (rHat << 32) | (u[j + 2] & 0xFFFFFFFFL)) > 0) {
+                qHat -= 1;
+                rHat += (v[0] & 0xFFFFFFFFL);
+                if (rHat >= 0x100000000L) {
+                    break;
+                }
+            }
+
+            long borrow = 0;
+
+            for (int i = n - 1; i >= 0; i--) {
+                long product = qHat * (v[i] & 0xFFFFFFFFL);
+                long diff = (u[j + 1 + i] & 0xFFFFFFFFL) - (product & 0xFFFFFFFFL) - borrow;
+                u[j + 1 + i] = (int) diff;
+                borrow = (product >>> 32) - (diff >> 32);
+            }
+
+            long diff = (u[j] & 0xFFFFFFFFL) - borrow;
+            u[j] = (int) diff;
+
+            q[j] = (int) qHat;
+            if (diff < 0) {
+                q[j] -= 1;
+                long carry = 0;
+                for (int i = n - 1; i >= 0; i--) {
+                    long sum = (u[j + 1 + i] & 0xFFFFFFFFL) + (v[i] & 0xFFFFFFFFL) + carry;
+                    u[j + 1 + i] = (int) sum;
+                    carry = sum >>> 32;
+                }
+                u[j] += (int) carry;
+            }
+        }
+
+        int[] remainder = shiftRight(Arrays.copyOfRange(u, m + 1, m + n + 1), shift);
+        int[] quotient = stripLeadingZeros(q);
+
+        return List.of(quotient, remainder);
+    }
+
+    private static int[] shiftLeft(int[] v, int shift) {
+        if (shift == 0)
+            return v.clone();
+        int n = v.length;
+        int[] result = new int[n];
+        int complement = 32 - shift;
+        for (int i = 0; i < n - 1; i++) {
+            result[i] = (v[i] << shift) | (v[i + 1] >>> complement);
+        }
+        result[n - 1] = v[n - 1] << shift;
+        return result;
+    }
+
+    private static int[] shiftRight(int[] v, int shift) {
+        if (shift == 0)
+            return v.clone();
+        int n = v.length;
+        int[] result = new int[n];
+        int complement = 32 - shift;
+        for (int i = n - 1; i > 0; i--) {
+            result[i] = (v[i] >>> shift) | (v[i - 1] << complement);
+        }
+        result[0] = v[0] >>> shift;
+        return result;
+    }
+
     private static List<int[]> divideBySingleLimb(int[] dividend, int divisor) {
         int[] quotient = new int[dividend.length];
         int remainder = 0;
 
         for (int i = 0; i < dividend.length; i++) {
             long current = ((long) remainder << 32) | (dividend[i] & 0xFFFFFFFFL);
-            quotient[i] = (int)(current / divisor);
-            remainder = (int)(current % divisor);
+            quotient[i] = (int) (current / divisor);
+            remainder = (int) (current % divisor);
         }
 
         int start = 0;
@@ -176,8 +271,9 @@ public class FlameInt {
             quotient = Arrays.copyOfRange(quotient, start, quotient.length);
         }
 
-        return List.of(quotient, new int[]{remainder});
+        return List.of(quotient, new int[] { remainder });
     }
+
     private static FlameInt schoolBookMultiply(FlameInt a, FlameInt b) {
         int[] magA = a.mags;
         int[] magB = b.mags;
@@ -189,9 +285,8 @@ public class FlameInt {
         for (int i = magA.length - 1; i >= 0; i--) {
             long carry = 0;
             for (int j = magB.length - 1; j >= 0; j--) {
-                long prod = 
-                    (magA[i] & 0xFFFFFFFFL) * (magB[j] & 0xFFFFFFFFL)
-                    + (result[i + j + 1] & 0xFFFFFFFFL) + carry;
+                long prod = (magA[i] & 0xFFFFFFFFL) * (magB[j] & 0xFFFFFFFFL)
+                        + (result[i + j + 1] & 0xFFFFFFFFL) + carry;
                 result[i + j + 1] = (int) prod;
                 carry = prod >>> 32;
             }
@@ -220,8 +315,8 @@ public class FlameInt {
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof FlameInt fi)
-            return this.signum == fi.signum 
-                && Arrays.equals(mags, fi.mags);
+            return this.signum == fi.signum
+                    && Arrays.equals(mags, fi.mags);
         return false;
     }
 
@@ -243,7 +338,8 @@ public class FlameInt {
     }
 
     public FlameInt abs() {
-        if (signum >= 0) return this;
+        if (signum >= 0)
+            return this;
         return new FlameInt(1, mags);
     }
 
@@ -255,13 +351,15 @@ public class FlameInt {
         if (this.signum != other.signum) {
             return Integer.compare(this.signum, other.signum);
         }
-        if (this.signum == 0) return 0;
+        if (this.signum == 0)
+            return 0;
         int magCmp = compareMagnitudes(this.mags, other.mags);
         return this.signum > 0 ? magCmp : -magCmp;
     }
 
     public long toLong() {
-        if (signum == 0) return 0L;
+        if (signum == 0)
+            return 0L;
         long result;
         if (mags.length == 1) {
             result = mags[0] & 0xFFFFFFFFL;
@@ -272,15 +370,18 @@ public class FlameInt {
         }
         if (signum < 0) {
             result = -result;
-            if (result > 0) throw new ArithmeticException("FlameInt too large to convert to long");
+            if (result > 0)
+                throw new ArithmeticException("FlameInt too large to convert to long");
         } else {
-            if (result < 0) throw new ArithmeticException("FlameInt too large to convert to long");
+            if (result < 0)
+                throw new ArithmeticException("FlameInt too large to convert to long");
         }
         return result;
     }
 
     public double toDouble() {
-        if (signum == 0) return 0.0;
+        if (signum == 0)
+            return 0.0;
         double result = 0.0;
         for (int limb : mags) {
             result = result * 0x100000000L + (limb & 0xFFFFFFFFL);
@@ -289,7 +390,8 @@ public class FlameInt {
     }
 
     public FlameInt(String s) {
-        if (s.isEmpty()) throw new IllegalArgumentException("Empty string");
+        if (s.isEmpty())
+            throw new IllegalArgumentException("Empty string");
 
         boolean negative = false;
         int start = 0;
@@ -308,12 +410,12 @@ public class FlameInt {
         String digits = s.substring(start);
         if (digits.equals("0")) {
             this.signum = 0;
-            this.mags = new int[]{0};
+            this.mags = new int[] { 0 };
             return;
         }
 
         // Build by repeated multiply-by-10^9 and add
-        int[] result = new int[]{0};
+        int[] result = new int[] { 0 };
         int i = 0;
         while (i < digits.length()) {
             int chunkLen = Math.min(9, digits.length() - i);
@@ -321,7 +423,8 @@ public class FlameInt {
 
             // result = result * 10^chunkLen + chunk
             int multiplier = 1;
-            for (int k = 0; k < chunkLen; k++) multiplier *= 10;
+            for (int k = 0; k < chunkLen; k++)
+                multiplier *= 10;
 
             result = mulMagByInt(result, multiplier);
             result = addIntToMag(result, chunk);
@@ -367,45 +470,79 @@ public class FlameInt {
     }
 
     public FlameInt divide(FlameInt divisor) {
-        if (divisor.signum == 0) throw new ArithmeticException("Divide by zero");
-        if (this.signum == 0) return ZERO;
+        if (divisor.signum == 0)
+            throw new ArithmeticException("Divide by zero");
+        if (this.signum == 0)
+            return ZERO;
 
         int cmp = compareMagnitudes(this.mags, divisor.mags);
-        if (cmp < 0) return ZERO;
-        if (cmp == 0) return new FlameInt(this.signum * divisor.signum, new int[]{1});
+        if (cmp < 0)
+            return ZERO;
+        if (cmp == 0)
+            return new FlameInt(this.signum * divisor.signum, new int[] { 1 });
 
         // Single-limb divisor fast path
         if (divisor.mags.length == 1) {
             List<int[]> qr = divideBySingleLimb(this.mags, divisor.mags[0]);
             int resultSign = this.signum * divisor.signum;
             return new FlameInt(resultSign, qr.get(0));
+        } else {
+            List<int[]> qr = divideByKnuthD(this.mags, divisor.mags);
+            int resultSign = this.signum * divisor.signum;
+            return new FlameInt(resultSign, qr.get(0));
         }
-
-        // Multi-limb: use repeated subtraction with shifting (slow but correct)
-        // TODO: Replace with Knuth's Algorithm D for performance
-        FlameInt absDividend = this.abs();
-        FlameInt absDivisor = divisor.abs();
-        FlameInt quotient = ZERO;
-        FlameInt remainder = absDividend;
-
-        while (remainder.compareTo(absDivisor) >= 0) {
-            remainder = remainder.subtract(absDivisor);
-            quotient = quotient.add(ONE);
-        }
-
-        int resultSign = this.signum * divisor.signum;
-        if (quotient.isZero()) return ZERO;
-        return new FlameInt(resultSign, quotient.mags);
     }
 
     public FlameInt mod(FlameInt divisor) {
-        if (divisor.signum == 0) throw new ArithmeticException("Divide by zero");
-        if (this.signum == 0) return ZERO;
+        if (divisor.signum == 0)
+            throw new ArithmeticException("Divide by zero");
+        if (this.signum == 0)
+            return ZERO;
 
-        // remainder = this - (this / divisor) * divisor
-        FlameInt quotient = this.divide(divisor);
-        FlameInt remainder = this.subtract(quotient.mul(divisor));
-        return remainder;
+        int cmp = compareMagnitudes(this.mags, divisor.mags);
+        if (cmp < 0)
+            return this.abs();
+        if (cmp == 0)
+            return ZERO;
+
+        int[] remMags;
+        if (divisor.mags.length == 1) {
+            List<int[]> qr = divideBySingleLimb(this.mags, divisor.mags[0]);
+            remMags = qr.get(1);
+        } else {
+            List<int[]> qr = divideByKnuthD(this.mags, divisor.mags);
+            remMags = qr.get(1);
+        }
+
+        remMags = stripLeadingZeros(remMags);
+        if (remMags.length == 1 && remMags[0] == 0)
+            return ZERO;
+        return new FlameInt(this.signum, remMags);
+    }
+
+    public FlameInt pow(long exponent) {
+        if (exponent < 0)
+            throw new ArithmeticException("Negative exponent");
+        if (exponent == 0)
+            return ONE;
+        if (exponent == 1)
+            return this;
+        if (this.isZero())
+            return ZERO;
+        if (this.isOne())
+            return ONE;
+
+        int resultSign = (signum < 0 && exponent % 2 != 0) ? -1 : 1;
+        FlameInt base = this.abs();
+        FlameInt result = ONE;
+        while (exponent > 0) {
+            if ((exponent & 1) == 1) {
+                result = result.mul(base);
+            }
+            base = base.mul(base);
+            exponent >>= 1;
+        }
+        return new FlameInt(resultSign, result.mags);
     }
 
     public FlameInt gcd(FlameInt other) {
@@ -418,4 +555,15 @@ public class FlameInt {
         }
         return a;
     }
+
+    private static int[] stripLeadingZeros(int[] v) {
+        int start = 0;
+        while (start < v.length - 1 && v[start] == 0) {
+            start++;
+        }
+        if (start == 0)
+            return v;
+        return Arrays.copyOfRange(v, start, v.length);
+    }
+
 }
