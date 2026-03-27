@@ -26,12 +26,13 @@ public class AtFunc implements FlameFunction {
         if (args.get(0) instanceof ListExpr l) {
             Expr index = args.get(1);
             if (index instanceof IntegerAtom i) {
-                int idx = (int) (i.value() >= 0 ? i.value() : l.exprs().size() + i.value());
+                long iv = i.value().toLong();
+                int idx = (int) (iv >= 0 ? iv : l.exprs().size() + iv);
                 try {
                     return l.exprs().get(idx);
                 } catch (IndexOutOfBoundsException e) {
-                    throw new Exception(String.format("Index %d is out of bounds for list of size %d", 
-                        i.value(),
+                    throw new Exception(String.format("Index %d is out of bounds for list of size %d",
+                        iv,
                         l.exprs().size()
                     ));
                 }

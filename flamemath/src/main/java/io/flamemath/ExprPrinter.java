@@ -13,6 +13,7 @@ import io.flamemath.expr.BooleanAtom;
 import io.flamemath.expr.Compound;
 import io.flamemath.expr.Expr;
 import io.flamemath.expr.IntegerAtom;
+import io.flamemath.internal.FlameInt;
 import io.flamemath.expr.ListExpr;
 import io.flamemath.expr.Flambda;
 import io.flamemath.expr.NullExpr;
@@ -71,8 +72,8 @@ public class ExprPrinter {
 
     public static String print(Expr expr, int outerPrecedence) {
         switch (expr) {
-            case IntegerAtom(long l):
-                return Long.toString(l);
+            case IntegerAtom(FlameInt fi):
+                return fi.toString();
             case RealAtom(double r):
                 return Double.toString(r);
             case StringAtom(String s):

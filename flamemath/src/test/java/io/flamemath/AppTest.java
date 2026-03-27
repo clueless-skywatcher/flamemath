@@ -4,13 +4,14 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import io.flamemath.expr.*;
+import io.flamemath.internal.FlameInt;
 import java.util.List;
 
 class AppTest {
     @Test
     void exprIntegerAtom() {
         var atom = new IntegerAtom(42);
-        assertEquals(42, atom.value());
+        assertEquals(new FlameInt(42), atom.value());
     }
 
     @Test

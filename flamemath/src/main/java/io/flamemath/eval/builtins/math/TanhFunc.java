@@ -29,7 +29,7 @@ public class TanhFunc implements FlameFunction {
 
         // Numeric → compute directly
         if (arg instanceof IntegerAtom i) {
-            return toNumericAtom(Math.tanh(i.value()));
+            return toNumericAtom(Math.tanh(i.value().toDouble()));
         }
         if (arg instanceof RealAtom r) {
             return toNumericAtom(Math.tanh(r.value()));

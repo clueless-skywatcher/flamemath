@@ -13,6 +13,7 @@ import io.flamemath.expr.Expr;
 import io.flamemath.expr.IntegerAtom;
 import io.flamemath.expr.RationalAtom;
 import io.flamemath.expr.RealAtom;
+import io.flamemath.internal.FlameInt;
 
 public class PowFunc implements FlameFunction {
 
@@ -33,9 +34,9 @@ public class PowFunc implements FlameFunction {
         // Integer base with rational exponent 1/2 → perfect square check
         if (base instanceof IntegerAtom baseInt
                 && exp instanceof RationalAtom r
-                && r.num() instanceof IntegerAtom rn && rn.value() == 1
-                && r.denom() instanceof IntegerAtom rd && rd.value() == 2) {
-            long val = baseInt.value();
+                && r.num() instanceof IntegerAtom rn && rn.value().isOne()
+                && r.denom() instanceof IntegerAtom rd && rd.value().equals(new FlameInt(2))) {
+            long val = baseInt.value().toLong();
             long root = (long) Math.sqrt(val);
             if (root * root == val) {
                 return new IntegerAtom(root);

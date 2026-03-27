@@ -29,7 +29,7 @@ public class SinhFunc implements FlameFunction {
 
         // Numeric → compute directly
         if (arg instanceof IntegerAtom i) {
-            return toNumericAtom(Math.sinh(i.value()));
+            return toNumericAtom(Math.sinh(i.value().toDouble()));
         }
         if (arg instanceof RealAtom r) {
             return toNumericAtom(Math.sinh(r.value()));

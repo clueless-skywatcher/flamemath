@@ -2,12 +2,12 @@ package io.flamemath.eval.builtins.ntheory;
 
 import java.util.List;
 
-import io.flamemath.FlameUtils;
 import io.flamemath.eval.FlameFunction;
 import io.flamemath.eval.FlameValuator;
 import io.flamemath.exceptions.FlameArityException;
 import io.flamemath.expr.Expr;
 import io.flamemath.expr.IntegerAtom;
+import io.flamemath.internal.FlameInt;
 
 public class GCDFunc implements FlameFunction {
 
@@ -28,15 +28,13 @@ public class GCDFunc implements FlameFunction {
             }
         }
 
-        long gcd = ((IntegerAtom) args.get(0)).value();
+        FlameInt gcd = ((IntegerAtom) args.get(0)).value();
         for (int i = 1; i < args.size(); i++) {
-            long argInt = ((IntegerAtom) args.get(i)).value();
-            gcd = FlameUtils.gcd(gcd, argInt);
+            FlameInt argInt = ((IntegerAtom) args.get(i)).value();
+            gcd = gcd.gcd(argInt);
         }
 
-        if (gcd < 0) gcd = -gcd;
-
-        return new IntegerAtom(gcd);
+        return new IntegerAtom(gcd.abs());
     }
     
 }

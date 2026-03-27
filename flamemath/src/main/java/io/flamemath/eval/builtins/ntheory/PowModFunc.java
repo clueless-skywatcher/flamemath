@@ -28,9 +28,9 @@ public class PowModFunc implements FlameFunction {
             }
         }
 
-        long base = ((IntegerAtom) args.get(0)).value();
-        long exp = ((IntegerAtom) args.get(1)).value();
-        long mod = ((IntegerAtom) args.get(2)).value();
+        long base = ((IntegerAtom) args.get(0)).value().toLong();
+        long exp = ((IntegerAtom) args.get(1)).value().toLong();
+        long mod = ((IntegerAtom) args.get(2)).value().toLong();
 
         if (mod == 0) {
             throw new ArithmeticException("Modulus cannot be zero");

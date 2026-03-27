@@ -29,7 +29,7 @@ public class TanFunc implements FlameFunction {
 
         // Numeric → compute directly
         if (arg instanceof IntegerAtom i) {
-            return toNumericAtom(Math.tan(i.value()));
+            return toNumericAtom(Math.tan(i.value().toDouble()));
         }
         if (arg instanceof RealAtom r) {
             return toNumericAtom(Math.tan(r.value()));

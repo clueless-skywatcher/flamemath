@@ -14,6 +14,7 @@ import io.flamemath.expr.RealAtom;
 import io.flamemath.expr.Symbol;
 import static io.flamemath.FlameUtils.toNumericAtom;
 import io.flamemath.FlameUtils;
+import io.flamemath.internal.FlameInt;
 
 public class ArcSinFunc implements FlameFunction {
 
@@ -44,10 +45,11 @@ public class ArcSinFunc implements FlameFunction {
 
         // Numeric → compute directly
         if (arg instanceof IntegerAtom i) {
-            if (i.value() < -1 || i.value() > 1) {
+            long iv = i.value().toLong();
+            if (iv < -1 || iv > 1) {
                 throw new ArithmeticException("ArcSin: argument out of range [-1, 1]");
             }
-            return toNumericAtom(Math.asin(i.value()));
+            return toNumericAtom(Math.asin(i.value().toDouble()));
         }
         if (arg instanceof RealAtom r) {
             if (r.value() < -1 || r.value() > 1) {
@@ -72,32 +74,32 @@ public class ArcSinFunc implements FlameFunction {
 
         if (arg instanceof RationalAtom r
                 && r.num() instanceof IntegerAtom rn
-                && rn.value() < 0) {
+                && rn.value().isNegative()) {
             negative = true;
-            absArg = new RationalAtom(new IntegerAtom(-rn.value()), r.denom());
-        } else if (arg instanceof IntegerAtom i && i.value() < 0) {
+            absArg = new RationalAtom(new IntegerAtom(rn.value().negate()), r.denom());
+        } else if (arg instanceof IntegerAtom i && i.value().isNegative()) {
             negative = true;
-            absArg = new IntegerAtom(-i.value());
+            absArg = new IntegerAtom(i.value().negate());
         } else if (arg instanceof Compound c && c.isHead("Mul")
                 && !c.children().isEmpty()) {
             Expr first = c.children().get(0);
-            if (first instanceof IntegerAtom i && i.value() == -1) {
+            if (first instanceof IntegerAtom i && i.value().equals(FlameInt.MINUS_ONE)) {
                 negative = true;
                 List<Expr> rest = c.children().subList(1, c.children().size());
                 absArg = rest.size() == 1 ? rest.get(0) : new Compound("Mul", rest);
             } else if (first instanceof RationalAtom r
-                    && r.num() instanceof IntegerAtom rn && rn.value() < 0) {
+                    && r.num() instanceof IntegerAtom rn && rn.value().isNegative()) {
                 // e.g. Mul((-1/2), Pow(2, (1/2))) → negate the rational
                 negative = true;
-                Expr posRational = new RationalAtom(new IntegerAtom(-rn.value()), r.denom());
+                Expr posRational = new RationalAtom(new IntegerAtom(rn.value().negate()), r.denom());
                 List<Expr> newChildren = new java.util.ArrayList<>();
                 newChildren.add(posRational);
                 newChildren.addAll(c.children().subList(1, c.children().size()));
                 absArg = newChildren.size() == 1 ? newChildren.get(0) : new Compound("Mul", newChildren);
-            } else if (first instanceof IntegerAtom i && i.value() < 0) {
+            } else if (first instanceof IntegerAtom i && i.value().isNegative()) {
                 negative = true;
                 List<Expr> newChildren = new java.util.ArrayList<>();
-                newChildren.add(new IntegerAtom(-i.value()));
+                newChildren.add(new IntegerAtom(i.value().negate()));
                 newChildren.addAll(c.children().subList(1, c.children().size()));
                 absArg = newChildren.size() == 1 ? newChildren.get(0) : new Compound("Mul", newChildren);
             }
@@ -121,15 +123,15 @@ public class ArcSinFunc implements FlameFunction {
      */
     static String normalizeKey(Expr arg) {
         if (arg instanceof IntegerAtom i) {
-            if (i.value() == 0) return "0";
-            if (i.value() == 1) return "1";
+            if (i.value().isZero()) return "0";
+            if (i.value().equals(FlameInt.ONE)) return "1";
             return null;
         }
         if (arg instanceof RationalAtom r
                 && r.num() instanceof IntegerAtom rn
                 && r.denom() instanceof IntegerAtom rd) {
-            long n = rn.value();
-            long d = rd.value();
+            long n = rn.value().toLong();
+            long d = rd.value().toLong();
             long gcd = FlameUtils.gcd(Math.abs(n), Math.abs(d));
             n /= gcd;
             d /= gcd;
@@ -142,8 +144,8 @@ public class ArcSinFunc implements FlameFunction {
             Expr first = c.children().get(0);
             Expr second = c.children().get(1);
             if (first instanceof RationalAtom r
-                    && r.num() instanceof IntegerAtom rn && rn.value() == 1
-                    && r.denom() instanceof IntegerAtom rd && rd.value() == 2
+                    && r.num() instanceof IntegerAtom rn && rn.value().equals(FlameInt.ONE)
+                    && r.denom() instanceof IntegerAtom rd && rd.value().toLong() == 2
                     && isSqrt(second) >= 0) {
                 long base = isSqrt(second);
                 if (base == 2) return "Sqrt(2)/2";
@@ -163,15 +165,15 @@ public class ArcSinFunc implements FlameFunction {
                 Expr exp = c.children().get(1);
                 if (base instanceof IntegerAtom bi
                         && exp instanceof RationalAtom r
-                        && r.num() instanceof IntegerAtom rn && rn.value() == 1
-                        && r.denom() instanceof IntegerAtom rd && rd.value() == 2) {
-                    return bi.value();
+                        && r.num() instanceof IntegerAtom rn && rn.value().equals(FlameInt.ONE)
+                        && r.denom() instanceof IntegerAtom rd && rd.value().toLong() == 2) {
+                    return bi.value().toLong();
                 }
             }
         }
         if (expr instanceof Compound c && c.isHead("Sqrt") && c.children().size() == 1
                 && c.children().get(0) instanceof IntegerAtom si) {
-            return si.value();
+            return si.value().toLong();
         }
         return -1;
     }

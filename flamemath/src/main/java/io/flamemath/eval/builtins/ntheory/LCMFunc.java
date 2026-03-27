@@ -2,12 +2,12 @@ package io.flamemath.eval.builtins.ntheory;
 
 import java.util.List;
 
-import io.flamemath.FlameUtils;
 import io.flamemath.eval.FlameFunction;
 import io.flamemath.eval.FlameValuator;
 import io.flamemath.exceptions.FlameArityException;
 import io.flamemath.expr.Expr;
 import io.flamemath.expr.IntegerAtom;
+import io.flamemath.internal.FlameInt;
 
 public class LCMFunc implements FlameFunction {
 
@@ -28,13 +28,13 @@ public class LCMFunc implements FlameFunction {
             }
         }
 
-        long result = Math.abs(((IntegerAtom) args.get(0)).value());
+        FlameInt result = ((IntegerAtom) args.get(0)).value().abs();
         for (int i = 1; i < args.size(); i++) {
-            long b = Math.abs(((IntegerAtom) args.get(i)).value());
-            if (result == 0 || b == 0) {
-                result = 0;
+            FlameInt b = ((IntegerAtom) args.get(i)).value().abs();
+            if (result.isZero() || b.isZero()) {
+                result = FlameInt.ZERO;
             } else {
-                result = result / FlameUtils.gcd(result, b) * b;
+                result = result.divide(result.gcd(b)).mul(b);
             }
         }
 

@@ -60,7 +60,7 @@ public class SortFunc implements FlameFunction {
                 public int compare(Expr arg0, Expr arg1) {
                     try {
                         Expr result = evaluator.applyLambda(func, List.of(arg0, arg1));
-                        if (result instanceof IntegerAtom i) return (int) i.value();
+                        if (result instanceof IntegerAtom i) return (int) i.value().toLong();
                         return result.isTrue() ? -1 : 1;
                     } catch (Exception e) {
                         throw new RuntimeException(e.getMessage());          

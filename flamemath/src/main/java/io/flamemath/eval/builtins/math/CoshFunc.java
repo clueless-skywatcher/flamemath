@@ -29,7 +29,7 @@ public class CoshFunc implements FlameFunction {
 
         // Numeric → compute directly
         if (arg instanceof IntegerAtom i) {
-            return toNumericAtom(Math.cosh(i.value()));
+            return toNumericAtom(Math.cosh(i.value().toDouble()));
         }
         if (arg instanceof RealAtom r) {
             return toNumericAtom(Math.cosh(r.value()));

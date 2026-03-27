@@ -14,6 +14,7 @@ import io.flamemath.expr.RealAtom;
 import io.flamemath.expr.Symbol;
 import static io.flamemath.FlameUtils.toNumericAtom;
 import io.flamemath.FlameUtils;
+import io.flamemath.internal.FlameInt;
 
 public class ArcTanFunc implements FlameFunction {
 
@@ -44,7 +45,7 @@ public class ArcTanFunc implements FlameFunction {
 
         // Numeric → compute directly
         if (arg instanceof IntegerAtom i) {
-            return toNumericAtom(Math.atan(i.value()));
+            return toNumericAtom(Math.atan(i.value().toDouble()));
         }
         if (arg instanceof RealAtom r) {
             return toNumericAtom(Math.atan(r.value()));
@@ -66,31 +67,31 @@ public class ArcTanFunc implements FlameFunction {
 
         if (arg instanceof RationalAtom r
                 && r.num() instanceof IntegerAtom rn
-                && rn.value() < 0) {
+                && rn.value().isNegative()) {
             negative = true;
-            absArg = new RationalAtom(new IntegerAtom(-rn.value()), r.denom());
-        } else if (arg instanceof IntegerAtom i && i.value() < 0) {
+            absArg = new RationalAtom(new IntegerAtom(rn.value().negate()), r.denom());
+        } else if (arg instanceof IntegerAtom i && i.value().isNegative()) {
             negative = true;
-            absArg = new IntegerAtom(-i.value());
+            absArg = new IntegerAtom(i.value().negate());
         } else if (arg instanceof Compound c && c.isHead("Mul")
                 && !c.children().isEmpty()) {
             Expr first = c.children().get(0);
-            if (first instanceof IntegerAtom i && i.value() == -1) {
+            if (first instanceof IntegerAtom i && i.value().equals(FlameInt.MINUS_ONE)) {
                 negative = true;
                 List<Expr> rest = c.children().subList(1, c.children().size());
                 absArg = rest.size() == 1 ? rest.get(0) : new Compound("Mul", rest);
             } else if (first instanceof RationalAtom r
-                    && r.num() instanceof IntegerAtom rn && rn.value() < 0) {
+                    && r.num() instanceof IntegerAtom rn && rn.value().isNegative()) {
                 negative = true;
-                Expr posRational = new RationalAtom(new IntegerAtom(-rn.value()), r.denom());
+                Expr posRational = new RationalAtom(new IntegerAtom(rn.value().negate()), r.denom());
                 java.util.List<Expr> newChildren = new java.util.ArrayList<>();
                 newChildren.add(posRational);
                 newChildren.addAll(c.children().subList(1, c.children().size()));
                 absArg = newChildren.size() == 1 ? newChildren.get(0) : new Compound("Mul", newChildren);
-            } else if (first instanceof IntegerAtom i && i.value() < 0) {
+            } else if (first instanceof IntegerAtom i && i.value().isNegative()) {
                 negative = true;
                 java.util.List<Expr> newChildren = new java.util.ArrayList<>();
-                newChildren.add(new IntegerAtom(-i.value()));
+                newChildren.add(new IntegerAtom(i.value().negate()));
                 newChildren.addAll(c.children().subList(1, c.children().size()));
                 absArg = newChildren.size() == 1 ? newChildren.get(0) : new Compound("Mul", newChildren);
             }
@@ -114,8 +115,8 @@ public class ArcTanFunc implements FlameFunction {
      */
     private String normalizeArcTanKey(Expr arg) {
         if (arg instanceof IntegerAtom i) {
-            if (i.value() == 0) return "0";
-            if (i.value() == 1) return "1";
+            if (i.value().isZero()) return "0";
+            if (i.value().equals(FlameInt.ONE)) return "1";
             return null;
         }
         // Match Sqrt(3) or Pow(3, 1/2)
@@ -126,10 +127,10 @@ public class ArcTanFunc implements FlameFunction {
         if (arg instanceof Compound c && c.isHead("Pow") && c.children().size() == 2) {
             Expr base = c.children().get(0);
             Expr exp = c.children().get(1);
-            if (base instanceof IntegerAtom bi && bi.value() == 3
+            if (base instanceof IntegerAtom bi && bi.value().toLong() == 3
                     && exp instanceof RationalAtom r
-                    && r.num() instanceof IntegerAtom rn && rn.value() == -1
-                    && r.denom() instanceof IntegerAtom rd && rd.value() == 2) {
+                    && r.num() instanceof IntegerAtom rn && rn.value().equals(FlameInt.MINUS_ONE)
+                    && r.denom() instanceof IntegerAtom rd && rd.value().toLong() == 2) {
                 return "1/Sqrt(3)";
             }
         }
@@ -138,8 +139,8 @@ public class ArcTanFunc implements FlameFunction {
             Expr first = c.children().get(0);
             Expr second = c.children().get(1);
             if (first instanceof RationalAtom r
-                    && r.num() instanceof IntegerAtom rn && rn.value() == 1
-                    && r.denom() instanceof IntegerAtom rd && rd.value() == 3
+                    && r.num() instanceof IntegerAtom rn && rn.value().equals(FlameInt.ONE)
+                    && r.denom() instanceof IntegerAtom rd && rd.value().toLong() == 3
                     && ArcSinFunc.isSqrt(second) == 3) {
                 return "1/Sqrt(3)";
             }

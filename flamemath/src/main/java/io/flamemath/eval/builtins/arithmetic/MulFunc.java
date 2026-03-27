@@ -15,6 +15,7 @@ import io.flamemath.expr.Expr;
 import io.flamemath.expr.IntegerAtom;
 import io.flamemath.expr.RationalAtom;
 import io.flamemath.expr.RealAtom;
+import io.flamemath.internal.FlameInt;
 
 public class MulFunc implements FlameFunction {
     @Override
@@ -32,19 +33,19 @@ public class MulFunc implements FlameFunction {
         }
 
         // Rationalize: Mul(integers..., RationalAtom...) → RationalAtom
-        long numerator = 1;
-        long denominator = 1;
+        FlameInt numerator = FlameInt.ONE;
+        FlameInt denominator = FlameInt.ONE;
         boolean isRational = true;
         boolean hasRational = false;
 
         for (Expr arg : args) {
             if (arg instanceof IntegerAtom i) {
-                numerator *= i.value();
+                numerator = numerator.mul(i.value());
             } else if (arg instanceof RationalAtom r
                     && r.num() instanceof IntegerAtom rNum
                     && r.denom() instanceof IntegerAtom rDenom) {
-                numerator *= rNum.value();
-                denominator *= rDenom.value();
+                numerator = numerator.mul(rNum.value());
+                denominator = denominator.mul(rDenom.value());
                 hasRational = true;
             } else {
                 isRational = false;
@@ -58,8 +59,8 @@ public class MulFunc implements FlameFunction {
 
         boolean hasReal = false;
         boolean hasRatCoeff = false;
-        long intNum = 1;
-        long intDenom = 1;
+        FlameInt intNum = FlameInt.ONE;
+        FlameInt intDenom = FlameInt.ONE;
         double realProduct = 1.0;
 
         List<Expr> results = new ArrayList<>();
@@ -89,10 +90,10 @@ public class MulFunc implements FlameFunction {
                         && r.num() instanceof IntegerAtom rn
                         && r.denom() instanceof IntegerAtom rd) {
                     hasRatCoeff = true;
-                    intNum *= rn.value();
-                    intDenom *= rd.value();
+                    intNum = intNum.mul(rn.value());
+                    intDenom = intDenom.mul(rd.value());
                 } else if (a instanceof IntegerAtom ia) {
-                    intNum *= ia.value();
+                    intNum = intNum.mul(ia.value());
                 }
             }
         }
@@ -110,7 +111,7 @@ public class MulFunc implements FlameFunction {
             }
         }
 
-        double numericProduct = hasReal ? realProduct * ((double) intNum / intDenom) : 0;
+        double numericProduct = hasReal ? realProduct * (intNum.toDouble() / intDenom.toDouble()) : 0;
 
         if (hasReal) {
             if (numericProduct != 1 || results.isEmpty()) {

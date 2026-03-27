@@ -50,6 +50,7 @@ Max = {
 }
 
 Binomial = (n, k) => {
+    PrintLn(n, k);
     If(!(IsInteger(n) && IsInteger(k)), Return(Raw(Binomial, n, k)));
     Product(Range(n - k + 1, n + 1)) / 
     Product(Range(1, k + 1))

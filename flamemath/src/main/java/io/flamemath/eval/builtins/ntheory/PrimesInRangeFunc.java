@@ -27,8 +27,8 @@ public class PrimesInRangeFunc implements FlameFunction {
             throw new Exception("Arguments should be integers");
         }
 
-        long from = ((IntegerAtom) args.get(0)).value();
-        long to = ((IntegerAtom) args.get(1)).value();
+        long from = ((IntegerAtom) args.get(0)).value().toLong();
+        long to = ((IntegerAtom) args.get(1)).value().toLong();
 
         List<Expr> primes = new ArrayList<>();
 

@@ -46,7 +46,7 @@ public class ArcTan2Func implements FlameFunction {
     }
 
     private double numVal(Expr e) {
-        if (e instanceof IntegerAtom i) return i.value();
+        if (e instanceof IntegerAtom i) return i.value().toDouble();
         if (e instanceof RealAtom r) return r.value();
         throw new IllegalArgumentException("Not numeric: " + e);
     }

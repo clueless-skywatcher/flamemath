@@ -48,7 +48,7 @@ public class CosFunc implements FlameFunction {
         Expr arg = args.get(0);
 
         if (arg instanceof IntegerAtom i) {
-            return toNumericAtom(Math.cos(i.value()));
+            return toNumericAtom(Math.cos(i.value().toDouble()));
         }
         if (arg instanceof RealAtom r) {
             return toNumericAtom(Math.cos(r.value()));
@@ -98,10 +98,10 @@ public class CosFunc implements FlameFunction {
 
         if (sign == -1) {
             if (value.isZero()) return IntegerAtom.ZERO;
-            if (value instanceof IntegerAtom i) return new IntegerAtom(-i.value());
+            if (value instanceof IntegerAtom i) return new IntegerAtom(i.value().negate());
             if (value instanceof RationalAtom r
                     && r.num() instanceof IntegerAtom rn) {
-                return new RationalAtom(new IntegerAtom(-rn.value()), r.denom());
+                return new RationalAtom(new IntegerAtom(rn.value().negate()), r.denom());
             }
             return new Compound("Mul", List.of(IntegerAtom.MINUS_ONE, value));
         }
@@ -126,12 +126,12 @@ public class CosFunc implements FlameFunction {
                 if (!foundPi && child instanceof Symbol s && s.name().equals("Pi")) {
                     foundPi = true;
                 } else if (child instanceof IntegerAtom i) {
-                    num *= i.value();
+                    num *= i.value().toLong();
                 } else if (child instanceof RationalAtom r
                         && r.num() instanceof IntegerAtom n
                         && r.denom() instanceof IntegerAtom d) {
-                    num *= n.value();
-                    denom *= d.value();
+                    num *= n.value().toLong();
+                    denom *= d.value().toLong();
                 } else {
                     // Non-numeric, non-Pi child — not a rational multiple of Pi
                     return null;

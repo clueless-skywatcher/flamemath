@@ -25,7 +25,7 @@ public class IsPrimeFunc implements FlameFunction {
             throw new Exception("Argument should be an integer");
         }
 
-        long value = ((IntegerAtom) args.get(0)).value();
+        long value = ((IntegerAtom) args.get(0)).value().toLong();
         if (value <= FlameValuator.SIEVE_LIMIT) {
             return new BooleanAtom(evaluator.getSieve().isPrime((int) value));
         }

@@ -14,6 +14,7 @@ import io.flamemath.expr.RealAtom;
 import io.flamemath.expr.Symbol;
 import static io.flamemath.FlameUtils.toNumericAtom;
 import io.flamemath.FlameUtils;
+import io.flamemath.internal.FlameInt;
 
 public class ArcCosFunc implements FlameFunction {
 
@@ -54,10 +55,11 @@ public class ArcCosFunc implements FlameFunction {
 
         // Numeric → compute directly
         if (arg instanceof IntegerAtom i) {
-            if (i.value() < -1 || i.value() > 1) {
+            long iv = i.value().toLong();
+            if (iv < -1 || iv > 1) {
                 throw new ArithmeticException("ArcCos: argument out of range [-1, 1]");
             }
-            return toNumericAtom(Math.acos(i.value()));
+            return toNumericAtom(Math.acos(i.value().toDouble()));
         }
         if (arg instanceof RealAtom r) {
             if (r.value() < -1 || r.value() > 1) {
@@ -82,31 +84,31 @@ public class ArcCosFunc implements FlameFunction {
 
         if (arg instanceof RationalAtom r
                 && r.num() instanceof IntegerAtom rn
-                && rn.value() < 0) {
+                && rn.value().isNegative()) {
             negative = true;
-            absArg = new RationalAtom(new IntegerAtom(-rn.value()), r.denom());
-        } else if (arg instanceof IntegerAtom i && i.value() < 0) {
+            absArg = new RationalAtom(new IntegerAtom(rn.value().negate()), r.denom());
+        } else if (arg instanceof IntegerAtom i && i.value().isNegative()) {
             negative = true;
-            absArg = new IntegerAtom(-i.value());
+            absArg = new IntegerAtom(i.value().negate());
         } else if (arg instanceof Compound c && c.isHead("Mul")
                 && !c.children().isEmpty()) {
             Expr first = c.children().get(0);
-            if (first instanceof IntegerAtom i && i.value() == -1) {
+            if (first instanceof IntegerAtom i && i.value().equals(FlameInt.MINUS_ONE)) {
                 negative = true;
                 List<Expr> rest = c.children().subList(1, c.children().size());
                 absArg = rest.size() == 1 ? rest.get(0) : new Compound("Mul", rest);
             } else if (first instanceof RationalAtom r
-                    && r.num() instanceof IntegerAtom rn && rn.value() < 0) {
+                    && r.num() instanceof IntegerAtom rn && rn.value().isNegative()) {
                 negative = true;
-                Expr posRational = new RationalAtom(new IntegerAtom(-rn.value()), r.denom());
+                Expr posRational = new RationalAtom(new IntegerAtom(rn.value().negate()), r.denom());
                 java.util.List<Expr> newChildren = new java.util.ArrayList<>();
                 newChildren.add(posRational);
                 newChildren.addAll(c.children().subList(1, c.children().size()));
                 absArg = newChildren.size() == 1 ? newChildren.get(0) : new Compound("Mul", newChildren);
-            } else if (first instanceof IntegerAtom i && i.value() < 0) {
+            } else if (first instanceof IntegerAtom i && i.value().isNegative()) {
                 negative = true;
                 java.util.List<Expr> newChildren = new java.util.ArrayList<>();
-                newChildren.add(new IntegerAtom(-i.value()));
+                newChildren.add(new IntegerAtom(i.value().negate()));
                 newChildren.addAll(c.children().subList(1, c.children().size()));
                 absArg = newChildren.size() == 1 ? newChildren.get(0) : new Compound("Mul", newChildren);
             }
