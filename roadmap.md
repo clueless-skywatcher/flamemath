@@ -37,9 +37,9 @@
 |---|---------|-------------|------|--------|
 | 15 | `Take` / `Drop` | `Take([1,2,3,4], 2)` → `[1,2]`, `Drop([1,2,3,4], 2)` → `[3,4]` | FlameLang | Done |
 | 16 | `Count` | `Count([1, 2, 1, 3], 1)` → `2` — count occurrences of a value in a list | FlameLang | Done |
-| 17 | `Tally` | `Tally([a, b, a, c, b, a])` → `[[a, 3], [b, 2], [c, 1]]` — frequency count of elements | FlameLang | |
-| 18 | `Union` / `Intersection` | `Union([1,2,3], [2,3,4])` → `[1,2,3,4]` — set operations on lists | FlameLang | |
-| 19 | `Accumulate` | `Accumulate([1,2,3,4], Add)` → `[1,3,6,10]` — cumulative fold | FlameLang | |
+| 17 | `Tally` | `Tally([a, b, a, c, b, a])` → `[[a, 3], [b, 2], [c, 1]]` — frequency count of elements as `[[elem, count], ...]` | FlameLang | |
+| 18 | `Union` / `Intersection` | `Union([1,2,3], [2,3,4])` → `[1,2,3,4]` — set operations on lists | Java | |
+| 19 | `FoldScan` | `FoldScan(Add, [1,2,3,4])` → `[1,3,6,10]` — cumulative fold with a given binary function | FlameLang | |
 
 ### Phase 5 — Numeric Utilities
 

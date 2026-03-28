@@ -3,3 +3,4 @@ stdlib/types.flame
 stdlib/list.flame
 stdlib/math.flame
 stdlib/ntheory.flame
+stdlib/combinatorics.flame

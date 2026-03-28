@@ -1,3 +1,10 @@
+Has = (l, elem) => {
+    raw = ConstructRaw(Hold(Has), [l, elem]);
+    If(!IsList(l), Return(raw));
+    For(i, l, If(i == elem, Return(True)));
+    False
+}
+
 Filter = (f, list) => {
     i = 0;
     newList = [];
@@ -101,4 +108,30 @@ Count = (l, elem) => {
     i = 0;
     For(e, l, If(e == elem, i = i + 1));
     i
+}
+
+Tally = (l) => {
+    raw = ConstructRaw(Hold(Tally), [l]);
+    If(!IsList(l), Return(raw));
+    result = [];
+    For(elem, l, {
+        found = False;
+        updated = [];
+        For(pair, result, {
+            If(!found && pair[0] == elem, {
+                Append(updated, [elem, pair[1] + 1]);
+                found = True
+            }, Append(updated, pair))
+        });
+        If(!found, Append(updated, [elem, 1]));
+        result = updated
+    });
+    result
+}
+
+FoldScan = (f, l) => {
+    raw = ConstructRaw(Hold(FoldScan), [f, l]);
+    If(!IsList(l), Return(raw));
+    // TODO: Implement fold scan logic
+    raw
 }

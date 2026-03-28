@@ -4,3 +4,66 @@ WieferichPrime = (n) => {
         If(IsPrime(p) && PowMod(2, p - 1, p^2) == 1, Return(p))
     })
 }
+
+PrimeFactors = (n) => {
+    raw = ConstructRaw(Hold(PrimeFactors), [n]);
+    If(!IsInteger(n), Return(raw));
+    // TODO: Implement prime factorization logic
+    raw
+}
+
+Divisors = (n) => {
+    raw = ConstructRaw(Hold(Divisors), [n]);
+    If(!IsInteger(n), Return(raw));
+    // TODO: Implement divisors logic
+    raw
+}
+
+EulerPhi = (n) => {
+    raw = ConstructRaw(Hold(EulerPhi), [n]);
+    If(!IsInteger(n), Return(raw));
+    // TODO: Implement Euler's totient logic
+    raw
+}
+
+NextPrime = (n) => {
+    raw = ConstructRaw(Hold(NextPrime), [n]);
+    If(!IsInteger(n), Return(raw));
+    // TODO: Implement next prime logic
+    raw
+}
+
+MoebiusMu = (n) => {
+    raw = ConstructRaw(Hold(MoebiusMu), [n]);
+    If(!IsInteger(n), Return(raw));
+    // TODO: Implement Moebius function logic
+    raw
+}
+
+DivisorSigma = (n, k) => {
+    raw = ConstructRaw(Hold(DivisorSigma), [n, k]);
+    If(!(IsInteger(n) && IsInteger(k)), Return(raw));
+    // TODO: Implement divisor sigma logic
+    raw
+}
+
+ExtGCD = (a, b) => {
+    raw = ConstructRaw(Hold(ExtGCD), [a, b]);
+    If(!(IsInteger(a) && IsInteger(b)), Return(raw));
+    // TODO: Implement extended GCD logic
+    raw
+}
+
+OrderMod = (a, n) => {
+    raw = ConstructRaw(Hold(OrderMod), [a, n]);
+    If(!(IsInteger(a) && IsInteger(n)), Return(raw));
+    // TODO: Implement multiplicative order logic
+    raw
+}
+
+ChineseRemainder = (remainders, moduli) => {
+    raw = ConstructRaw(Hold(ChineseRemainder), [remainders, moduli]);
+    If(!(IsList(remainders) && IsList(moduli)), Return(raw));
+    // TODO: Implement CRT logic
+    raw
+}

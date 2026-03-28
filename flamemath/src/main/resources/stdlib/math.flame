@@ -81,3 +81,10 @@ Clamp = (n, low, hi) => {
     If(n <= low, Return(low));
     n
 }
+
+Linspace = (a, b, n) => {
+    raw = ConstructRaw(Hold(Linspace), [a, b, n]);
+    If(!(IsNumeric(a) && IsNumeric(b) && IsInteger(n)), Return(raw));
+    // TODO: Implement linspace logic
+    raw
+}
