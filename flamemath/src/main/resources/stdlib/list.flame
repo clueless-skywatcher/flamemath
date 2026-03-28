@@ -1,6 +1,5 @@
 Has = (l, elem) => {
-    raw = ConstructRaw(Hold(Has), [l, elem]);
-    If(!IsList(l), Return(raw));
+    If(!IsList(l), Return(Raw(Has, l, elem)));
     For(i, l, If(i == elem, Return(True)));
     False
 }
@@ -51,9 +50,8 @@ Flatten = (list) => {
 }
 
 Zip = (...lists) => {
-    raw = ConstructRaw(Hold(Zip), lists);
     For(list, lists, {
-        If(!IsList(list), Return(raw))
+        If(!IsList(list), Return(Apply(Raw, Join([Hold(Zip)], lists))))
     });
     minLen = Min(Map(Len, lists));
     zipList = [];
@@ -79,40 +77,34 @@ Outer = (f, list1, list2) => {
 }
 
 Take = (l, n) => {
-    raw = ConstructRaw(Hold(Take), [l, n]);
-    If(!(IsList(l) && IsInteger(n)), Return(raw));
+    If(!(IsList(l) && IsInteger(n)), Return(Raw(Take, l, n)));
     If(n >= 0, Slice(l, 0, n), Slice(l, Len(l) + n, Len(l)))
 }
 
 Drop = (l, n) => {
-    raw = ConstructRaw(Hold(Drop), [l, n]);
-    If(!(IsList(l) && IsInteger(n)), Return(raw));
+    If(!(IsList(l) && IsInteger(n)), Return(Raw(Drop, l, n)));
     If(n >= 0, Slice(l, n, Len(l)), Slice(l, 0, Len(l) + n))
 }
 
 First = (l) => {
-    raw = ConstructRaw(Hold(First), [l]);
-    If(!IsList(l), Return(raw));
+    If(!IsList(l), Return(Raw(First, l)));
     If(Len(l) > 0, l[0], Null)
 }
 
 Last = (l) => {
-    raw = ConstructRaw(Hold(Last), [l]);
-    If(!IsList(l), Return(raw));
+    If(!IsList(l), Return(Raw(Last, l)));
     If(Len(l) > 0, l[-1], Null)
 }
 
 Count = (l, elem) => {
-    raw = ConstructRaw(Hold(Count), [l, elem]);
-    If(!IsList(l), Return(raw));
+    If(!IsList(l), Return(Raw(Count, l, elem)));
     i = 0;
     For(e, l, If(e == elem, i = i + 1));
     i
 }
 
 Tally = (l) => {
-    raw = ConstructRaw(Hold(Tally), [l]);
-    If(!IsList(l), Return(raw));
+    If(!IsList(l), Return(Raw(Tally, l)));
     result = [];
     For(elem, l, {
         found = False;
@@ -129,9 +121,13 @@ Tally = (l) => {
     result
 }
 
-FoldScan = (f, l) => {
-    raw = ConstructRaw(Hold(FoldScan), [f, l]);
-    If(!IsList(l), Return(raw));
-    // TODO: Implement fold scan logic
-    raw
+FoldScan = (f, start, l) => {
+    If(!IsList(l), Return(Raw(FoldScan, f, start, l)));
+    result = [start];
+    acc = start;
+    For(i, l, {
+        acc = f(acc, i);
+        Append(result, acc)
+    });
+    result
 }

@@ -41,6 +41,7 @@
 - **`Tally(list)`** — Frequency count of elements, returning `[[element, count], ...]` pairs in first-occurrence order. Works with any element type including nested lists
 - **`Union(list1, list2, ...)`** — Set union across multiple lists, preserving first-occurrence order
 - **`Intersection(list1, list2, ...)`** — Set intersection across multiple lists
+- **`FoldScan(f, start, list)`** — Cumulative fold (scan) over a list, returning all intermediate accumulator values. `FoldScan(Add, 0, [1,2,3,4])` → `[0,1,3,6,10]`
 
 ### String Functions
 - **`StrHas(str, substring)`** — Tests whether a string contains a given substring. Case-sensitive

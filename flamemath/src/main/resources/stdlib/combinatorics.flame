@@ -1,27 +1,23 @@
 Catalan = (n) => {
-    raw = ConstructRaw(Hold(Catalan), [n]);
-    If(!IsInteger(n), Return(raw));
+    If(!IsInteger(n), Return(Raw(Catalan, n)));
     // TODO: Implement Catalan number logic
-    raw
+    Raw(Catalan, n)
 }
 
 StirlingS2 = (n, k) => {
-    raw = ConstructRaw(Hold(StirlingS2), [n, k]);
-    If(!(IsInteger(n) && IsInteger(k)), Return(raw));
+    If(!(IsInteger(n) && IsInteger(k)), Return(Raw(StirlingS2, n, k)));
     // TODO: Implement Stirling S2 logic
-    raw
+    Raw(StirlingS2, n, k)
 }
 
 IntegerPartitions = (n) => {
-    raw = ConstructRaw(Hold(IntegerPartitions), [n]);
-    If(!IsInteger(n), Return(raw));
+    If(!IsInteger(n), Return(Raw(IntegerPartitions, n)));
     // TODO: Implement integer partitions logic
-    raw
+    Raw(IntegerPartitions, n)
 }
 
 Compositions = (n, k) => {
-    raw = ConstructRaw(Hold(Compositions), [n, k]);
-    If(!(IsInteger(n) && IsInteger(k)), Return(raw));
+    If(!(IsInteger(n) && IsInteger(k)), Return(Raw(Compositions, n, k)));
     // TODO: Implement compositions logic
-    raw
+    Raw(Compositions, n, k)
 }

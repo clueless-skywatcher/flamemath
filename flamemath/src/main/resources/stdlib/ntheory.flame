@@ -6,64 +6,55 @@ WieferichPrime = (n) => {
 }
 
 PrimeFactors = (n) => {
-    raw = ConstructRaw(Hold(PrimeFactors), [n]);
-    If(!IsInteger(n), Return(raw));
+    If(!IsInteger(n), Return(Raw(PrimeFactors, n)));
     // TODO: Implement prime factorization logic
-    raw
+    Raw(PrimeFactors, n)
 }
 
 Divisors = (n) => {
-    raw = ConstructRaw(Hold(Divisors), [n]);
-    If(!IsInteger(n), Return(raw));
+    If(!IsInteger(n), Return(Raw(Divisors, n)));
     // TODO: Implement divisors logic
-    raw
+    Raw(Divisors, n)
 }
 
 EulerPhi = (n) => {
-    raw = ConstructRaw(Hold(EulerPhi), [n]);
-    If(!IsInteger(n), Return(raw));
+    If(!IsInteger(n), Return(Raw(EulerPhi, n)));
     // TODO: Implement Euler's totient logic
-    raw
+    Raw(EulerPhi, n)
 }
 
 NextPrime = (n) => {
-    raw = ConstructRaw(Hold(NextPrime), [n]);
-    If(!IsInteger(n), Return(raw));
+    If(!IsInteger(n), Return(Raw(NextPrime, n)));
     // TODO: Implement next prime logic
-    raw
+    Raw(NextPrime, n)
 }
 
 MoebiusMu = (n) => {
-    raw = ConstructRaw(Hold(MoebiusMu), [n]);
-    If(!IsInteger(n), Return(raw));
+    If(!IsInteger(n), Return(Raw(MoebiusMu, n)));
     // TODO: Implement Moebius function logic
-    raw
+    Raw(MoebiusMu, n)
 }
 
 DivisorSigma = (n, k) => {
-    raw = ConstructRaw(Hold(DivisorSigma), [n, k]);
-    If(!(IsInteger(n) && IsInteger(k)), Return(raw));
+    If(!(IsInteger(n) && IsInteger(k)), Return(Raw(DivisorSigma, n, k)));
     // TODO: Implement divisor sigma logic
-    raw
+    Raw(DivisorSigma, n, k)
 }
 
 ExtGCD = (a, b) => {
-    raw = ConstructRaw(Hold(ExtGCD), [a, b]);
-    If(!(IsInteger(a) && IsInteger(b)), Return(raw));
+    If(!(IsInteger(a) && IsInteger(b)), Return(Raw(ExtGCD, a, b)));
     // TODO: Implement extended GCD logic
-    raw
+    Raw(ExtGCD, a, b)
 }
 
 OrderMod = (a, n) => {
-    raw = ConstructRaw(Hold(OrderMod), [a, n]);
-    If(!(IsInteger(a) && IsInteger(n)), Return(raw));
+    If(!(IsInteger(a) && IsInteger(n)), Return(Raw(OrderMod, a, n)));
     // TODO: Implement multiplicative order logic
-    raw
+    Raw(OrderMod, a, n)
 }
 
 ChineseRemainder = (remainders, moduli) => {
-    raw = ConstructRaw(Hold(ChineseRemainder), [remainders, moduli]);
-    If(!(IsList(remainders) && IsList(moduli)), Return(raw));
+    If(!(IsList(remainders) && IsList(moduli)), Return(Raw(ChineseRemainder, remainders, moduli)));
     // TODO: Implement CRT logic
-    raw
+    Raw(ChineseRemainder, remainders, moduli)
 }
