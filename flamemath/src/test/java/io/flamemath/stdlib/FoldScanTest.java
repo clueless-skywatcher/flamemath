@@ -28,6 +28,11 @@ class FoldScanTest {
         fm.assertExec("[0, 5]", "FoldScan((acc, x) => acc + x, 0, [5])");
     }
 
+    @Test
+    void foldScanSymbolicAdd() throws Exception {
+        fm.assertExec("[0, a, a + b, a + b + c, a + b + c + d]", "FoldScan(Add, 0, [a, b, c, d])");
+    }
+
     // @Test
     // void foldScanMax() throws Exception {
     //     fm.assertExec("[0, 3, 3, 5, 5, 5]", "FoldScan((acc, x) => If(x > acc, x, acc), 0, [3, 1, 5, 2, 4])");

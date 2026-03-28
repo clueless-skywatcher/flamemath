@@ -47,6 +47,10 @@
 - **`StrHas(str, substring)`** — Tests whether a string contains a given substring. Case-sensitive
 - **`StrReplace(str, target, replacement)`** — Replaces all occurrences of a substring with a replacement string
 
+## Bug Fixes
+
+- **Flat functions not flattened when called via symbol alias** — Built-in functions with the `isFlat` attribute (e.g., `Add`, `Mul`) were not being flattened when invoked indirectly through a symbol reference (e.g., passing `Add` to `FoldScan`). This caused incorrect canonical ordering in the result, such as `FoldScan(Add, 0, [a, b, c, d])` producing `c + a + b` instead of `a + b + c`
+
 ## Improvements
 
 - **`Zip()` generalized** — Now accepts any number of lists (variadic), not just two. `Zip([1,2], [3,4], [5,6])` → `[[1,3,5], [2,4,5]]`
