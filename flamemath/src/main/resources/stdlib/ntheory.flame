@@ -5,12 +5,6 @@ WieferichPrime = (n) => {
     })
 }
 
-PrimeFactors = (n) => {
-    If(!IsInteger(n), Return(Raw(PrimeFactors, n)));
-    // TODO: Implement prime factorization logic
-    Raw(PrimeFactors, n)
-}
-
 Divisors = (n) => {
     If(!IsInteger(n), Return(Raw(Divisors, n)));
     // TODO: Implement divisors logic

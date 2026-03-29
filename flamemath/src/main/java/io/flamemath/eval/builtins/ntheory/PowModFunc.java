@@ -1,6 +1,5 @@
 package io.flamemath.eval.builtins.ntheory;
 
-import java.math.BigInteger;
 import java.util.List;
 
 import io.flamemath.eval.FlameFunction;
@@ -8,6 +7,7 @@ import io.flamemath.eval.FlameValuator;
 import io.flamemath.exceptions.FlameArityException;
 import io.flamemath.expr.Expr;
 import io.flamemath.expr.IntegerAtom;
+import io.flamemath.internal.FlameInt;
 
 public class PowModFunc implements FlameFunction {
 
@@ -28,17 +28,14 @@ public class PowModFunc implements FlameFunction {
             }
         }
 
-        long base = ((IntegerAtom) args.get(0)).value().toLong();
-        long exp = ((IntegerAtom) args.get(1)).value().toLong();
-        long mod = ((IntegerAtom) args.get(2)).value().toLong();
+        FlameInt base = ((IntegerAtom) args.get(0)).value();
+        FlameInt exp = ((IntegerAtom) args.get(1)).value();
+        FlameInt mod = ((IntegerAtom) args.get(2)).value();
 
-        if (mod == 0) {
+        if (mod.isZero()) {
             throw new ArithmeticException("Modulus cannot be zero");
         }
 
-        BigInteger result = BigInteger.valueOf(base)
-            .modPow(BigInteger.valueOf(exp), BigInteger.valueOf(mod).abs());
-
-        return new IntegerAtom(result.longValue());
+        return new IntegerAtom(base.modPow(exp, mod));
     }
 }
