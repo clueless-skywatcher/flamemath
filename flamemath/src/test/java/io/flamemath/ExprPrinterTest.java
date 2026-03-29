@@ -269,6 +269,45 @@ class ExprPrinterTest {
                         new ListExpr(List.of(new IntegerAtom(3), new IntegerAtom(4))))));
     }
 
+    // --- Square root (√) display ---
+
+    @Test
+    void sqrtOfInteger() {
+        // Pow(2, (1/2)) → √2
+        assertEquals("√2",
+                print(c("Pow", new IntegerAtom(2),
+                        new RationalAtom(IntegerAtom.ONE, new IntegerAtom(2)))));
+    }
+
+    @Test
+    void sqrtOfSymbol() {
+        // Sqrt(x) → √x
+        assertEquals("√x", print(c("Sqrt", new Symbol("x"))));
+    }
+
+    @Test
+    void sqrtOfCompoundExpr() {
+        // Sqrt(Pow(x, 2)) → √(x^2)
+        assertEquals("√(x^2)",
+                print(c("Sqrt", c("Pow", new Symbol("x"), new IntegerAtom(2)))));
+    }
+
+    @Test
+    void sqrtInProduct() {
+        // Mul(2, Pow(3, (1/2))) → 2*√3
+        assertEquals("2*√3",
+                print(c("Mul", new IntegerAtom(2),
+                        c("Pow", new IntegerAtom(3),
+                                new RationalAtom(IntegerAtom.ONE, new IntegerAtom(2))))));
+    }
+
+    @Test
+    void sqrtOfProductExpr() {
+        // Sqrt(Mul(2, x)) → √(2*x)
+        assertEquals("√(2*x)",
+                print(c("Sqrt", c("Mul", new IntegerAtom(2), new Symbol("x")))));
+    }
+
     // --- Complex combinations ---
 
     @Test

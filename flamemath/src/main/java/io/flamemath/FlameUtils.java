@@ -58,6 +58,22 @@ public class FlameUtils {
         return isPerfectSquare((double) value);
     }
 
+    /**
+     * Extracts the largest perfect-square factor from a positive integer.
+     * Returns {root, remainder} where value = root² × remainder and remainder is square-free.
+     */
+    public static long[] extractSquareRoot(long value) {
+        long remainder = value;
+        long root = 1;
+        for (long i = 2; i * i <= remainder; i++) {
+            while (remainder % (i * i) == 0) {
+                remainder /= (i * i);
+                root *= i;
+            }
+        }
+        return new long[]{root, remainder};
+    }
+
     public static long gcd(long a, long b) {
         a = Math.abs(a);
         b = Math.abs(b);

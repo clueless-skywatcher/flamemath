@@ -17,6 +17,8 @@ public class ListRegistry  {
         registry.register(new SortFunc());
         registry.register(new SliceFunc());
         registry.register(new JoinFunc());
+        registry.register(new UnionFunc());
+        registry.register(new IntersectionFunc());
 
         return registry;
     }

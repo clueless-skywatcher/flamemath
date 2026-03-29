@@ -1,6 +1,6 @@
 # Sqrt
 
-Computes the square root of an expression. Returns exact integers for perfect squares, symbolic `Pow(n, (1/2))` for non-perfect-square integers, and numeric results for reals.
+Computes the square root of an expression. Returns exact integers for perfect squares, extracts perfect-square factors from non-perfect-square integers and products, and returns numeric results for reals. All results display using the `√` symbol.
 
 ## Syntax
 ```
@@ -14,9 +14,11 @@ Sqrt(x)
 
 ## Returns
 - An `IntegerAtom` for perfect square integers (e.g., `Sqrt(4)` returns `2`)
-- A symbolic `Pow(n, (1/2))` for non-perfect-square integers (e.g., `Sqrt(2)` returns `Pow(2, (1/2))`)
+- A simplified radical for non-perfect-square integers with a perfect-square factor (e.g., `Sqrt(12)` returns `2*√3`)
+- A symbolic `√n` for square-free integers (e.g., `Sqrt(2)` returns `√2`)
+- A simplified product for products with numeric perfect-square factors (e.g., `Sqrt(4*x^2)` returns `2*√(x^2)`)
 - A `RealAtom` for real arguments (e.g., `Sqrt(2.0)` returns `1.4142...`)
-- An unevaluated `Sqrt(x)` for symbolic arguments
+- An unevaluated `√x` for symbolic arguments
 
 ## Examples
 
@@ -30,12 +32,34 @@ Flame> Sqrt(100)
 10
 ```
 
-Non-perfect squares (symbolic):
+Non-perfect squares with perfect-square factors:
+```
+Flame> Sqrt(8)
+2*√2
+Flame> Sqrt(12)
+2*√3
+Flame> Sqrt(18)
+3*√2
+Flame> Sqrt(72)
+6*√2
+```
+
+Square-free integers (symbolic):
 ```
 Flame> Sqrt(2)
-Pow(2, (1/2))
+√2
 Flame> Sqrt(3)
-Pow(3, (1/2))
+√3
+```
+
+Extracting numeric factors from products:
+```
+Flame> Sqrt(4 * x^2)
+2*√(x^2)
+Flame> Sqrt(9 * x)
+3*√x
+Flame> Sqrt(8 * x)
+2*√(2*x)
 ```
 
 Symbolic square roots cancel via power grouping:
@@ -55,12 +79,13 @@ Flame> Sqrt(2.0)
 Symbolic (unevaluated):
 ```
 Flame> Sqrt(x)
-Sqrt(x)
+√x
 ```
 
 ## Notes
-- Internally delegates to `Pow(x, (1/2))` for integer and rational arguments
-- Perfect square detection uses `PowFunc` — `Pow(n, (1/2))` returns the integer root when `n` is a perfect square
+- Perfect-square factor extraction uses trial division to find the largest `k` such that `k²` divides the integer argument
+- For products (`Mul`), only numeric integer factors are extracted; symbolic factors like `x^2` remain under the radical
+- This matches the conservative approach used by Mathematica — `Sqrt(x^2)` does **not** simplify to `x` because that would be incorrect for negative `x` (since `√(x²) = |x|`)
 - Use `Num(Sqrt(2))` to get the numeric approximation
 
 ## Errors

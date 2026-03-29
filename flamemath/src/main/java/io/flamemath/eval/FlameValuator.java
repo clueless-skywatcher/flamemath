@@ -125,6 +125,9 @@ public class FlameValuator {
                     throw new FlameArityException(comp.head(), -1, evaluatedArgs.size());
                 } else if (value instanceof Symbol s && registry.has(s.name())) {
                     FlameFunction fn = registry.lookup(s.name()).get();
+                    if (fn.isFlat()) {
+                        evaluatedArgs = flattenChildren(s.name(), evaluatedArgs);
+                    }
                     return fn.apply(evaluatedArgs, this);
                 }
             }

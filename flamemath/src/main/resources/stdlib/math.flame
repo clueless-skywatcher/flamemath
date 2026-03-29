@@ -56,7 +56,7 @@ Binomial = (n, k) => {
 }
 
 Multinomial = (n, ...k) => {
-    raw = ConstructRaw(Hold(Multinomial), Join([n], k));
+    raw = Apply(Raw, Join([Hold(Multinomial), n], k));
     If(!IsInteger(n) || !Fold((a, b) => a && IsInteger(b), True, k),
         Return(raw)
     );
@@ -65,8 +65,7 @@ Multinomial = (n, ...k) => {
 }
 
 Sign = (n) => {
-    raw = ConstructRaw(Hold(Sign), [n]);
-    If(!IsInteger(n), Return(raw), 
+    If(!IsInteger(n), Return(Raw(Sign, n)),
         If(n < 0, 
             -1, 
             If(n > 0, 1, 0)
@@ -75,9 +74,14 @@ Sign = (n) => {
 }   
 
 Clamp = (n, low, hi) => {
-    raw = ConstructRaw(Hold(Clamp), [n, low, hi]);
-    If(!(IsNumeric(n) && IsNumeric(low) && IsNumeric(hi)), Return(raw));
+    If(!(IsNumeric(n) && IsNumeric(low) && IsNumeric(hi)), Return(Raw(Clamp, n, low, hi)));
     If(n >= hi, Return(hi));
     If(n <= low, Return(low));
     n
+}
+
+Linspace = (a, b, n) => {
+    If(!(IsNumeric(a) && IsNumeric(b) && IsInteger(n)), Return(Raw(Linspace, a, b, n)));
+    // TODO: Implement linspace logic
+    Raw(Linspace, a, b, n)
 }

@@ -1,0 +1,23 @@
+Catalan = (n) => {
+    If(!IsInteger(n), Return(Raw(Catalan, n)));
+    // TODO: Implement Catalan number logic
+    Raw(Catalan, n)
+}
+
+StirlingS2 = (n, k) => {
+    If(!(IsInteger(n) && IsInteger(k)), Return(Raw(StirlingS2, n, k)));
+    // TODO: Implement Stirling S2 logic
+    Raw(StirlingS2, n, k)
+}
+
+IntegerPartitions = (n) => {
+    If(!IsInteger(n), Return(Raw(IntegerPartitions, n)));
+    // TODO: Implement integer partitions logic
+    Raw(IntegerPartitions, n)
+}
+
+Compositions = (n, k) => {
+    If(!(IsInteger(n) && IsInteger(k)), Return(Raw(Compositions, n, k)));
+    // TODO: Implement compositions logic
+    Raw(Compositions, n, k)
+}

@@ -1,6 +1,60 @@
 WieferichPrime = (n) => {
-    If(!IsInteger(n), Return(Raw(Wieferich, n)));
+    If(!IsInteger(n), Return(Raw(WieferichPrime, n)));
     For(p, Range(2, n + 1), {
         If(IsPrime(p) && PowMod(2, p - 1, p^2) == 1, Return(p))
     })
+}
+
+PrimeFactors = (n) => {
+    If(!IsInteger(n), Return(Raw(PrimeFactors, n)));
+    // TODO: Implement prime factorization logic
+    Raw(PrimeFactors, n)
+}
+
+Divisors = (n) => {
+    If(!IsInteger(n), Return(Raw(Divisors, n)));
+    // TODO: Implement divisors logic
+    Raw(Divisors, n)
+}
+
+EulerPhi = (n) => {
+    If(!IsInteger(n), Return(Raw(EulerPhi, n)));
+    // TODO: Implement Euler's totient logic
+    Raw(EulerPhi, n)
+}
+
+NextPrime = (n) => {
+    If(!IsInteger(n), Return(Raw(NextPrime, n)));
+    // TODO: Implement next prime logic
+    Raw(NextPrime, n)
+}
+
+MoebiusMu = (n) => {
+    If(!IsInteger(n), Return(Raw(MoebiusMu, n)));
+    // TODO: Implement Moebius function logic
+    Raw(MoebiusMu, n)
+}
+
+DivisorSigma = (n, k) => {
+    If(!(IsInteger(n) && IsInteger(k)), Return(Raw(DivisorSigma, n, k)));
+    // TODO: Implement divisor sigma logic
+    Raw(DivisorSigma, n, k)
+}
+
+ExtGCD = (a, b) => {
+    If(!(IsInteger(a) && IsInteger(b)), Return(Raw(ExtGCD, a, b)));
+    // TODO: Implement extended GCD logic
+    Raw(ExtGCD, a, b)
+}
+
+OrderMod = (a, n) => {
+    If(!(IsInteger(a) && IsInteger(n)), Return(Raw(OrderMod, a, n)));
+    // TODO: Implement multiplicative order logic
+    Raw(OrderMod, a, n)
+}
+
+ChineseRemainder = (remainders, moduli) => {
+    If(!(IsList(remainders) && IsList(moduli)), Return(Raw(ChineseRemainder, remainders, moduli)));
+    // TODO: Implement CRT logic
+    Raw(ChineseRemainder, remainders, moduli)
 }
