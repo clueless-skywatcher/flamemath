@@ -102,6 +102,55 @@ class SqrtFuncTest {
         fm.assertExec("Pow(10, (1/2))", "Sqrt(10)");
     }
 
+    // --- Non-perfect squares with perfect-square factors → extract ---
+
+    @Test
+    void sqrtEight() throws Exception {
+        fm.assertExec("Mul(2, Pow(2, (1/2)))", "Sqrt(8)");
+    }
+
+    @Test
+    void sqrtTwelve() throws Exception {
+        fm.assertExec("Mul(2, Pow(3, (1/2)))", "Sqrt(12)");
+    }
+
+    @Test
+    void sqrtEighteen() throws Exception {
+        fm.assertExec("Mul(3, Pow(2, (1/2)))", "Sqrt(18)");
+    }
+
+    @Test
+    void sqrtFortyFive() throws Exception {
+        fm.assertExec("Mul(3, Pow(5, (1/2)))", "Sqrt(45)");
+    }
+
+    @Test
+    void sqrtSeventyTwo() throws Exception {
+        fm.assertExec("Mul(6, Pow(2, (1/2)))", "Sqrt(72)");
+    }
+
+    // --- Sqrt of product → extract numeric perfect-square factors ---
+
+    @Test
+    void sqrtFourTimesX() throws Exception {
+        fm.assertExec("Mul(2, Sqrt(x))", "Sqrt(4 * x)");
+    }
+
+    @Test
+    void sqrtNineTimesX() throws Exception {
+        fm.assertExec("Mul(3, Sqrt(x))", "Sqrt(9 * x)");
+    }
+
+    @Test
+    void sqrtFourTimesXSquared() throws Exception {
+        fm.assertExec("Mul(2, Sqrt(Pow(x, 2)))", "Sqrt(4 * x^2)");
+    }
+
+    @Test
+    void sqrtEightTimesX() throws Exception {
+        fm.assertExec("Mul(2, Sqrt(Mul(2, x)))", "Sqrt(8 * x)");
+    }
+
     // --- Sqrt(n) * Sqrt(n) → n (via power grouping) ---
 
     @Test

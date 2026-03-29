@@ -13,6 +13,7 @@ import io.flamemath.expr.BooleanAtom;
 import io.flamemath.expr.Compound;
 import io.flamemath.expr.Expr;
 import io.flamemath.expr.IntegerAtom;
+import io.flamemath.expr.RationalAtom;
 import io.flamemath.internal.FlameInt;
 import io.flamemath.expr.ListExpr;
 import io.flamemath.expr.Flambda;
@@ -96,6 +97,14 @@ public class ExprPrinter {
             case Compound(String head, List<Expr> children): {
                 if (head.equals("Seq") && children.stream().allMatch(c -> c instanceof Flambda)) {
                     return "Lambda<" + children.size() + " clauses>";
+                }
+                // Sqrt(...) → √(...)
+                if (head.equals("Sqrt") && children.size() == 1) {
+                    return printSqrt(children.get(0));
+                }
+                // Pow(x, (1/2)) → √x
+                if (head.equals("Pow") && children.size() == 2 && isRationalHalf(children.get(1))) {
+                    return printSqrt(children.get(0));
                 }
                 if (INFIX_SYMBOL.containsKey(head)) {
                     return printInfix(head, children, outerPrecedence);
@@ -204,5 +213,20 @@ public class ExprPrinter {
             return "-" + print(c.children().get(1), mulPrec);
         }
         return print(expr, mulPrec);
+    }
+
+    private static boolean isRationalHalf(Expr expr) {
+        return expr instanceof RationalAtom r
+                && r.num() instanceof IntegerAtom rn && rn.value().isOne()
+                && r.denom() instanceof IntegerAtom rd && rd.value().equals(new FlameInt(2));
+    }
+
+    private static String printSqrt(Expr arg) {
+        // Simple atoms don't need parens: √2, √x
+        if (arg.isAtomic()) {
+            return "√" + print(arg, HIGHEST_PRECEDENCE);
+        }
+        // Compound expressions need parens: √(x^2), √(2*x)
+        return "√(" + print(arg, 0) + ")";
     }
 }

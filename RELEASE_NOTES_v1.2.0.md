@@ -15,6 +15,7 @@
 - **`Binomial(n, k)`** — Binomial coefficient using a multiplicative formula (avoids full factorials)
 - **`Multinomial(n, k1, k2, ...)`** — Multinomial coefficient
 - **`WieferichPrime(n)`** — Finds the smallest Wieferich prime up to n
+- **`Prime(n)`** — Returns the n-th prime number using Meissel-Lehmer prime counting with binary search for large n, sieve for small n. `Prime(4)` → `7`
 
 ### Inverse Trigonometric Functions
 - **`ArcSin(x)`** — Inverse sine with exact symbolic values for well-known angles (0, Pi/6, Pi/4, Pi/3, Pi/2)
@@ -53,6 +54,8 @@
 
 ## Improvements
 
+- **`Sqrt()` simplifies radicals** — `Sqrt` now extracts the largest perfect-square factor from integer arguments and numeric factors in products. `Sqrt(12)` → `2*√3`, `Sqrt(4*x^2)` → `2*√(x^2)`. Symbolic parts are left under the radical (no assumptions about variable signs)
+- **Square root display** — `Pow(n, (1/2))` and `Sqrt(...)` expressions now render with the `√` symbol instead of function-call notation
 - **`Zip()` generalized** — Now accepts any number of lists (variadic), not just two. `Zip([1,2], [3,4], [5,6])` → `[[1,3,5], [2,4,5]]`
 - **`Zip()` bug fix** — Fixed incorrect element indexing in the inner loop
 - **Documentation reorganized** — Function reference docs are now organized into category subfolders (math, list, ntheory, general, etc.)
@@ -76,4 +79,5 @@
 
 ## Internal
 - Number theory utilities (`PrimeSieve`, `NumberTheoryUtils`) added as shared infrastructure
+- `PrimeSieve` now supports Meissel-Lehmer π(x) computation, cached prime list, and prefix count array for O(1) lookups
 - Function references compartmentalized into separate folders by category

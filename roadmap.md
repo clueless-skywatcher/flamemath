@@ -60,13 +60,14 @@
 
 | # | Feature | Description | Type | Status |
 |---|---------|-------------|------|--------|
-| 25 | `EulerPhi` | `EulerPhi(12)` → `4` — Euler's totient function | FlameLang | |
-| 26 | `NextPrime` | `NextPrime(10)` → `11` — smallest prime greater than n | FlameLang | |
-| 27 | `MoebiusMu` | `MoebiusMu(30)` → `-1` — Möbius function: 0 if n has squared factor, (-1)^k if n is product of k distinct primes | FlameLang | |
-| 28 | `DivisorSigma` | `DivisorSigma(12, 1)` → `28` — sum of k-th powers of divisors of n | FlameLang | |
-| 29 | `ExtGCD` | `ExtGCD(35, 15)` → `[5, 1, -2]` — extended GCD returning [gcd, s, t] such that s·a + t·b = gcd | FlameLang | |
-| 30 | `OrderMod` | `OrderMod(2, 7)` → `3` — multiplicative order of a modulo n | FlameLang | |
-| 31 | `ChineseRemainder` | `ChineseRemainder([2, 3], [3, 5])` → `8` — solves system of congruences via CRT | FlameLang | |
+| 25 | `Prime` | `Prime(4)` → `7` — n-th prime. Small n uses sieve; large n uses Meissel-Lehmer π(x) + binary search | Java | In Progress |
+| 26 | `EulerPhi` | `EulerPhi(12)` → `4` — Euler's totient function | FlameLang | |
+| 27 | `NextPrime` | `NextPrime(10)` → `11` — smallest prime greater than n | FlameLang | |
+| 28 | `MoebiusMu` | `MoebiusMu(30)` → `-1` — Möbius function: 0 if n has squared factor, (-1)^k if n is product of k distinct primes | FlameLang | |
+| 29 | `DivisorSigma` | `DivisorSigma(12, 1)` → `28` — sum of k-th powers of divisors of n | FlameLang | |
+| 30 | `ExtGCD` | `ExtGCD(35, 15)` → `[5, 1, -2]` — extended GCD returning [gcd, s, t] such that s·a + t·b = gcd | FlameLang | |
+| 31 | `OrderMod` | `OrderMod(2, 7)` → `3` — multiplicative order of a modulo n | FlameLang | |
+| 32 | `ChineseRemainder` | `ChineseRemainder([2, 3], [3, 5])` → `8` — solves system of congruences via CRT | FlameLang | |
 
 ### Phase 8 — Combinatorics
 
