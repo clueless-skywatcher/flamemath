@@ -7,8 +7,23 @@ WieferichPrime = (n) => {
 
 Divisors = (n) => {
     If(!IsInteger(n), Return(Raw(Divisors, n)));
-    // TODO: Implement divisors logic
-    Raw(Divisors, n)
+    If(n == 0, Return(Raw(Divisors, n)));
+    n = Abs(n);
+    result = [1];
+    primeFactors = PrimeFactors(n);
+    For(prime, Keys(primeFactors), {
+        e = Lookup(primeFactors, prime);
+        current = [];
+        power = 1;
+        For(i, Range(1, e + 1), {
+            power = power * prime;
+            For(d, result, {
+                Append(current, d * power)
+            })
+        });
+        result = Join(result, current)
+    });
+    Sort(result)
 }
 
 EulerPhi = (n) => {
