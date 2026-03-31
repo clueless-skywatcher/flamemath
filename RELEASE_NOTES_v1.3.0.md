@@ -5,6 +5,7 @@
 ### Number Theory
 - **`PrimeFactors(n)`** — Integer factorization returning a dictionary of prime -> exponent pairs. `PrimeFactors(360)` -> `{2: 3, 3: 2, 5: 1}`. Uses trial division for small factors, Pollard's rho for large factors, with Miller-Rabin primality testing. Supports arbitrary-precision integers.
 - **`Divisors(n)`** — Returns a sorted list of all positive divisors of `n`. `Divisors(12)` -> `[1, 2, 3, 4, 6, 12]`. Generates divisors from the prime factorization via `PrimeFactors`.
+- **`EulerPhi(n)`** — Euler's totient function. Returns the count of integers in `[1, n]` coprime to `n`. `EulerPhi(12)` -> `4`. Computed via the product formula using `PrimeFactors`.
 
 ### Dictionary Operations
 - **`LookupDefault(d, key, default)`** — Look up a key in a dictionary, returning a default value if the key is not present

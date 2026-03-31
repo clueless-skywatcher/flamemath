@@ -27,9 +27,14 @@ Divisors = (n) => {
 }
 
 EulerPhi = (n) => {
-    If(!IsInteger(n), Return(Raw(EulerPhi, n)));
-    // TODO: Implement Euler's totient logic
-    Raw(EulerPhi, n)
+    raw = Raw(EulerPhi, n);
+    If(!IsInteger(n), Return(raw));
+    If(n <= 0, Return(raw));
+    result = 1;
+    For(p, Keys(PrimeFactors(n)), {
+        result = result * (1 - (1 / p))
+    });
+    n * result
 }
 
 NextPrime = (n) => {

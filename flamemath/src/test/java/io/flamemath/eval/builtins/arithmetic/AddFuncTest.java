@@ -188,4 +188,61 @@ class AddFuncTest {
         fm.assertExec("3.5*x", "1.5*x + 2*x");
     }
 
+    // --- Rational addition ---
+
+    @Test
+    void twoRationals() throws Exception {
+        fm.assertExec("(5/6)", "1/2 + 1/3");
+    }
+
+    @Test
+    void rationalPlusInteger() throws Exception {
+        fm.assertExec("(3/2)", "1/2 + 1");
+    }
+
+    @Test
+    void integerPlusRational() throws Exception {
+        fm.assertExec("(3/2)", "1 + 1/2");
+    }
+
+    @Test
+    void rationalReducesToInteger() throws Exception {
+        fm.assertExec("1", "1/3 + 2/3");
+    }
+
+    @Test
+    void rationalCancellationToZero() throws Exception {
+        fm.assertExec("0", "1/3 + (-1)/3");
+    }
+
+    @Test
+    void rationalCoefficientMerging() throws Exception {
+        fm.assertExec("(5/6)*x", "1/2 * x + 1/3 * x");
+    }
+
+    @Test
+    void rationalCoefficientsMergeToOne() throws Exception {
+        fm.assertExec("x", "1/3 * x + 2/3 * x");
+    }
+
+    @Test
+    void rationalPlusSymbol() throws Exception {
+        fm.assertExec("Add((1/2), x)", "1/2 + x");
+    }
+
+    @Test
+    void multipleRationals() throws Exception {
+        fm.assertExec("1", "1/4 + 1/4 + 1/4 + 1/4");
+    }
+
+    @Test
+    void rationalPlusIntegerPlusSymbol() throws Exception {
+        fm.assertExec("Add((3/2), x)", "1/2 + 1 + x");
+    }
+
+    @Test
+    void mixedRationalAndRealFallsBackToDouble() throws Exception {
+        fm.assertExec("1.5", "1/2 + 1.0");
+    }
+
 }
