@@ -37,16 +37,54 @@ EulerPhi = (n) => {
     n * result
 }
 
+KroneckerDelta = (i, j) => {
+    If(!(IsInteger(i) && IsInteger(j)), Return(Raw(KroneckerDelta, i, j)));
+    If(i == j, 1, 0)
+}
+
 NextPrime = (n) => {
     If(!IsInteger(n), Return(Raw(NextPrime, n)));
-    // TODO: Implement next prime logic
-    Raw(NextPrime, n)
+    While(True, {
+        n = n + 1;
+        If(IsPrime(n), Return(n))
+    })
+}
+
+LiouvilleLambda = (n) => {
+    raw = Raw(LiouvilleLambda, n);
+    If(!IsInteger(n), Return(raw));
+    If(n <= 0, Return(raw));
+
+    (-1)^(Sum(Values(PrimeFactors(n))))
+}
+
+PrimeBigW = (n) => {
+    raw = Raw(PrimeBigW, n);
+    If(!IsInteger(n), Return(raw));
+    If(n <= 0, Return(raw));
+
+    Sum(Values(PrimeFactors(n)))
+}
+
+PrimeLittleW = (n) => {
+    raw = Raw(PrimeLittleW, n);
+    If(!IsInteger(n), Return(raw));
+    If(n <= 0, Return(raw));
+
+    Len(Keys(PrimeFactors(n)))
 }
 
 MoebiusMu = (n) => {
-    If(!IsInteger(n), Return(Raw(MoebiusMu, n)));
-    // TODO: Implement Moebius function logic
-    Raw(MoebiusMu, n)
+    raw = Raw(MoebiusMu, n);
+    If(!IsInteger(n), Return(raw));
+    If(n <= 0, Return(raw));
+    If(n == 1, Return(1));
+
+    factors = PrimeFactors(n);
+    primeLittleW = Len(Keys(factors));
+    primeBigW = Sum(Values(factors));
+
+    KroneckerDelta(primeBigW, primeLittleW) * (-1)^primeBigW
 }
 
 DivisorSigma = (n, k) => {

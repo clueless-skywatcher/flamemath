@@ -6,6 +6,12 @@
 - **`PrimeFactors(n)`** — Integer factorization returning a dictionary of prime -> exponent pairs. `PrimeFactors(360)` -> `{2: 3, 3: 2, 5: 1}`. Uses trial division for small factors, Pollard's rho for large factors, with Miller-Rabin primality testing. Supports arbitrary-precision integers.
 - **`Divisors(n)`** — Returns a sorted list of all positive divisors of `n`. `Divisors(12)` -> `[1, 2, 3, 4, 6, 12]`. Generates divisors from the prime factorization via `PrimeFactors`.
 - **`EulerPhi(n)`** — Euler's totient function. Returns the count of integers in `[1, n]` coprime to `n`. `EulerPhi(12)` -> `4`. Computed via the product formula using `PrimeFactors`.
+- **`NextPrime(n)`** — Returns the smallest prime strictly greater than `n`. `NextPrime(10)` -> `11`. Searches sequentially using `IsPrime`.
+- **`MoebiusMu(n)`** — Mobius function. Returns 0 if `n` has a squared prime factor, `(-1)^k` if `n` is a product of `k` distinct primes. `MoebiusMu(30)` -> `-1`. Uses a single `PrimeFactors` call.
+- **`LiouvilleLambda(n)`** — Liouville function `λ(n) = (-1)^Ω(n)`. `LiouvilleLambda(12)` -> `-1`.
+- **`PrimeBigW(n)`** — Number of prime factors of `n` counted with multiplicity (`Ω(n)`). `PrimeBigW(12)` -> `3`.
+- **`PrimeLittleW(n)`** — Number of distinct prime factors of `n` (`ω(n)`). `PrimeLittleW(12)` -> `2`.
+- **`KroneckerDelta(i, j)`** — Returns 1 if `i == j`, 0 otherwise.
 
 ### Dictionary Operations
 - **`LookupDefault(d, key, default)`** — Look up a key in a dictionary, returning a default value if the key is not present

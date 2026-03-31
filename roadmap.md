@@ -9,7 +9,7 @@
 | 1 | `PrimeFactors` | `PrimeFactors(60)` → `[2, 2, 3, 5]` | FlameLang | Done |
 | 2 | `Divisors` | `Divisors(12)` → `[1, 2, 3, 4, 6, 12]` | FlameLang | Done |
 | 3 | `EulerPhi` | `EulerPhi(12)` → `4` — Euler's totient function | FlameLang | Done |
-| 4 | `MoebiusMu` | `MoebiusMu(30)` → `-1` — Mobius function: 0 if n has squared factor, (-1)^k if n is product of k distinct primes | FlameLang | |
+| 4 | `MoebiusMu` | `MoebiusMu(30)` → `-1` — Mobius function: 0 if n has squared factor, (-1)^k if n is product of k distinct primes | FlameLang | Done |
 | 5 | `DivisorSigma` | `DivisorSigma(12, 1)` → `28` — sum of k-th powers of divisors of n | FlameLang | |
 
 ### Phase 2 — Modular Arithmetic
@@ -24,7 +24,7 @@
 
 | # | Feature | Description | Type | Status |
 |---|---------|-------------|------|--------|
-| 9 | `NextPrime` | `NextPrime(10)` → `11` — smallest prime greater than n | FlameLang | |
+| 9 | `NextPrime` | `NextPrime(10)` → `11` — smallest prime greater than n | FlameLang | Done |
 
 ### Phase 4 — Combinatorics
 
