@@ -93,10 +93,59 @@ DivisorSigma = (n, k) => {
     Sum(Map((i) => i^k, Divisors(n)))
 }
 
-ExtGCD = (a, b) => {
-    If(!(IsInteger(a) && IsInteger(b)), Return(Raw(ExtGCD, a, b)));
-    // TODO: Implement extended GCD logic
-    Raw(ExtGCD, a, b)
+ExtGCD = (...args) => {
+    extGCDPairWise = (a, b) => {
+        oldR = a;
+        r = b;
+
+        oldX = 1;
+        x = 0;
+
+        oldY = 0;
+        y = 1;
+
+        While(r != 0, {
+            q = Sign(oldR) * Sign(r) * Floor(Abs(oldR) / Abs(r));
+            
+            temp = oldR;
+            oldR = r;
+            r = temp - q * r;
+
+            temp = oldX;
+            oldX = x;
+            x = temp - q * x;
+
+            temp = oldY;
+            oldY = y;
+            y = temp - q * y
+        });
+
+        [oldR, oldX, oldY]
+    };
+
+    raw = Raw(ExtGCD, args);
+    For(arg, args, {
+        If(!IsInteger(arg), Return(raw))
+    });
+
+    g = args[0];
+    coeffs = [1];
+
+    For(i, Range(1, Len(args)), {
+        extGCD = extGCDPairWise(g, args[i]);
+        g = extGCD[0];
+        s = extGCD[1];
+        t = extGCD[2];
+        coeffs = Map((c) => s * c, coeffs);
+        Append(coeffs, t)
+    });
+
+    If(g < 0, {
+        g = -g;
+        coeffs = Map((c) => -c, coeffs)
+    });
+
+    [g, coeffs]
 }
 
 OrderMod = (a, n) => {

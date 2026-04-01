@@ -13,6 +13,7 @@
 - **`PrimeLittleW(n)`** — Number of distinct prime factors of `n` (`ω(n)`). `PrimeLittleW(12)` -> `2`.
 - **`DivisorSigma(n, k)`** — Sum of k-th powers of divisors of `n`. `DivisorSigma(12, 1)` -> `28`. σ_0 counts divisors, σ_1 is the classical sum-of-divisors. Uses `Divisors` and `Map`.
 - **`KroneckerDelta(i, j)`** — Returns 1 if `i == j`, 0 otherwise.
+- **`ExtGCD(a, b, ...)`** — Extended Euclidean algorithm. Returns `[gcd, [c1, c2, ...]]` where the Bezout coefficients satisfy `c1*a + c2*b + ... = gcd`. Supports any number of integer arguments (minimum 2). Chains pairwise extended GCD across all arguments. `ExtGCD(6, 15, 30)` -> `[3, [-2, 1, 0]]`.
 
 ### Dictionary Operations
 - **`LookupDefault(d, key, default)`** — Look up a key in a dictionary, returning a default value if the key is not present

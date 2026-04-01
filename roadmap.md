@@ -16,7 +16,7 @@
 
 | # | Feature | Description | Type | Status |
 |---|---------|-------------|------|--------|
-| 6 | `ExtGCD` | `ExtGCD(35, 15)` → `[5, 1, -2]` — extended GCD returning [gcd, s, t] such that s*a + t*b = gcd | FlameLang | |
+| 6 | `ExtGCD` | `ExtGCD(35, 15)` → `[5, [1, -2]]` — extended GCD returning [gcd, [c1, c2, ...]] such that c1*a + c2*b + ... = gcd | FlameLang | Done |
 | 7 | `OrderMod` | `OrderMod(2, 7)` → `3` — multiplicative order of a modulo n | FlameLang | |
 | 8 | `ChineseRemainder` | `ChineseRemainder([2, 3], [3, 5])` → `8` — solves system of congruences via CRT | FlameLang | |
 
