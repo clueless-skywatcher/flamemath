@@ -11,6 +11,7 @@
 - **`LiouvilleLambda(n)`** — Liouville function `λ(n) = (-1)^Ω(n)`. `LiouvilleLambda(12)` -> `-1`.
 - **`PrimeBigW(n)`** — Number of prime factors of `n` counted with multiplicity (`Ω(n)`). `PrimeBigW(12)` -> `3`.
 - **`PrimeLittleW(n)`** — Number of distinct prime factors of `n` (`ω(n)`). `PrimeLittleW(12)` -> `2`.
+- **`DivisorSigma(n, k)`** — Sum of k-th powers of divisors of `n`. `DivisorSigma(12, 1)` -> `28`. σ_0 counts divisors, σ_1 is the classical sum-of-divisors. Uses `Divisors` and `Map`.
 - **`KroneckerDelta(i, j)`** — Returns 1 if `i == j`, 0 otherwise.
 
 ### Dictionary Operations
@@ -22,6 +23,9 @@
 - **`IsPrime(n)`** — Now works with arbitrary-precision integers via a FlameInt-based Miller-Rabin implementation. Previously limited to 64-bit values
 - **`PowMod(base, exp, mod)`** — Now uses `FlameInt.modPow` directly instead of converting to `long`/`BigInteger`. Supports arbitrary-precision arguments
 - **`Mod(a, b)`** — Added integer-integer fast path using `FlameInt.mod()` directly, avoiding unnecessary conversion through rational arithmetic
+
+### Arithmetic
+- **`Pow(n, 1/2)`** — Now delegates to `Sqrt` for non-perfect-square integer bases, so `12^(1/2)` simplifies to `2*Sqrt(3)` instead of staying as `Pow(12, 1/2)`
 
 ### Parser
 - **Integer literal parsing** — The parser now uses `FlameInt` directly instead of `Long.parseLong`, allowing integer literals of any size to be entered without overflow

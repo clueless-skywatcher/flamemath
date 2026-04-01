@@ -42,7 +42,7 @@ public class MapFunc implements FlameFunction {
         if (func instanceof Symbol symbol) {
             return evaluator.eval(new Compound(symbol.name(), List.of(arg)));
         } else if (func instanceof Flambda lambda) {
-            return evaluator.applyLambda(lambda, List.of(arg));
+            return evaluator.applyLambda(lambda, List.of(evaluator.eval(arg)));
         }
         return new Compound(name(), List.of(func, arg));
     }
