@@ -1,6 +1,6 @@
 # ModInverse
 
-Computes the modular multiplicative inverse of `a` modulo `m` — the unique integer `x` in `[0, m)` such that `a * x ≡ 1 (mod m)`.
+Computes the modular multiplicative inverse of $a$ modulo $m$ — the unique integer $x \in [0, m)$ such that $ax \equiv 1 \pmod{m}$.
 
 ## Syntax
 ```
@@ -14,8 +14,8 @@ ModInverse(a, m)
 | `m` | Integer | The modulus (must be positive) |
 
 ## Returns
-- An integer `x` in `[0, m)` such that `a * x ≡ 1 (mod m)`
-- Returns unevaluated if `GCD(a, m) ≠ 1` (inverse does not exist), `m ≤ 0`, or arguments are non-integer
+- An integer $x \in [0, m)$ such that $ax \equiv 1 \pmod{m}$
+- Returns unevaluated if $\gcd(a, m) \neq 1$ (inverse does not exist), $m \leq 0$, or arguments are non-integer
 
 ## Examples
 
@@ -46,12 +46,12 @@ ModInverse(6, 9)
 ```
 
 ## Notes
-- Uses `ExtGCD` to find the Bezout coefficient, then reduces modulo `m`
-- The inverse exists if and only if `GCD(a, m) = 1`
+- Uses `ExtGCD` to find the Bézout coefficient, then reduces modulo $m$
+- The inverse exists if and only if $\gcd(a, m) = 1$
 - Defined in `ntheory.flame`
 
 ## See Also
-- [ExtGCD](ExtGCD.md) — extended GCD with Bezout coefficients
+- [ExtGCD](ExtGCD.md) — extended GCD with Bézout coefficients
 - [ChineseRemainder](ChineseRemainder.md) — Chinese Remainder Theorem (uses ModInverse internally)
 - [Mod](../math/Mod.md) — modular remainder
 - [GCD](GCD.md) — greatest common divisor

@@ -1,6 +1,6 @@
 # PrimeLittleW
 
-Returns `ω(n)`, the number of distinct prime factors of `n`.
+Returns $\omega(n)$, the number of distinct prime factors of $n$.
 
 ## Syntax
 ```
@@ -37,7 +37,7 @@ PrimeLittleW(x)
 
 ## Notes
 - Computed as `Len(Keys(PrimeFactors(n)))` — the number of keys in the prime factorization dictionary
-- `ω(12) = 2` because `12 = 2^2 * 3`, and there are 2 distinct primes
+- $\omega(12) = 2$ because $12 = 2^2 \cdot 3$, and there are 2 distinct primes
 - Defined in `ntheory.flame`
 
 ## Errors
@@ -45,5 +45,5 @@ PrimeLittleW(x)
 
 ## See Also
 - [PrimeBigW](PrimeBigW.md) — number of prime factors with multiplicity
-- [MoebiusMu](MoebiusMu.md) — Mobius function
+- [MoebiusMu](MoebiusMu.md) — Möbius function
 - [PrimeFactors](PrimeFactors.md) — prime factorization

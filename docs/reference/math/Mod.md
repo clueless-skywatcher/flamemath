@@ -65,7 +65,7 @@ Mod(x, 3)
 
 ## Notes
 - Follows the Mathematica/Python convention: the result has the same sign as the divisor `b`, not the dividend `a`. This differs from Java's `%` operator for negative numbers.
-- `Mod(a, b)` is equivalent to `a - Floor(a / b) * b`
+- `Mod(a, b)` is equivalent to $a - \lfloor a / b \rfloor \cdot b$
 - Integer and rational arguments use exact long arithmetic — no floating-point involved
 
 ## Errors

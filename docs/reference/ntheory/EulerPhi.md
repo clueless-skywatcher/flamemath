@@ -1,6 +1,6 @@
 # EulerPhi
 
-Returns Euler's totient function `φ(n)` — the count of integers from 1 to `n` that are coprime to `n`.
+Returns Euler's totient function $\varphi(n)$ — the count of integers from 1 to $n$ that are coprime to $n$.
 
 ## Syntax
 ```
@@ -13,12 +13,12 @@ EulerPhi(n)
 | `n` | Integer | The number to compute the totient of |
 
 ## Returns
-- The number of integers in `[1, n]` coprime to `n`
+- The number of integers in $[1, n]$ coprime to $n$
 - An unevaluated `EulerPhi(n)` for symbolic arguments
 
 ## Examples
 
-Primes (`φ(p) = p - 1`):
+Primes ($\varphi(p) = p - 1$):
 ```
 Flame> EulerPhi(7)
 6
@@ -26,7 +26,7 @@ Flame> EulerPhi(13)
 12
 ```
 
-Prime powers (`φ(p^k) = p^k - p^(k-1)`):
+Prime powers ($\varphi(p^k) = p^k - p^{k-1}$):
 ```
 Flame> EulerPhi(8)
 4
@@ -55,7 +55,7 @@ EulerPhi(x)
 ```
 
 ## Notes
-- Computed via the product formula: `φ(n) = n * ∏(1 - 1/p)` over distinct prime factors `p` of `n`
+- Computed via the product formula: $\varphi(n) = n \prod_{p \mid n} \left(1 - \frac{1}{p}\right)$ over distinct prime factors $p$ of $n$
 - Uses `PrimeFactors` to obtain the factorization
 - Defined in `ntheory.flame`
 

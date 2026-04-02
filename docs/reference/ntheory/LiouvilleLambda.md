@@ -1,6 +1,6 @@
 # LiouvilleLambda
 
-Returns the Liouville function `λ(n) = (-1)^Ω(n)`, where `Ω(n)` is the number of prime factors of `n` counted with multiplicity.
+Returns the Liouville function $\lambda(n) = (-1)^{\Omega(n)}$, where $\Omega(n)$ is the number of prime factors of $n$ counted with multiplicity.
 
 ## Syntax
 ```
@@ -13,8 +13,8 @@ LiouvilleLambda(n)
 | `n` | Integer | A positive integer |
 
 ## Returns
-- `1` if `n` has an even number of prime factors (with multiplicity)
-- `-1` if `n` has an odd number of prime factors (with multiplicity)
+- $1$ if $n$ has an even number of prime factors (with multiplicity)
+- $-1$ if $n$ has an odd number of prime factors (with multiplicity)
 - An unevaluated `LiouvilleLambda(n)` for symbolic, zero, or negative arguments
 
 ## Examples
@@ -46,6 +46,6 @@ LiouvilleLambda(x)
 - Requires exactly 1 argument
 
 ## See Also
-- [MoebiusMu](MoebiusMu.md) — Mobius function
+- [MoebiusMu](MoebiusMu.md) — Möbius function
 - [PrimeBigW](PrimeBigW.md) — number of prime factors with multiplicity
 - [PrimeFactors](PrimeFactors.md) — prime factorization

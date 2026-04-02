@@ -1,6 +1,6 @@
 # DivisorSigma
 
-Returns the sum of the `k`-th powers of the divisors of `n`.
+Returns the sum of the $k$-th powers of the divisors of $n$.
 
 ## Syntax
 ```
@@ -14,8 +14,8 @@ DivisorSigma(n, k)
 | `k` | Integer | The power to raise each divisor to |
 
 ## Returns
-- The sum σ_k(n) = Σ_{d\|n} d^k
-- An unevaluated `DivisorSigma(n, k)` for symbolic arguments or n ≤ 0
+- The sum $\sigma_k(n) = \sum_{d \mid n} d^k$
+- An unevaluated `DivisorSigma(n, k)` for symbolic arguments or $n \leq 0$
 
 ## Examples
 
@@ -48,8 +48,8 @@ DivisorSigma(x, 1)
 ```
 
 ## Notes
-- Uses `Divisors(n)` to generate the divisor list, then maps d^k and sums
-- σ_0(n) counts divisors, σ_1(n) is the classical sum-of-divisors function
+- Uses `Divisors(n)` to generate the divisor list, then maps $d^k$ and sums
+- $\sigma_0(n)$ counts divisors, $\sigma_1(n)$ is the classical sum-of-divisors function
 - Defined in `ntheory.flame`
 
 ## Errors
@@ -58,4 +58,4 @@ DivisorSigma(x, 1)
 ## See Also
 - [Divisors](Divisors.md) — list of all divisors
 - [EulerPhi](EulerPhi.md) — Euler's totient function
-- [MoebiusMu](MoebiusMu.md) — Mobius function
+- [MoebiusMu](MoebiusMu.md) — Möbius function

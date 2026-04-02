@@ -1,6 +1,6 @@
 # MoebiusMu
 
-Returns the Mobius function `μ(n)`. Returns 0 if `n` has a squared prime factor, `(-1)^k` if `n` is a product of `k` distinct primes, and 1 if `n = 1`.
+Returns the Möbius function $\mu(n)$. Returns $0$ if $n$ has a squared prime factor, $(-1)^k$ if $n$ is a product of $k$ distinct primes, and $1$ if $n = 1$.
 
 ## Syntax
 ```
@@ -13,9 +13,9 @@ MoebiusMu(n)
 | `n` | Integer | A positive integer |
 
 ## Returns
-- `1` if `n = 1`
-- `(-1)^k` if `n` is a product of `k` distinct primes
-- `0` if `n` has a squared prime factor
+- $1$ if $n = 1$
+- $(-1)^k$ if $n$ is a product of $k$ distinct primes
+- $0$ if $n$ has a squared prime factor
 - An unevaluated `MoebiusMu(n)` for symbolic, zero, or negative arguments
 
 ## Examples
@@ -57,7 +57,7 @@ MoebiusMu(x)
 ```
 
 ## Notes
-- Computed via `KroneckerDelta(Ω(n), ω(n)) * (-1)^Ω(n)` using a single `PrimeFactors` call
+- Computed via $\delta(\Omega(n), \omega(n)) \cdot (-1)^{\Omega(n)}$ using a single `PrimeFactors` call
 - Defined in `ntheory.flame`
 
 ## Errors

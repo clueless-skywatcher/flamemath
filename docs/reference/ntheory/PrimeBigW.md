@@ -1,6 +1,6 @@
 # PrimeBigW
 
-Returns `Ω(n)`, the number of prime factors of `n` counted with multiplicity.
+Returns $\Omega(n)$, the number of prime factors of $n$ counted with multiplicity.
 
 ## Syntax
 ```
@@ -37,7 +37,7 @@ PrimeBigW(x)
 
 ## Notes
 - Computed as `Sum(Values(PrimeFactors(n)))` — the sum of all exponents in the prime factorization
-- `Ω(12) = 3` because `12 = 2^2 * 3`, and `2 + 1 = 3`
+- $\Omega(12) = 3$ because $12 = 2^2 \cdot 3$, and $2 + 1 = 3$
 - Defined in `ntheory.flame`
 
 ## Errors
@@ -45,5 +45,5 @@ PrimeBigW(x)
 
 ## See Also
 - [PrimeLittleW](PrimeLittleW.md) — number of distinct prime factors
-- [LiouvilleLambda](LiouvilleLambda.md) — Liouville function (`(-1)^Ω(n)`)
+- [LiouvilleLambda](LiouvilleLambda.md) — Liouville function ($(-1)^{\Omega(n)}$)
 - [PrimeFactors](PrimeFactors.md) — prime factorization

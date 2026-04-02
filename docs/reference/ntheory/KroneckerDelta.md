@@ -1,6 +1,6 @@
 # KroneckerDelta
 
-Returns 1 if `i` equals `j`, and 0 otherwise.
+Returns $1$ if $i = j$, and $0$ otherwise.
 
 ## Syntax
 ```
@@ -14,7 +14,7 @@ KroneckerDelta(i, j)
 | `j` | Integer | Second value |
 
 ## Returns
-- `1` if `i == j`, `0` otherwise
+- $1$ if $i = j$, $0$ otherwise
 - An unevaluated `KroneckerDelta(i, j)` for symbolic arguments
 
 ## Examples
@@ -41,4 +41,4 @@ KroneckerDelta(x, y)
 - Requires exactly 2 arguments
 
 ## See Also
-- [MoebiusMu](MoebiusMu.md) — Mobius function (uses KroneckerDelta internally)
+- [MoebiusMu](MoebiusMu.md) — Möbius function (uses KroneckerDelta internally)

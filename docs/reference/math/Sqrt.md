@@ -83,9 +83,9 @@ Flame> Sqrt(x)
 ```
 
 ## Notes
-- Perfect-square factor extraction uses trial division to find the largest `k` such that `k²` divides the integer argument
+- Perfect-square factor extraction uses trial division to find the largest $k$ such that $k^2$ divides the integer argument
 - For products (`Mul`), only numeric integer factors are extracted; symbolic factors like `x^2` remain under the radical
-- This matches the conservative approach used by Mathematica — `Sqrt(x^2)` does **not** simplify to `x` because that would be incorrect for negative `x` (since `√(x²) = |x|`)
+- This matches the conservative approach used by Mathematica — `Sqrt(x^2)` does **not** simplify to `x` because that would be incorrect for negative $x$ (since $\sqrt{x^2} = |x|$)
 - Use `Num(Sqrt(2))` to get the numeric approximation
 
 ## Errors

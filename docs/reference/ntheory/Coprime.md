@@ -1,6 +1,6 @@
 # Coprime
 
-Checks whether all given integers are pairwise coprime — that is, every pair has `GCD = 1`.
+Checks whether all given integers are pairwise coprime — that is, every pair has $\gcd = 1$.
 
 ## Syntax
 ```
@@ -45,7 +45,7 @@ Coprime(x, 5)
 ```
 
 ## Notes
-- Uses the running-product GCD trick: checks `GCD(product_so_far, next) = 1` at each step, which is O(n) GCD calls rather than O(n^2) pairwise checks
+- Uses the running-product GCD trick: checks $\gcd(\text{product\_so\_far}, \text{next}) = 1$ at each step, which is $O(n)$ GCD calls rather than $O(n^2)$ pairwise checks
 - A single argument trivially returns `True`
 - Defined in `ntheory.flame`
 

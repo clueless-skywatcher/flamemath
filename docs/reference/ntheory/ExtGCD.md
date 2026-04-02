@@ -1,6 +1,6 @@
 # ExtGCD
 
-Computes the extended greatest common divisor. Returns the GCD along with Bezout coefficients such that `c1*n1 + c2*n2 + ... = gcd`.
+Computes the extended greatest common divisor. Returns the GCD along with Bézout coefficients such that $c_1 n_1 + c_2 n_2 + \cdots = \gcd$.
 
 ## Syntax
 ```
@@ -14,7 +14,7 @@ ExtGCD(a, b, c, ...)
 | `a, b, ...` | Integer (variadic) | Two or more integers |
 
 ## Returns
-- A list `[g, [c1, c2, ...]]` where `g` is the GCD and `c1, c2, ...` are Bezout coefficients satisfying `c1*a + c2*b + ... = g`
+- A list `[g, [c1, c2, ...]]` where `g` is the GCD and `c1, c2, ...` are Bézout coefficients satisfying $c_1 a + c_2 b + \cdots = g$
 - The GCD is always non-negative
 - Returns unevaluated if any argument is non-integer
 
@@ -58,5 +58,5 @@ ExtGCD(x, 5)
 - Equivalent to Mathematica's `ExtendedGCD`
 
 ## See Also
-- [GCD](GCD.md) — greatest common divisor (without Bezout coefficients)
+- [GCD](GCD.md) — greatest common divisor (without Bézout coefficients)
 - [Mod](../math/Mod.md) — modular remainder
