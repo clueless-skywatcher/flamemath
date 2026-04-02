@@ -18,25 +18,27 @@
 |---|---------|-------------|------|--------|
 | 6 | `ExtGCD` | `ExtGCD(35, 15)` → `[5, [1, -2]]` — extended GCD returning [gcd, [c1, c2, ...]] such that c1*a + c2*b + ... = gcd | FlameLang | Done |
 | 7 | `OrderMod` | `OrderMod(2, 7)` → `3` — multiplicative order of a modulo n | FlameLang | |
-| 8 | `ChineseRemainder` | `ChineseRemainder([2, 3], [3, 5])` → `8` — solves system of congruences via CRT | FlameLang | |
+| 8 | `ChineseRemainder` | `ChineseRemainder([2, 3], [3, 5])` → `8` — solves system of congruences via CRT | FlameLang | Done |
+| 9 | `ModInverse` | `ModInverse(3, 7)` → `5` — modular multiplicative inverse of a modulo m | FlameLang | Done |
+| 10 | `Coprime` | `Coprime(3, 5, 7)` → `True` — checks if all arguments are pairwise coprime (variadic) | FlameLang | Done |
 
 ### Phase 3 — Primes
 
 | # | Feature | Description | Type | Status |
 |---|---------|-------------|------|--------|
-| 9 | `NextPrime` | `NextPrime(10)` → `11` — smallest prime greater than n | FlameLang | Done |
+| 12 | `NextPrime` | `NextPrime(10)` → `11` — smallest prime greater than n | FlameLang | Done |
 
 ### Phase 4 — Combinatorics
 
 | # | Feature | Description | Type | Status |
 |---|---------|-------------|------|--------|
-| 10 | `Catalan` | `Catalan(5)` → `42` — n-th Catalan number | FlameLang | |
-| 11 | `StirlingS2` | `StirlingS2(5, 3)` → `25` — Stirling numbers of the second kind | FlameLang | |
-| 12 | `IntegerPartitions` | `IntegerPartitions(4)` → `[[4],[3,1],[2,2],[2,1,1],[1,1,1,1]]` — all partitions of n | FlameLang | |
-| 13 | `Compositions` | `Compositions(3, 2)` → `[[1,2],[2,1]]` — ordered compositions of n into k parts | FlameLang | |
+| 13 | `Catalan` | `Catalan(5)` → `42` — n-th Catalan number | FlameLang | |
+| 14 | `StirlingS2` | `StirlingS2(5, 3)` → `25` — Stirling numbers of the second kind | FlameLang | |
+| 15 | `IntegerPartitions` | `IntegerPartitions(4)` → `[[4],[3,1],[2,2],[2,1,1],[1,1,1,1]]` — all partitions of n | FlameLang | |
+| 16 | `Compositions` | `Compositions(3, 2)` → `[[1,2],[2,1]]` — ordered compositions of n into k parts | FlameLang | |
 
 ### Phase 5 — Numeric Utilities
 
 | # | Feature | Description | Type | Status |
 |---|---------|-------------|------|--------|
-| 14 | `Linspace` | `Linspace(0, 1, 5)` → `[0, 0.25, 0.5, 0.75, 1.0]` — n evenly spaced points in [a, b] | FlameLang | |
+| 17 | `Linspace` | `Linspace(0, 1, 5)` → `[0, 0.25, 0.5, 0.75, 1.0]` — n evenly spaced points in [a, b] | FlameLang | |

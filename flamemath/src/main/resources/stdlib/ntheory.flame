@@ -154,8 +154,52 @@ OrderMod = (a, n) => {
     Raw(OrderMod, a, n)
 }
 
+ModInverse = (a, m) => {
+    raw = Raw(ModInverse, a, m);
+    If(!(IsInteger(a) && IsInteger(m)), Return(raw));
+    If(m <= 0, Return(raw));
+    result = ExtGCD(a, m);
+    If(result[0] != 1, Return(raw));
+    Mod(result[1][0], m)
+}
+
+Coprime = (...args) => {
+    raw = Raw(Coprime, args);
+    For(arg, args, {
+        If(!IsInteger(arg), Return(raw))
+    });
+    runningProduct = 1;
+    For(n, args, {
+        If(GCD(runningProduct, n) != 1, Return(False));
+        runningProduct = runningProduct * n
+    });
+    True
+}
+
 ChineseRemainder = (remainders, moduli) => {
-    If(!(IsList(remainders) && IsList(moduli)), Return(Raw(ChineseRemainder, remainders, moduli)));
-    // TODO: Implement CRT logic
-    Raw(ChineseRemainder, remainders, moduli)
+    raw = Raw(ChineseRemainder, remainders, moduli);
+    If(!(IsList(remainders) && IsList(moduli)), Return(raw));
+    If(Len(remainders) != Len(moduli), Return(raw));
+
+    For(m, moduli, {
+        If(!IsInteger(m), Return(raw));
+        If(m <= 0, Return(raw))
+    });
+
+    If(!Apply(Coprime, moduli), Return(raw));
+
+    For(r, remainders, {
+        If(!IsInteger(r), Return(raw))
+    });
+
+    n = Product(moduli);
+    nis = Map((ni) => n / ni, moduli);
+    x = Map((arg) => {
+        remainder = arg[0];
+        ni = arg[1];
+        modulo = arg[2];
+        remainder * ni * ModInverse(ni, modulo)
+    }, Zip(remainders, nis, moduli));
+
+    Mod(Sum(x), n)
 }

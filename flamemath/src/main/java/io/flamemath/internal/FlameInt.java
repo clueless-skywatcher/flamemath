@@ -511,25 +511,36 @@ public class FlameInt {
         if (this.signum == 0)
             return ZERO;
 
-        int cmp = compareMagnitudes(this.mags, divisor.mags);
-        if (cmp < 0)
-            return this.abs();
+        FlameInt absDivisor = divisor.abs();
+
+        int cmp = compareMagnitudes(this.mags, absDivisor.mags);
         if (cmp == 0)
             return ZERO;
+        if (cmp < 0) {
+            if (this.signum < 0)
+                return absDivisor.subtract(this.abs());
+            return this;
+        }
 
         int[] remMags;
-        if (divisor.mags.length == 1) {
-            List<int[]> qr = divideBySingleLimb(this.mags, divisor.mags[0]);
+        if (absDivisor.mags.length == 1) {
+            List<int[]> qr = divideBySingleLimb(this.mags, absDivisor.mags[0]);
             remMags = qr.get(1);
         } else {
-            List<int[]> qr = divideByKnuthD(this.mags, divisor.mags);
+            List<int[]> qr = divideByKnuthD(this.mags, absDivisor.mags);
             remMags = qr.get(1);
         }
 
         remMags = stripLeadingZeros(remMags);
         if (remMags.length == 1 && remMags[0] == 0)
             return ZERO;
-        return new FlameInt(this.signum, remMags);
+
+        if (this.signum < 0) {
+            FlameInt rem = new FlameInt(1, remMags);
+            return absDivisor.subtract(rem);
+        }
+
+        return new FlameInt(1, remMags);
     }
 
     public FlameInt pow(long exponent) {
