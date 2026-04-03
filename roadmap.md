@@ -17,7 +17,7 @@
 | # | Feature | Description | Type | Status |
 |---|---------|-------------|------|--------|
 | 6 | `ExtGCD` | `ExtGCD(35, 15)` → `[5, [1, -2]]` — extended GCD returning [gcd, [c1, c2, ...]] such that c1*a + c2*b + ... = gcd | FlameLang | Done |
-| 7 | `OrderMod` | `OrderMod(2, 7)` → `3` — multiplicative order of a modulo n | FlameLang | |
+| 7 | `OrderMod` | `OrderMod(2, 7)` → `3` — multiplicative order of a modulo n | FlameLang | Done |
 | 8 | `ChineseRemainder` | `ChineseRemainder([2, 3], [3, 5])` → `8` — solves system of congruences via CRT | FlameLang | Done |
 | 9 | `ModInverse` | `ModInverse(3, 7)` → `5` — modular multiplicative inverse of a modulo m | FlameLang | Done |
 | 10 | `Coprime` | `Coprime(3, 5, 7)` → `True` — checks if all arguments are pairwise coprime (variadic) | FlameLang | Done |

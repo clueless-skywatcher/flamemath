@@ -57,7 +57,7 @@ class OrderModTest {
 
     @Test
     void primitiveRoot3Mod17() throws Exception {
-        // 3 is not a primitive root mod 17, 3^16=1 but 3^4=13, 3^8=16, order=16
+        // 3 is a primitive root mod 17, order = 16
         fm.assertExec("16", "OrderMod(3, 17)");
     }
 

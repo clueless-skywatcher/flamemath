@@ -1,7 +1,5 @@
 # FlameMath 1.3.0
 
-> **81 functions** implemented in total as of this release.
-
 ## New Functions
 
 ### Number Theory
@@ -18,6 +16,7 @@
 - **`ExtGCD(a, b, ...)`** — Extended Euclidean algorithm. Returns `[gcd, [c1, c2, ...]]` where the Bézout coefficients satisfy $c_1 a + c_2 b + \cdots = \gcd$. Supports any number of integer arguments (minimum 2). Chains pairwise extended GCD across all arguments. `ExtGCD(6, 15, 30)` -> `[3, [-2, 1, 0]]`.
 - **`ModInverse(a, m)`** — Modular multiplicative inverse. Returns the unique $x \in [0, m)$ such that $ax \equiv 1 \pmod{m}$. Returns unevaluated if $\gcd(a, m) \neq 1$. Uses `ExtGCD` internally. `ModInverse(3, 7)` -> `5`.
 - **`Coprime(a, b, ...)`** — Pairwise coprimality test. Returns `True` if all arguments are pairwise coprime, `False` otherwise. Uses an O(n) running-product GCD algorithm. `Coprime(3, 5, 7)` -> `True`.
+- **`OrderMod(a, n)`** — Multiplicative order of $a$ modulo $n$. Returns the smallest positive integer $k$ such that $a^k \equiv 1 \pmod{n}$. Returns unevaluated if $\gcd(a, n) \neq 1$. `OrderMod(2, 7)` -> `3`.
 - **`ChineseRemainder(remainders, moduli)`** — Solves a system of simultaneous congruences via the Chinese Remainder Theorem. Given lists of remainders and pairwise coprime moduli, returns the unique solution $x \in [0, M)$ where $M$ is the product of the moduli. `ChineseRemainder([2, 3, 2], [3, 5, 7])` -> `23`.
 
 ### Dictionary Operations
