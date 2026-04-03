@@ -1,5 +1,7 @@
 # FlameMath 1.3.0
 
+> **81 functions** implemented in total as of this release.
+
 ## New Functions
 
 ### Number Theory
