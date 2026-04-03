@@ -32,8 +32,8 @@
 
 | # | Feature | Description | Type | Status |
 |---|---------|-------------|------|--------|
-| 13 | `Catalan` | `Catalan(5)` → `42` — n-th Catalan number | FlameLang | |
-| 14 | `StirlingS2` | `StirlingS2(5, 3)` → `25` — Stirling numbers of the second kind | FlameLang | |
+| 13 | `CatalanNumber` | `CatalanNumber(5)` → `42` — n-th Catalan number | FlameLang | Done |
+| 14 | `StirlingII` | `StirlingII(5, 3)` → `25` — Stirling numbers of the second kind | FlameLang | Done |
 | 15 | `IntegerPartitions` | `IntegerPartitions(4)` → `[[4],[3,1],[2,2],[2,1,1],[1,1,1,1]]` — all partitions of n | FlameLang | |
 | 16 | `Compositions` | `Compositions(3, 2)` → `[[1,2],[2,1]]` — ordered compositions of n into k parts | FlameLang | |
 

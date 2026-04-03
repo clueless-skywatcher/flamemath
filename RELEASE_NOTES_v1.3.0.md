@@ -19,6 +19,10 @@
 - **`OrderMod(a, n)`** — Multiplicative order of $a$ modulo $n$. Returns the smallest positive integer $k$ such that $a^k \equiv 1 \pmod{n}$. Returns unevaluated if $\gcd(a, n) \neq 1$. `OrderMod(2, 7)` -> `3`.
 - **`ChineseRemainder(remainders, moduli)`** — Solves a system of simultaneous congruences via the Chinese Remainder Theorem. Given lists of remainders and pairwise coprime moduli, returns the unique solution $x \in [0, M)$ where $M$ is the product of the moduli. `ChineseRemainder([2, 3, 2], [3, 5, 7])` -> `23`.
 
+### Combinatorics
+- **`CatalanNumber(n)`** — Returns the $n$-th Catalan number, computed as $\frac{1}{n+1}\binom{2n}{n}$. `CatalanNumber(5)` -> `42`. Returns unevaluated for non-integer arguments.
+- **`StirlingII(n, k)`** — Stirling numbers of the second kind. Returns the number of ways to partition a set of $n$ elements into exactly $k$ non-empty subsets. `StirlingII(5, 3)` -> `25`. Computed via the recurrence $S(n, k) = k \cdot S(n-1, k) + S(n-1, k-1)$. Returns `0` when $k > n$, unevaluated for non-integer or negative arguments.
+
 ### Dictionary Operations
 - **`LookupDefault(d, key, default)`** — Look up a key in a dictionary, returning a default value if the key is not present
 

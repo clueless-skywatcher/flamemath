@@ -1,13 +1,15 @@
-Catalan = (n) => {
-    If(!IsInteger(n), Return(Raw(Catalan, n)));
-    // TODO: Implement Catalan number logic
-    Raw(Catalan, n)
+CatalanNumber = (n) => {
+    If(!IsInteger(n), Return(Raw(CatalanNumber, n)));
+    (1 / (n + 1)) * Binomial(2*n, n)
 }
 
-StirlingS2 = (n, k) => {
-    If(!(IsInteger(n) && IsInteger(k)), Return(Raw(StirlingS2, n, k)));
-    // TODO: Implement Stirling S2 logic
-    Raw(StirlingS2, n, k)
+StirlingII = (n, k) => {
+    If(!(IsInteger(n) && IsInteger(k)), Return(Raw(StirlingII, n, k)));
+    If(n < 0 || k < 0, Return(Raw(StirlingII, n, k)));
+    If(n == 0 && k == 0, Return(1));
+    If(n == 0 || k == 0, Return(0));
+    If(k > n, Return(0));
+    k * StirlingII(n - 1, k) + StirlingII(n - 1, k - 1)
 }
 
 IntegerPartitions = (n) => {
