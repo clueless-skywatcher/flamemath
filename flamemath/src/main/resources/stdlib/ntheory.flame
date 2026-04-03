@@ -149,9 +149,19 @@ ExtGCD = (...args) => {
 }
 
 OrderMod = (a, n) => {
-    If(!(IsInteger(a) && IsInteger(n)), Return(Raw(OrderMod, a, n)));
-    // TODO: Implement multiplicative order logic
-    Raw(OrderMod, a, n)
+    raw = Raw(OrderMod, a, n);
+    If(!(IsInteger(a) && IsInteger(n)), Return(raw));                                                           
+    If(n <= 1, Return(raw));                                                                                    
+    a = Mod(a, n);                                                                                                              
+    If(GCD(a, n) != 1, Return(raw));
+
+    order = 1;
+    current = Mod(a, n);
+    While(a != 1, {
+        a = Mod(current * a, n);
+        order = order + 1
+    });
+    order
 }
 
 ModInverse = (a, m) => {
