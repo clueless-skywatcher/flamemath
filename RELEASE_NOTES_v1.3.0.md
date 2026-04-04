@@ -23,6 +23,7 @@
 - **`CatalanNumber(n)`** — Returns the $n$-th Catalan number, computed as $\frac{1}{n+1}\binom{2n}{n}$. `CatalanNumber(5)` -> `42`. Returns unevaluated for non-integer arguments.
 - **`StirlingII(n, k)`** — Stirling numbers of the second kind. Returns the number of ways to partition a set of $n$ elements into exactly $k$ non-empty subsets. `StirlingII(5, 3)` -> `25`. Computed via the recurrence $S(n, k) = k \cdot S(n-1, k) + S(n-1, k-1)$. Returns `0` when $k > n$, unevaluated for non-integer or negative arguments.
 - **`IntegerPartitions(n)`** — Generates all integer partitions of $n$ as a list of lists in lexicographic order, with parts in non-decreasing order. `IntegerPartitions(4)` -> `[[1, 1, 1, 1], [1, 1, 2], [1, 3], [2, 2], [4]]`. Uses the Kelleher–O'Sullivan algorithm with amortized $O(1)$ cost per partition.
+- **`Compositions(n, k)`** — Generates all compositions of $n$ into exactly $k$ positive integer parts in lexicographic order. `Compositions(5, 3)` -> `[[1, 1, 3], [1, 2, 2], [1, 3, 1], [2, 1, 2], [2, 2, 1], [3, 1, 1]]`. The number of compositions is $\binom{n-1}{k-1}$. Uses an iterative odometer-style algorithm with amortized $O(1)$ cost per composition.
 
 ### List Operations
 - **`SetAt(list, index, value)`** — Sets the element at a given index in a list. Mutates the list in place, supports negative indexing. `SetAt([1, 2, 3], 1, 20)` modifies the list to `[1, 20, 3]`. Returns `Null`

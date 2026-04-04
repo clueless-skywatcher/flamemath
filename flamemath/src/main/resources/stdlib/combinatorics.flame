@@ -40,6 +40,30 @@ IntegerPartitions = (n) => {
 
 Compositions = (n, k) => {
     If(!(IsInteger(n) && IsInteger(k)), Return(Raw(Compositions, n, k)));
-    // TODO: Implement compositions logic
-    Raw(Compositions, n, k)
+    If(n < 1 || k < 1, Return(Raw(Compositions, n, k)));
+    If(k == 1, Return([[n]]));
+    If(k == n, Return([GenList(1, [i, k])]));
+    If(k > n, Return([]));
+
+    c = GenList(1, [i, k]);
+    c[k - 1] = n - k + 1;
+
+    results = [];
+    Append(results, Slice(c, 0, k));
+
+    While(c[0] < n - k + 1, {
+        If(c[k - 1] > 1, {
+            c[k - 2] = c[k - 2] + 1;
+            c[k - 1] = c[k - 1] - 1  
+        }, {
+            j = k - 2;
+            While(c[j] == 1, j = j - 1);
+            c[j - 1] = c[j - 1] + 1;
+            oldJ = c[j];
+            For(i, Range(j, k - 1), c[i] = 1);
+            c[k - 1] = oldJ - 1
+        });
+        Append(results, Slice(c, 0, k))
+    });
+    results
 }
