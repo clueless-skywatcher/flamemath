@@ -205,6 +205,15 @@ public class FlameParser {
             precedence = precedence - 1;
         }
         Expr right = parseExpr(precedence);
+
+        // a[x] = y  →  SetAt(a, x, y)
+        if (operator.type() == FMTokenType.EQUAL
+                && left instanceof Compound c
+                && c.head().equals("At")
+                && c.children().size() == 2) {
+            return new Compound("SetAt", List.of(c.children().get(0), c.children().get(1), right));
+        }
+
         return new Compound(HEAD.get(operator.type()), List.of(left, right));
     }
 

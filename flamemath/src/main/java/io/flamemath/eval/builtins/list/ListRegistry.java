@@ -19,6 +19,7 @@ public class ListRegistry  {
         registry.register(new JoinFunc());
         registry.register(new UnionFunc());
         registry.register(new IntersectionFunc());
+        registry.register(new SetAtFunc());
 
         return registry;
     }

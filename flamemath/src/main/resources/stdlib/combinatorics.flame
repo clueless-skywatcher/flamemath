@@ -14,8 +14,28 @@ StirlingII = (n, k) => {
 
 IntegerPartitions = (n) => {
     If(!IsInteger(n), Return(Raw(IntegerPartitions, n)));
-    // TODO: Implement integer partitions logic
-    Raw(IntegerPartitions, n)
+    If(n == 0, Return([[0]]));
+    results = [];
+    a = GenList(0, [i, n + 1]);
+    k = 1;
+    a[1] = n;
+
+    While(k > 0, {
+        x = a[k - 1] + 1;
+        y = a[k] - 1;
+        k = k - 1;
+
+        While(x <= y, {
+            a[k] = x;
+            y = y - x;
+            k = k + 1
+        });
+
+        a[k] = x + y;
+        Append(results, Slice(a, 0, k + 1))
+    });
+
+    results
 }
 
 Compositions = (n, k) => {

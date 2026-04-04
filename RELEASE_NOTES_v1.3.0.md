@@ -22,6 +22,10 @@
 ### Combinatorics
 - **`CatalanNumber(n)`** — Returns the $n$-th Catalan number, computed as $\frac{1}{n+1}\binom{2n}{n}$. `CatalanNumber(5)` -> `42`. Returns unevaluated for non-integer arguments.
 - **`StirlingII(n, k)`** — Stirling numbers of the second kind. Returns the number of ways to partition a set of $n$ elements into exactly $k$ non-empty subsets. `StirlingII(5, 3)` -> `25`. Computed via the recurrence $S(n, k) = k \cdot S(n-1, k) + S(n-1, k-1)$. Returns `0` when $k > n$, unevaluated for non-integer or negative arguments.
+- **`IntegerPartitions(n)`** — Generates all integer partitions of $n$ as a list of lists in lexicographic order, with parts in non-decreasing order. `IntegerPartitions(4)` -> `[[1, 1, 1, 1], [1, 1, 2], [1, 3], [2, 2], [4]]`. Uses the Kelleher–O'Sullivan algorithm with amortized $O(1)$ cost per partition.
+
+### List Operations
+- **`SetAt(list, index, value)`** — Sets the element at a given index in a list. Mutates the list in place, supports negative indexing. `SetAt([1, 2, 3], 1, 20)` modifies the list to `[1, 20, 3]`. Returns `Null`
 
 ### Dictionary Operations
 - **`LookupDefault(d, key, default)`** — Look up a key in a dictionary, returning a default value if the key is not present
@@ -38,6 +42,7 @@
 
 ### Parser
 - **Integer literal parsing** — The parser now uses `FlameInt` directly instead of `Long.parseLong`, allowing integer literals of any size to be entered without overflow
+- **Indexed assignment syntax** — `a[x] = y` now desugars to `SetAt(a, x, y)`, enabling natural list element mutation via bracket syntax
 
 ### Display
 - **Dictionary printing** — `DictExpr` now prints as `{key: value, ...}` in the ExprPrinter, with deterministic key ordering via `TreeMap`
@@ -55,3 +60,10 @@
 ## Internal
 - `NumberTheoryUtils` now has a `millerRabin(FlameInt)` overload for arbitrary-precision primality testing
 - `PrimeFactors` implemented as a Java builtin (`PrimeFactorsFunc`) for performance, rather than in the FlameMath stdlib
+
+## Algorithm Sources
+- **Miller-Rabin primality test** (`IsPrime`): Miller, G.L. (1976). "Riemann's hypothesis and tests for primality." *Journal of Computer and System Sciences*, 13(3), 300–317. Rabin, M.O. (1980). "Probabilistic algorithm for testing primality." *Journal of Number Theory*, 12(1), 128–138. Implementation uses 12 deterministic witnesses $\{2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37\}$.
+- **Pollard's rho** (`PrimeFactors`): Pollard, J.M. (1975). "A Monte Carlo method for factorization." *BIT Numerical Mathematics*, 15(3), 331–334. Uses Brent's cycle-detection improvement: Brent, R.P. (1980). "An improved Monte Carlo factorization algorithm." *BIT Numerical Mathematics*, 20(2), 176–184.
+- **Extended Euclidean algorithm** (`ExtGCD`, `ModInverse`): Knuth, D.E. (1997). *The Art of Computer Programming*, Vol. 2: Seminumerical Algorithms, 3rd ed., §4.5.2. Pairwise reduction for multi-argument extension.
+- **Chinese Remainder Theorem** (`ChineseRemainder`): Gauss, C.F. (1801). *Disquisitiones Arithmeticae*, §36. Constructive form using modular inverses.
+- **Kelleher–O'Sullivan partition generation** (`IntegerPartitions`): Kelleher, J. and O'Sullivan, B. (2009). "Generating All Partitions: A Comparison of Two Encodings." arXiv:0909.2331.
