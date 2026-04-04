@@ -34,11 +34,11 @@
 |---|---------|-------------|------|--------|
 | 13 | `CatalanNumber` | `CatalanNumber(5)` → `42` — n-th Catalan number | FlameLang | Done |
 | 14 | `StirlingII` | `StirlingII(5, 3)` → `25` — Stirling numbers of the second kind | FlameLang | Done |
-| 15 | `IntegerPartitions` | `IntegerPartitions(4)` → `[[4],[3,1],[2,2],[2,1,1],[1,1,1,1]]` — all partitions of n | FlameLang | |
-| 16 | `Compositions` | `Compositions(3, 2)` → `[[1,2],[2,1]]` — ordered compositions of n into k parts | FlameLang | |
+| 15 | `IntegerPartitions` | `IntegerPartitions(4)` → `[[4],[3,1],[2,2],[2,1,1],[1,1,1,1]]` — all partitions of n | FlameLang | Done |
+| 16 | `Compositions` | `Compositions(3, 2)` → `[[1,2],[2,1]]` — ordered compositions of n into k parts | FlameLang | Done |
 
 ### Phase 5 — Numeric Utilities
 
 | # | Feature | Description | Type | Status |
 |---|---------|-------------|------|--------|
-| 17 | `Linspace` | `Linspace(0, 1, 5)` → `[0, 0.25, 0.5, 0.75, 1.0]` — n evenly spaced points in [a, b] | FlameLang | |
+| 17 | `Linspace` | `Linspace(0, 1, 5)` → `[0, 0.25, 0.5, 0.75, 1.0]` — n evenly spaced points in [a, b] | FlameLang | Done |
