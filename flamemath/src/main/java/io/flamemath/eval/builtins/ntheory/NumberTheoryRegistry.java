@@ -12,6 +12,7 @@ public class NumberTheoryRegistry {
         registry.register(new PowModFunc());
         registry.register(new PrimeFunc());
         registry.register(new PrimesInRangeFunc());
+        registry.register(new PrimeFactorsFunc());
 
         return registry;
     }

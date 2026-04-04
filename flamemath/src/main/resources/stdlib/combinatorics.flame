@@ -1,23 +1,69 @@
-Catalan = (n) => {
-    If(!IsInteger(n), Return(Raw(Catalan, n)));
-    // TODO: Implement Catalan number logic
-    Raw(Catalan, n)
+CatalanNumber = (n) => {
+    If(!IsInteger(n), Return(Raw(CatalanNumber, n)));
+    (1 / (n + 1)) * Binomial(2*n, n)
 }
 
-StirlingS2 = (n, k) => {
-    If(!(IsInteger(n) && IsInteger(k)), Return(Raw(StirlingS2, n, k)));
-    // TODO: Implement Stirling S2 logic
-    Raw(StirlingS2, n, k)
+StirlingII = (n, k) => {
+    If(!(IsInteger(n) && IsInteger(k)), Return(Raw(StirlingII, n, k)));
+    If(n < 0 || k < 0, Return(Raw(StirlingII, n, k)));
+    If(n == 0 && k == 0, Return(1));
+    If(n == 0 || k == 0, Return(0));
+    If(k > n, Return(0));
+    k * StirlingII(n - 1, k) + StirlingII(n - 1, k - 1)
 }
 
 IntegerPartitions = (n) => {
     If(!IsInteger(n), Return(Raw(IntegerPartitions, n)));
-    // TODO: Implement integer partitions logic
-    Raw(IntegerPartitions, n)
+    If(n == 0, Return([[0]]));
+    results = [];
+    a = GenList(0, [i, n + 1]);
+    k = 1;
+    a[1] = n;
+
+    While(k > 0, {
+        x = a[k - 1] + 1;
+        y = a[k] - 1;
+        k = k - 1;
+
+        While(x <= y, {
+            a[k] = x;
+            y = y - x;
+            k = k + 1
+        });
+
+        a[k] = x + y;
+        Append(results, Slice(a, 0, k + 1))
+    });
+
+    results
 }
 
 Compositions = (n, k) => {
     If(!(IsInteger(n) && IsInteger(k)), Return(Raw(Compositions, n, k)));
-    // TODO: Implement compositions logic
-    Raw(Compositions, n, k)
+    If(n < 1 || k < 1, Return(Raw(Compositions, n, k)));
+    If(k == 1, Return([[n]]));
+    If(k == n, Return([GenList(1, [i, k])]));
+    If(k > n, Return([]));
+
+    c = GenList(1, [i, k]);
+    c[k - 1] = n - k + 1;
+
+    results = [];
+    Append(results, Slice(c, 0, k));
+
+    While(c[0] < n - k + 1, {
+        If(c[k - 1] > 1, {
+            c[k - 2] = c[k - 2] + 1;
+            c[k - 1] = c[k - 1] - 1  
+        }, {
+            j = k - 2;
+            While(c[j] == 1, j = j - 1);
+            c[j - 1] = c[j - 1] + 1;
+            oldJ = c[j];
+            For(i, Range(j, k - 1), c[i] = 1);
+            c[k - 1] = oldJ - 1
+        });
+        Append(results, Slice(c, 0, k))
+    });
+    results
 }

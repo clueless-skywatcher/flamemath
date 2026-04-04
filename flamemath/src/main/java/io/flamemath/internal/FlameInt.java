@@ -11,6 +11,7 @@ public class FlameInt {
     private final int[] mags;
 
     public static final FlameInt ONE = new FlameInt(1);
+    public static final FlameInt TWO = new FlameInt(2);
     public static final FlameInt ZERO = new FlameInt(0);
     public static final FlameInt MINUS_ONE = new FlameInt(-1);
 
@@ -256,11 +257,12 @@ public class FlameInt {
     private static List<int[]> divideBySingleLimb(int[] dividend, int divisor) {
         int[] quotient = new int[dividend.length];
         int remainder = 0;
+        long dLong = divisor & 0xFFFFFFFFL;
 
         for (int i = 0; i < dividend.length; i++) {
             long current = ((long) remainder << 32) | (dividend[i] & 0xFFFFFFFFL);
-            quotient[i] = (int) (current / divisor);
-            remainder = (int) (current % divisor);
+            quotient[i] = (int) Long.divideUnsigned(current, dLong);
+            remainder = (int) Long.remainderUnsigned(current, dLong);
         }
 
         int start = 0;
@@ -355,6 +357,16 @@ public class FlameInt {
             return 0;
         int magCmp = compareMagnitudes(this.mags, other.mags);
         return this.signum > 0 ? magCmp : -magCmp;
+    }
+
+    public boolean fitsInLong() {
+        if (signum == 0) return true;
+        if (mags.length == 1) return true;
+        if (mags.length > 2) return false;
+        // mags.length == 2: check if value fits in long range
+        long unsigned = ((mags[0] & 0xFFFFFFFFL) << 32) | (mags[1] & 0xFFFFFFFFL);
+        if (signum > 0) return unsigned >= 0;
+        return unsigned >= 0 || unsigned == Long.MIN_VALUE;
     }
 
     public long toLong() {
@@ -499,25 +511,36 @@ public class FlameInt {
         if (this.signum == 0)
             return ZERO;
 
-        int cmp = compareMagnitudes(this.mags, divisor.mags);
-        if (cmp < 0)
-            return this.abs();
+        FlameInt absDivisor = divisor.abs();
+
+        int cmp = compareMagnitudes(this.mags, absDivisor.mags);
         if (cmp == 0)
             return ZERO;
+        if (cmp < 0) {
+            if (this.signum < 0)
+                return absDivisor.subtract(this.abs());
+            return this;
+        }
 
         int[] remMags;
-        if (divisor.mags.length == 1) {
-            List<int[]> qr = divideBySingleLimb(this.mags, divisor.mags[0]);
+        if (absDivisor.mags.length == 1) {
+            List<int[]> qr = divideBySingleLimb(this.mags, absDivisor.mags[0]);
             remMags = qr.get(1);
         } else {
-            List<int[]> qr = divideByKnuthD(this.mags, divisor.mags);
+            List<int[]> qr = divideByKnuthD(this.mags, absDivisor.mags);
             remMags = qr.get(1);
         }
 
         remMags = stripLeadingZeros(remMags);
         if (remMags.length == 1 && remMags[0] == 0)
             return ZERO;
-        return new FlameInt(this.signum, remMags);
+
+        if (this.signum < 0) {
+            FlameInt rem = new FlameInt(1, remMags);
+            return absDivisor.subtract(rem);
+        }
+
+        return new FlameInt(1, remMags);
     }
 
     public FlameInt pow(long exponent) {
@@ -543,6 +566,32 @@ public class FlameInt {
             exponent >>= 1;
         }
         return new FlameInt(resultSign, result.mags);
+    }
+
+    public FlameInt modPow(FlameInt exponent, FlameInt modulus) {
+        if (modulus.isZero())
+            throw new ArithmeticException("Modulus cannot be zero");
+        if (exponent.isNegative())
+            throw new ArithmeticException("Negative exponent in modPow");
+        FlameInt absMod = modulus.abs();
+        if (exponent.isZero())
+            return ONE.mod(absMod);
+
+        FlameInt base = this.abs().mod(absMod);
+        FlameInt result = ONE;
+        FlameInt exp = exponent;
+        while (!exp.isZero()) {
+            if (!exp.mod(TWO).isZero()) {
+                result = result.mul(base).mod(absMod);
+            }
+            base = base.mul(base).mod(absMod);
+            exp = exp.divide(TWO);
+        }
+        // If base was negative and exponent is odd, negate then adjust to positive mod
+        if (this.isNegative() && !exponent.mod(TWO).isZero() && !result.isZero()) {
+            result = absMod.subtract(result);
+        }
+        return result;
     }
 
     public FlameInt gcd(FlameInt other) {

@@ -158,6 +158,26 @@ class IsPrimeFuncTest {
         fm.assertExec("False", "IsPrime(1729)");
     }
 
+    // --- Big integer primes ---
+
+    @Test
+    void bigPrime20Digits() throws Exception {
+        // 10^19 + 51 is prime
+        fm.assertExec("True", "IsPrime(10000000000000000051)");
+    }
+
+    @Test
+    void bigComposite20Digits() throws Exception {
+        // 10^19 + 52 is composite
+        fm.assertExec("False", "IsPrime(10000000000000000052)");
+    }
+
+    @Test
+    void mersennePrime127() throws Exception {
+        // 2^127 - 1 is a known Mersenne prime
+        fm.assertExec("True", "IsPrime(170141183460469231731687303715884105727)");
+    }
+
     // --- Non-integer argument ---
 
     @Test

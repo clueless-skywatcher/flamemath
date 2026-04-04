@@ -1,6 +1,8 @@
 stdlib/general.flame
 stdlib/types.flame
 stdlib/list.flame
+stdlib/dict.flame
 stdlib/math.flame
 stdlib/ntheory.flame
 stdlib/combinatorics.flame
+stdlib/numeric.flame

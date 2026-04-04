@@ -41,8 +41,8 @@ public class PowFunc implements FlameFunction {
             if (root * root == val) {
                 return new IntegerAtom(root);
             }
-            // Non-perfect square: stay symbolic as Pow(n, (1/2))
-            return new Compound("Pow", List.of(base, exp));
+            // Non-perfect square: delegate to Sqrt for simplification
+            return evaluator.eval(new Compound("Sqrt", List.of(base)));
         }
 
         // Both numeric → compute directly

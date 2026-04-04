@@ -1,0 +1,3 @@
+LookupDefault = (d, key, default) => {
+    If(HasKey(d, key), Lookup(d, key), default)
+}

@@ -1,6 +1,6 @@
 # PowMod
 
-Computes modular exponentiation: `base^exp mod m`. Handles large values without overflow.
+Computes modular exponentiation: $\text{base}^{\text{exp}} \bmod m$. Handles large values without overflow.
 
 ## Syntax
 ```
@@ -15,7 +15,7 @@ PowMod(base, exp, m)
 | `m` | Integer | The modulus |
 
 ## Returns
-- An `IntegerAtom`: the result of `base^exp mod m`
+- An `IntegerAtom`: the result of $\text{base}^{\text{exp}} \bmod m$
 
 ## Examples
 
@@ -37,7 +37,7 @@ Flame> PowMod(2, 1, 7)
 2
 ```
 
-Fermat's little theorem (`a^(p-1) mod p = 1` for prime `p`):
+Fermat's little theorem ($a^{p-1} \bmod p = 1$ for prime $p$):
 ```
 Flame> PowMod(2, 12, 13)
 1
@@ -45,7 +45,7 @@ Flame> PowMod(3, 96, 97)
 1
 ```
 
-Wieferich prime verification (`2^(p-1) mod p^2 = 1`):
+Wieferich prime verification ($2^{p-1} \bmod p^2 = 1$):
 ```
 Flame> PowMod(2, 1092, 1194649)
 1

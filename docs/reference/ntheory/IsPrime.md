@@ -66,7 +66,7 @@ False
 
 ## Notes
 - Uses the deterministic Miller-Rabin test with 12 fixed bases: `{2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37}`
-- This is proven correct for all values up to 3.317 × 10²⁴, which covers the full `long` range
+- This is proven correct for all values up to $3.317 \times 10^{24}$, which covers the full `long` range
 - Negative numbers and values less than 2 always return `False`
 - Correctly rejects Carmichael numbers (e.g., 561, 1105, 1729), which would fool a Fermat-only test
 

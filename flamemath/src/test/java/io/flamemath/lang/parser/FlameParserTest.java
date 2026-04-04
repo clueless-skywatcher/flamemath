@@ -411,6 +411,31 @@ class FlameParserTest {
     }
 
     @Test
+    void indexedAssignment() throws Exception {
+        // a[0] = 5 → SetAt(a, 0, 5)
+        assertEquals(
+                c("SetAt", new Symbol("a"), IntegerAtom.ZERO, new IntegerAtom(5)),
+                parse("a[0] = 5"));
+    }
+
+    @Test
+    void indexedAssignmentWithExpression() throws Exception {
+        // a[i + 1] = x * 2 → SetAt(a, Add(i, 1), Mul(x, 2))
+        assertEquals(
+                c("SetAt", new Symbol("a"), c("Add", new Symbol("i"), IntegerAtom.ONE),
+                        c("Mul", new Symbol("x"), new IntegerAtom(2))),
+                parse("a[i + 1] = x * 2"));
+    }
+
+    @Test
+    void indexedAssignmentNegativeIndex() throws Exception {
+        // a[-1] = 10 → SetAt(a, Mul(-1, 1), 10)
+        assertEquals(
+                c("SetAt", new Symbol("a"), c("Mul", IntegerAtom.MINUS_ONE, IntegerAtom.ONE), new IntegerAtom(10)),
+                parse("a[-1] = 10"));
+    }
+
+    @Test
     void comparisonInAssignment() throws Exception {
         // result = x > 0 && x < 10 → Set(result, And(Greater(x, 0), Less(x, 10)))
         assertEquals(

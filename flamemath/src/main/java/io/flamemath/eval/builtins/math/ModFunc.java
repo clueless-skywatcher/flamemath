@@ -12,6 +12,7 @@ import io.flamemath.expr.Expr;
 import io.flamemath.expr.IntegerAtom;
 import io.flamemath.expr.RationalAtom;
 import io.flamemath.expr.RealAtom;
+import io.flamemath.internal.FlameInt;
 
 public class ModFunc implements FlameFunction {
 
@@ -34,7 +35,19 @@ public class ModFunc implements FlameFunction {
                 throw new ArithmeticException("Mod: division by zero");
             }
 
-            // Integer/Rational % Integer/Rational → exact rational arithmetic
+            // Integer % Integer → use FlameInt.mod() directly
+            if (a instanceof IntegerAtom ia && b instanceof IntegerAtom ib) {
+                FlameInt av = ia.value();
+                FlameInt bv = ib.value();
+                FlameInt rem = av.mod(bv);
+                // Floor-mod: result sign should match divisor
+                if (!rem.isZero() && (rem.isNegative() != bv.isNegative())) {
+                    rem = rem.add(bv);
+                }
+                return new IntegerAtom(rem);
+            }
+
+            // Rational % Rational → exact rational arithmetic
             if ((a instanceof IntegerAtom || a instanceof RationalAtom)
                     && (b instanceof IntegerAtom || b instanceof RationalAtom)) {
                 RationalAtom ra = RationalAtom.rationalOf(a);

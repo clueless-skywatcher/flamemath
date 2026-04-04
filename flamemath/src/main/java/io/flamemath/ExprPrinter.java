@@ -11,6 +11,7 @@ import static io.flamemath.FlameUtils.*;
 
 import io.flamemath.expr.BooleanAtom;
 import io.flamemath.expr.Compound;
+import io.flamemath.expr.DictExpr;
 import io.flamemath.expr.Expr;
 import io.flamemath.expr.IntegerAtom;
 import io.flamemath.expr.RationalAtom;
@@ -26,37 +27,35 @@ public class ExprPrinter {
 
     // Infix operators: head name → symbol string
     private static final Map<String, String> INFIX_SYMBOL = Map.ofEntries(
-        Map.entry("Add", "+"),
-        Map.entry("Mul", "*"),
-        Map.entry("Pow", "^"),
-        Map.entry("Eq", "=="),
-        Map.entry("NotEq", "!="),
-        Map.entry("Less", "<"),
-        Map.entry("LessEq", "<="),
-        Map.entry("Greater", ">"),
-        Map.entry("GreaterEq", ">="),
-        Map.entry("And", "&&"),
-        Map.entry("Or", "||"),
-        Map.entry("Set", "="),
-        Map.entry("Seq", ";")
-    );
+            Map.entry("Add", "+"),
+            Map.entry("Mul", "*"),
+            Map.entry("Pow", "^"),
+            Map.entry("Eq", "=="),
+            Map.entry("NotEq", "!="),
+            Map.entry("Less", "<"),
+            Map.entry("LessEq", "<="),
+            Map.entry("Greater", ">"),
+            Map.entry("GreaterEq", ">="),
+            Map.entry("And", "&&"),
+            Map.entry("Or", "||"),
+            Map.entry("Set", "="),
+            Map.entry("Seq", ";"));
 
     // Infix operators: head name → precedence (must match parser)
     private static final Map<String, Integer> INFIX_PREC = Map.ofEntries(
-        Map.entry("Seq", 1),
-        Map.entry("Set", 2),
-        Map.entry("Or", 5),
-        Map.entry("And", 6),
-        Map.entry("Eq", 7),
-        Map.entry("NotEq", 7),
-        Map.entry("Less", 8),
-        Map.entry("LessEq", 8),
-        Map.entry("Greater", 8),
-        Map.entry("GreaterEq", 8),
-        Map.entry("Add", 9),
-        Map.entry("Mul", 10),
-        Map.entry("Pow", 11)
-    );
+            Map.entry("Seq", 1),
+            Map.entry("Set", 2),
+            Map.entry("Or", 5),
+            Map.entry("And", 6),
+            Map.entry("Eq", 7),
+            Map.entry("NotEq", 7),
+            Map.entry("Less", 8),
+            Map.entry("LessEq", 8),
+            Map.entry("Greater", 8),
+            Map.entry("GreaterEq", 8),
+            Map.entry("Add", 9),
+            Map.entry("Mul", 10),
+            Map.entry("Pow", 11));
 
     private static final int HIGHEST_PRECEDENCE = 100;
 
@@ -68,8 +67,7 @@ public class ExprPrinter {
 
     // Prefix operators: head name → symbol string
     private static final Map<String, String> PREFIX_SYMBOL = Map.of(
-        "Not", "!"
-    );
+            "Not", "!");
 
     public static String print(Expr expr, int outerPrecedence) {
         switch (expr) {
@@ -89,11 +87,22 @@ public class ExprPrinter {
                 return "Lambda<>";
             case ListExpr l: {
                 StringJoiner joiner = new StringJoiner(", ");
-                for (var exp: l.exprs()) {
+                for (var exp : l.exprs()) {
                     joiner.add(print(exp));
                 }
                 return "[" + joiner.toString() + "]";
             }
+            case DictExpr dict:
+                StringJoiner joiner = new StringJoiner(", ");
+                for (var entry : dict.dict().entrySet()) {
+                    joiner.add(
+                        String.format("%s: %s", 
+                            print(entry.getKey()),
+                            print(entry.getValue())
+                        )
+                    );
+                }
+                return "{" + joiner.toString() +  "}";
             case Compound(String head, List<Expr> children): {
                 if (head.equals("Seq") && children.stream().allMatch(c -> c instanceof Flambda)) {
                     return "Lambda<" + children.size() + " clauses>";
@@ -113,12 +122,11 @@ public class ExprPrinter {
                     return PREFIX_SYMBOL.get(head) + print(children.get(0), HIGHEST_PRECEDENCE);
                 }
                 List<String> args = children.stream()
-                    .map(c -> print(c, 0))
-                    .collect(Collectors.toList());
+                        .map(c -> print(c, 0))
+                        .collect(Collectors.toList());
                 return String.format("%s(%s)",
-                    head,
-                    String.join(", ", args)
-                );
+                        head,
+                        String.join(", ", args));
             }
             default:
                 return expr.toString();
@@ -149,8 +157,10 @@ public class ExprPrinter {
                     List<Expr> rest = c.children().subList(1, c.children().size());
                     if (absCoeff == 1) {
                         // Mul(-1, x, y) → "- x*y"
-                        if (rest.size() == 1) sb.append(print(rest.getFirst(), myPrec));
-                        else sb.append(print(new Compound("Mul", rest), myPrec));
+                        if (rest.size() == 1)
+                            sb.append(print(rest.getFirst(), myPrec));
+                        else
+                            sb.append(print(new Compound("Mul", rest), myPrec));
                     } else {
                         // Mul(-2, x, y) → "- 2*x*y"
                         List<Expr> negated = new ArrayList<>();
@@ -165,7 +175,7 @@ public class ExprPrinter {
             }
         } else if (head.equals("Mul")) {
             sb.append(printMulTerm(children.get(0), myPrec, true));
-            
+
             for (int i = 1; i < children.size(); i++) {
                 Expr child = children.get(i);
                 // Detect Pow(x, -1) → print as " / x"

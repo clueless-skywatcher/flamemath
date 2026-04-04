@@ -14,6 +14,7 @@ import io.flamemath.expr.DictExpr;
 import io.flamemath.expr.Expr;
 import io.flamemath.expr.Flambda;
 import io.flamemath.expr.IntegerAtom;
+import io.flamemath.internal.FlameInt;
 import io.flamemath.expr.ListExpr;
 import io.flamemath.expr.RealAtom;
 import io.flamemath.expr.StringAtom;
@@ -204,6 +205,15 @@ public class FlameParser {
             precedence = precedence - 1;
         }
         Expr right = parseExpr(precedence);
+
+        // a[x] = y  →  SetAt(a, x, y)
+        if (operator.type() == FMTokenType.EQUAL
+                && left instanceof Compound c
+                && c.head().equals("At")
+                && c.children().size() == 2) {
+            return new Compound("SetAt", List.of(c.children().get(0), c.children().get(1), right));
+        }
+
         return new Compound(HEAD.get(operator.type()), List.of(left, right));
     }
 
@@ -225,7 +235,7 @@ public class FlameParser {
                     yield new Symbol(name);
                 }
             }
-            case INTEGER -> new IntegerAtom(Long.parseLong(token.value()));
+            case INTEGER -> new IntegerAtom(new FlameInt(token.value()));
             case REAL -> new RealAtom(Double.parseDouble(token.value()));
             case STRING -> new StringAtom(token.value());
             case LPAREN -> {

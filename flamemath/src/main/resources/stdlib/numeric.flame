@@ -1,0 +1,7 @@
+Linspace = (start, stop, n) => {
+    If(!(IsNumeric(start) && IsNumeric(stop) && IsInteger(n)), Return(Raw(Linspace, start, stop, n)));
+    If(n < 1, Return([]));
+    If(n == 1, Return([start]));
+    step = (stop - start) / (n - 1);
+    GenList(Num(start + i * step), [i, n])
+}

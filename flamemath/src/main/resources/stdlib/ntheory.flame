@@ -5,56 +5,211 @@ WieferichPrime = (n) => {
     })
 }
 
-PrimeFactors = (n) => {
-    If(!IsInteger(n), Return(Raw(PrimeFactors, n)));
-    // TODO: Implement prime factorization logic
-    Raw(PrimeFactors, n)
-}
-
 Divisors = (n) => {
     If(!IsInteger(n), Return(Raw(Divisors, n)));
-    // TODO: Implement divisors logic
-    Raw(Divisors, n)
+    If(n == 0, Return(Raw(Divisors, n)));
+    n = Abs(n);
+    result = [1];
+    primeFactors = PrimeFactors(n);
+    For(prime, Keys(primeFactors), {
+        e = Lookup(primeFactors, prime);
+        current = [];
+        power = 1;
+        For(i, Range(1, e + 1), {
+            power = power * prime;
+            For(d, result, {
+                Append(current, d * power)
+            })
+        });
+        result = Join(result, current)
+    });
+    Sort(result)
 }
 
 EulerPhi = (n) => {
-    If(!IsInteger(n), Return(Raw(EulerPhi, n)));
-    // TODO: Implement Euler's totient logic
-    Raw(EulerPhi, n)
+    raw = Raw(EulerPhi, n);
+    If(!IsInteger(n), Return(raw));
+    If(n <= 0, Return(raw));
+    result = 1;
+    For(p, Keys(PrimeFactors(n)), {
+        result = result * (1 - (1 / p))
+    });
+    n * result
+}
+
+KroneckerDelta = (i, j) => {
+    If(!(IsInteger(i) && IsInteger(j)), Return(Raw(KroneckerDelta, i, j)));
+    If(i == j, 1, 0)
 }
 
 NextPrime = (n) => {
     If(!IsInteger(n), Return(Raw(NextPrime, n)));
-    // TODO: Implement next prime logic
-    Raw(NextPrime, n)
+    While(True, {
+        n = n + 1;
+        If(IsPrime(n), Return(n))
+    })
+}
+
+LiouvilleLambda = (n) => {
+    raw = Raw(LiouvilleLambda, n);
+    If(!IsInteger(n), Return(raw));
+    If(n <= 0, Return(raw));
+
+    (-1)^(Sum(Values(PrimeFactors(n))))
+}
+
+PrimeBigW = (n) => {
+    raw = Raw(PrimeBigW, n);
+    If(!IsInteger(n), Return(raw));
+    If(n <= 0, Return(raw));
+
+    Sum(Values(PrimeFactors(n)))
+}
+
+PrimeLittleW = (n) => {
+    raw = Raw(PrimeLittleW, n);
+    If(!IsInteger(n), Return(raw));
+    If(n <= 0, Return(raw));
+
+    Len(Keys(PrimeFactors(n)))
 }
 
 MoebiusMu = (n) => {
-    If(!IsInteger(n), Return(Raw(MoebiusMu, n)));
-    // TODO: Implement Moebius function logic
-    Raw(MoebiusMu, n)
+    raw = Raw(MoebiusMu, n);
+    If(!IsInteger(n), Return(raw));
+    If(n <= 0, Return(raw));
+    If(n == 1, Return(1));
+
+    factors = PrimeFactors(n);
+    primeLittleW = Len(Keys(factors));
+    primeBigW = Sum(Values(factors));
+
+    KroneckerDelta(primeBigW, primeLittleW) * (-1)^primeBigW
 }
 
 DivisorSigma = (n, k) => {
-    If(!(IsInteger(n) && IsInteger(k)), Return(Raw(DivisorSigma, n, k)));
-    // TODO: Implement divisor sigma logic
-    Raw(DivisorSigma, n, k)
+    If(!(IsInteger(n)), Return(Raw(DivisorSigma, n, k)));
+    If(n <= 0, Return(Raw(DivisorSigma, n, k)));
+    Sum(Map((i) => i^k, Divisors(n)))
 }
 
-ExtGCD = (a, b) => {
-    If(!(IsInteger(a) && IsInteger(b)), Return(Raw(ExtGCD, a, b)));
-    // TODO: Implement extended GCD logic
-    Raw(ExtGCD, a, b)
+ExtGCD = (...args) => {
+    extGCDPairWise = (a, b) => {
+        oldR = a;
+        r = b;
+
+        oldX = 1;
+        x = 0;
+
+        oldY = 0;
+        y = 1;
+
+        While(r != 0, {
+            q = Sign(oldR) * Sign(r) * Floor(Abs(oldR) / Abs(r));
+            
+            temp = oldR;
+            oldR = r;
+            r = temp - q * r;
+
+            temp = oldX;
+            oldX = x;
+            x = temp - q * x;
+
+            temp = oldY;
+            oldY = y;
+            y = temp - q * y
+        });
+
+        [oldR, oldX, oldY]
+    };
+
+    raw = Raw(ExtGCD, args);
+    For(arg, args, {
+        If(!IsInteger(arg), Return(raw))
+    });
+
+    g = args[0];
+    coeffs = [1];
+
+    For(i, Range(1, Len(args)), {
+        extGCD = extGCDPairWise(g, args[i]);
+        g = extGCD[0];
+        s = extGCD[1];
+        t = extGCD[2];
+        coeffs = Map((c) => s * c, coeffs);
+        Append(coeffs, t)
+    });
+
+    If(g < 0, {
+        g = -g;
+        coeffs = Map((c) => -c, coeffs)
+    });
+
+    [g, coeffs]
 }
 
 OrderMod = (a, n) => {
-    If(!(IsInteger(a) && IsInteger(n)), Return(Raw(OrderMod, a, n)));
-    // TODO: Implement multiplicative order logic
-    Raw(OrderMod, a, n)
+    raw = Raw(OrderMod, a, n);
+    If(!(IsInteger(a) && IsInteger(n)), Return(raw));                                                           
+    If(n <= 1, Return(raw));                                                                                    
+    a = Mod(a, n);                                                                                                              
+    If(GCD(a, n) != 1, Return(raw));
+
+    order = 1;
+    current = Mod(a, n);
+    While(a != 1, {
+        a = Mod(current * a, n);
+        order = order + 1
+    });
+    order
+}
+
+ModInverse = (a, m) => {
+    raw = Raw(ModInverse, a, m);
+    If(!(IsInteger(a) && IsInteger(m)), Return(raw));
+    If(m <= 0, Return(raw));
+    result = ExtGCD(a, m);
+    If(result[0] != 1, Return(raw));
+    Mod(result[1][0], m)
+}
+
+Coprime = (...args) => {
+    raw = Raw(Coprime, args);
+    For(arg, args, {
+        If(!IsInteger(arg), Return(raw))
+    });
+    runningProduct = 1;
+    For(n, args, {
+        If(GCD(runningProduct, n) != 1, Return(False));
+        runningProduct = runningProduct * n
+    });
+    True
 }
 
 ChineseRemainder = (remainders, moduli) => {
-    If(!(IsList(remainders) && IsList(moduli)), Return(Raw(ChineseRemainder, remainders, moduli)));
-    // TODO: Implement CRT logic
-    Raw(ChineseRemainder, remainders, moduli)
+    raw = Raw(ChineseRemainder, remainders, moduli);
+    If(!(IsList(remainders) && IsList(moduli)), Return(raw));
+    If(Len(remainders) != Len(moduli), Return(raw));
+
+    For(m, moduli, {
+        If(!IsInteger(m), Return(raw));
+        If(m <= 0, Return(raw))
+    });
+
+    If(!Apply(Coprime, moduli), Return(raw));
+
+    For(r, remainders, {
+        If(!IsInteger(r), Return(raw))
+    });
+
+    n = Product(moduli);
+    nis = Map((ni) => n / ni, moduli);
+    x = Map((arg) => {
+        remainder = arg[0];
+        ni = arg[1];
+        modulo = arg[2];
+        remainder * ni * ModInverse(ni, modulo)
+    }, Zip(remainders, nis, moduli));
+
+    Mod(Sum(x), n)
 }

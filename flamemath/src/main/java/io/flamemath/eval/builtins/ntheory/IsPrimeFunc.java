@@ -8,6 +8,7 @@ import io.flamemath.exceptions.FlameArityException;
 import io.flamemath.expr.BooleanAtom;
 import io.flamemath.expr.Expr;
 import io.flamemath.expr.IntegerAtom;
+import io.flamemath.internal.FlameInt;
 import io.flamemath.ntheory.NumberTheoryUtils;
 
 public class IsPrimeFunc implements FlameFunction {
@@ -25,10 +26,19 @@ public class IsPrimeFunc implements FlameFunction {
             throw new Exception("Argument should be an integer");
         }
 
-        long value = ((IntegerAtom) args.get(0)).value().toLong();
-        if (value <= FlameValuator.SIEVE_LIMIT) {
-            return new BooleanAtom(evaluator.getSieve().isPrime((int) value));
+        FlameInt value = ((IntegerAtom) args.get(0)).value();
+
+        if (value.isNegative() || value.compareTo(FlameInt.ONE) <= 0) {
+            return new BooleanAtom(false);
         }
+
+        if (value.fitsInLong()) {
+            long longVal = value.toLong();
+            if (longVal <= FlameValuator.SIEVE_LIMIT) {
+                return new BooleanAtom(evaluator.getSieve().isPrime((int) longVal));
+            }
+        }
+
         return new BooleanAtom(NumberTheoryUtils.millerRabin(value));
     }
 }

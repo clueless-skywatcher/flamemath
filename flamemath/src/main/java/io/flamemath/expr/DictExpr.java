@@ -1,11 +1,11 @@
 package io.flamemath.expr;
 
-import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.Map;
 
 public record DictExpr(Map<Expr, Expr> dict) implements Expr {
     public DictExpr() {
-        this(new HashMap<>());
+        this(new TreeMap<>());
     }
     
     @Override
@@ -22,5 +22,4 @@ public record DictExpr(Map<Expr, Expr> dict) implements Expr {
     public int hash() {
         throw new UnsupportedOperationException("Dictionaries are not hashable");
     }
-    
 }
