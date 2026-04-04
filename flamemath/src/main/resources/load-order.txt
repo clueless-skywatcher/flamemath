@@ -5,3 +5,4 @@ stdlib/dict.flame
 stdlib/math.flame
 stdlib/ntheory.flame
 stdlib/combinatorics.flame
+stdlib/numeric.flame
