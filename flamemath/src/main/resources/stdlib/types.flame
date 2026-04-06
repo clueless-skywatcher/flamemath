@@ -1,3 +1,4 @@
+IsHead = (x, sym) => Head(x) == sym
 IsInteger = (x) => Head(x) == Integer
 IsReal = (x) => Head(x) == Real
 IsString = (x) => Head(x) == String

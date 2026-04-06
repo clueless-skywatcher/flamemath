@@ -1,1 +1,5 @@
 FreeOf = (expr, x) => !Has(Vars(expr), x)
+
+Coeff = (expr, x) => {
+    If(IsHead(expr), Add) 
+}

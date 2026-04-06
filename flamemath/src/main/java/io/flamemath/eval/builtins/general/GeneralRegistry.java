@@ -12,6 +12,7 @@ public class GeneralRegistry {
         registry.register(new ApplyFunc());
         registry.register(new SubstituteFunc());
         registry.register(new HoldFunc());
+        registry.register(new OperandsFunc());
 
         return registry;
     }
