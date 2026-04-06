@@ -13,6 +13,7 @@ import io.flamemath.eval.builtins.logical.LogicalRegistry;
 import io.flamemath.eval.builtins.dict.DictRegistry;
 import io.flamemath.eval.builtins.math.MathRegistry;
 import io.flamemath.eval.builtins.ntheory.NumberTheoryRegistry;
+import io.flamemath.eval.builtins.poly.PolyRegistry;
 import io.flamemath.eval.builtins.string.StringRegistry;
 import io.flamemath.eval.builtins.system.SystemRegistry;
 import io.flamemath.exceptions.FlameArityException;
@@ -231,6 +232,7 @@ public class FlameValuator {
         registry.registerAll(MathRegistry.create());
         registry.registerAll(StringRegistry.create());
         registry.registerAll(NumberTheoryRegistry.create());
+        registry.registerAll(PolyRegistry.create());
     }
 
     public void setEnv(FlameVironment env) {

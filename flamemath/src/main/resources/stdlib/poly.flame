@@ -1,0 +1,1 @@
+FreeOf = (expr, x) => !Has(Vars(expr), x)
