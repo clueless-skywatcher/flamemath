@@ -15,5 +15,11 @@
 - **`DeleteCopy(list, element)`** — Returns a new list with the first occurrence of an element removed. Original list is unchanged.
 - **`DeleteAllCopy(list, element)`** — Returns a new list with all occurrences of an element removed. Original list is unchanged.
 
+### Combinatorics
+- **`LahNumber(n, k)`** — Computes the Lah number L(n, k), counting the ways to partition n elements into k non-empty linearly ordered subsets.
+
+### Number Theory
+- **`SexyPrimes(n)`** — Returns the first n pairs of sexy primes (primes that differ by 6).
+
 ### Expression Inspection
 - **`Operands(expr)`** — Returns the direct children (operands) of a compound expression as a list. `Operands(x + y + z)` -> `[x, y, z]`, `Operands(x^2)` -> `[x, 2]`. Returns unevaluated for atomic expressions. Operands of commutative operations (Add, Mul) are returned in canonical order.
