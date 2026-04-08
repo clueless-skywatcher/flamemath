@@ -213,3 +213,11 @@ ChineseRemainder = (remainders, moduli) => {
 
     Mod(Sum(x), n)
 }
+
+SexyPrimes = (n) => {
+    If(!IsInteger(n), Return(Raw(SexyPrimes, n)));
+    pList = Map((i) => Prime(i), Range(1, Floor(2 * n * Num(Log(n))) + 1));
+    shifted = Map((p) => p + 6, pList);
+    bigs = Take(Intersection(pList, shifted), n);
+    Map((p) => [p - 6, p], bigs)
+}

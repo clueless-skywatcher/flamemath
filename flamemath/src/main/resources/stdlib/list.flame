@@ -121,6 +121,17 @@ Tally = (l) => {
     result
 }
 
+DeleteAllCopy = (l, elem) => {
+    If(!IsList(l), Return(Raw(DeleteAllCopy, l, elem)));
+    Filter((e) => e != elem, l)
+}
+
+DeleteAll = (l, elem) => {
+    If(!IsList(l), Return(Raw(DeleteAll, l, elem)));
+    While(Has(l, elem), Delete(l, elem));
+    Null
+}
+
 FoldScan = (f, start, l) => {
     If(!IsList(l), Return(Raw(FoldScan, f, start, l)));
     result = [start];

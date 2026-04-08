@@ -20,6 +20,8 @@ public class ListRegistry  {
         registry.register(new UnionFunc());
         registry.register(new IntersectionFunc());
         registry.register(new SetAtFunc());
+        registry.register(new DeleteFunc());
+        registry.register(new DeleteCopyFunc());
 
         return registry;
     }

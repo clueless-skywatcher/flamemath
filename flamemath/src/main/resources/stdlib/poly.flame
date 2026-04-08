@@ -1,5 +1,18 @@
 FreeOf = (expr, x) => !Has(Vars(expr), x)
 
 Coeff = (expr, x) => {
-    If(IsHead(expr), Add) 
+    terms = If(IsHead(expr, Add), Operands(expr), [expr]);
+    result = 0;
+    For(term, terms, {
+        If(term == x, result = result + 1,
+            If(IsHead(term, Mul), {
+                factors = Operands(term);
+                If(Has(factors, x), {
+                    remaining = DeleteCopy(factors, x);
+                    result = result + Product(remaining)
+                })
+            })
+        )
+    });
+    result
 }
