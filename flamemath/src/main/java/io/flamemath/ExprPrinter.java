@@ -1,6 +1,7 @@
 package io.flamemath;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -10,6 +11,7 @@ import java.util.stream.Collectors;
 import static io.flamemath.FlameUtils.*;
 
 import io.flamemath.expr.BooleanAtom;
+import io.flamemath.expr.comparators.GradedLexComparator;
 import io.flamemath.expr.Compound;
 import io.flamemath.expr.DictExpr;
 import io.flamemath.expr.Expr;
@@ -64,6 +66,24 @@ public class ExprPrinter {
 
     // Operators printed without surrounding spaces
     private static final Set<String> TIGHT_INFIX = Set.of("Mul", "Pow");
+
+    // Mul factor display order: alphabetical by base variable name.
+    // Symbol "x" uses "x", Pow(x, n) uses "x", anything else falls back to toString.
+    private static final Comparator<Expr> MUL_DISPLAY_ORDER = (a, b) -> {
+        String nameA = mulFactorBaseName(a);
+        String nameB = mulFactorBaseName(b);
+        return nameA.compareTo(nameB);
+    };
+
+    private static String mulFactorBaseName(Expr expr) {
+        if (expr instanceof Symbol s) return s.name();
+        if (expr instanceof Compound c && c.head().equals("Pow")
+                && !c.children().isEmpty()
+                && c.children().getFirst() instanceof Symbol s) {
+            return s.name();
+        }
+        return expr.toString();
+    }
 
     // Prefix operators: head name → symbol string
     private static final Map<String, String> PREFIX_SYMBOL = Map.of(
@@ -144,9 +164,11 @@ public class ExprPrinter {
         StringBuilder sb = new StringBuilder();
 
         if (head.equals("Add")) {
-            sb.append(print(children.get(0), myPrec));
-            for (int i = 1; i < children.size(); i++) {
-                Expr child = children.get(i);
+            List<Expr> display = new ArrayList<>(children);
+            display.sort(GradedLexComparator.INSTANCE);
+            sb.append(print(display.get(0), myPrec));
+            for (int i = 1; i < display.size(); i++) {
+                Expr child = display.get(i);
                 // Detect Mul(-1, x) → print as " - x"
                 if (child instanceof Compound c
                         && c.head().equals("Mul")
@@ -174,10 +196,18 @@ public class ExprPrinter {
                 }
             }
         } else if (head.equals("Mul")) {
-            sb.append(printMulTerm(children.get(0), myPrec, true));
+            List<Expr> display = new ArrayList<>(children);
+            // Keep numeric coefficient first, sort the rest by base variable name
+            if (!display.isEmpty() && display.getFirst().isNumeric()) {
+                List<Expr> rest = display.subList(1, display.size());
+                rest.sort(MUL_DISPLAY_ORDER);
+            } else {
+                display.sort(MUL_DISPLAY_ORDER);
+            }
+            sb.append(printMulTerm(display.get(0), myPrec, true));
 
-            for (int i = 1; i < children.size(); i++) {
-                Expr child = children.get(i);
+            for (int i = 1; i < display.size(); i++) {
+                Expr child = display.get(i);
                 // Detect Pow(x, -1) → print as " / x"
                 if (child instanceof Compound c
                         && c.head().equals("Pow")

@@ -9,12 +9,12 @@ import java.util.Map;
 
 import io.flamemath.eval.FlameFunction;
 import io.flamemath.eval.FlameValuator;
-import io.flamemath.expr.CanonicalComparator;
 import io.flamemath.expr.Compound;
 import io.flamemath.expr.Expr;
 import io.flamemath.expr.IntegerAtom;
 import io.flamemath.expr.RationalAtom;
 import io.flamemath.expr.RealAtom;
+import io.flamemath.expr.comparators.CanonicalComparator;
 import io.flamemath.internal.FlameInt;
 
 public class MulFunc implements FlameFunction {

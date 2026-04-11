@@ -4,6 +4,7 @@ import io.flamemath.expr.Expr;
 import io.flamemath.expr.IntegerAtom;
 import io.flamemath.expr.RationalAtom;
 import io.flamemath.expr.RealAtom;
+import io.flamemath.internal.FlameInt;
 
 public class FlameUtils {
     public static double numericValue(Expr expr) throws IllegalArgumentException {
@@ -72,6 +73,33 @@ public class FlameUtils {
             }
         }
         return new long[]{root, remainder};
+    }
+
+    /**
+     * Compute the multinomial coefficient n! / (e1! * e2! * ... * ek!).
+     *
+     * Uses FlameInt arithmetic for arbitrary precision.
+     * Assumes all exponents are non-negative and sum to n.
+     *
+     * @param n         the total
+     * @param exponents array of non-negative integers summing to n
+     * @return the multinomial coefficient as a FlameInt
+     */
+    public static FlameInt multinomialCoeff(int n, int[] exponents) {
+        FlameInt nFactorial = factorial(n);
+        FlameInt denominator = FlameInt.ONE;
+        for (int e : exponents) {
+            denominator = denominator.mul(factorial(e));
+        }
+        return nFactorial.divide(denominator);
+    }
+
+    public static FlameInt factorial(int n) {
+        FlameInt result = FlameInt.ONE;
+        for (int i = 2; i <= n; i++) {
+            result = result.mul(new FlameInt(i));
+        }
+        return result;
     }
 
     public static long gcd(long a, long b) {

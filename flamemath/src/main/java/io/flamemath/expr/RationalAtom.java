@@ -1,5 +1,7 @@
 package io.flamemath.expr;
 
+import java.util.List;
+
 import io.flamemath.internal.FlameInt;
 
 public record RationalAtom(Expr num, Expr denom) implements Expr {
@@ -12,6 +14,11 @@ public record RationalAtom(Expr num, Expr denom) implements Expr {
     @Override
     public boolean isNumeric() {
         return true;
+    }
+
+    @Override
+    public List<Expr> getChildren() {
+        return List.of(num, denom);
     }
 
     @Override

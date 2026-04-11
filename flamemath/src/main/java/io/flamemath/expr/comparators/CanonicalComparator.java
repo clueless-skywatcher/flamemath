@@ -1,9 +1,12 @@
-package io.flamemath.expr;
+package io.flamemath.expr.comparators;
 
 import static io.flamemath.FlameUtils.numericValue;
 
 import java.util.Comparator;
 import java.util.Map;
+
+import io.flamemath.expr.Compound;
+import io.flamemath.expr.Expr;
 
 public class CanonicalComparator implements Comparator<Expr> {
     public static final CanonicalComparator INSTANCE = new CanonicalComparator();
