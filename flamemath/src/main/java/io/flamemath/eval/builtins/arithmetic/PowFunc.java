@@ -100,6 +100,13 @@ public class PowFunc implements FlameFunction {
             return evaluator.eval(new Compound("Pow", List.of(baseOfBase, newExp)));
         }
 
+        // Pow(Sqrt(b), e) → Pow(b, eval(e * (1/2)))
+        if (base instanceof Compound c && c.head().equals("Sqrt") && c.children().size() == 1) {
+            Expr sqrtArg = c.children().get(0);
+            Expr newExp = evaluator.eval(new Compound("Mul", List.of(RationalAtom.of(1, 2), exp)));
+            return evaluator.eval(new Compound("Pow", List.of(sqrtArg, newExp)));
+        }
+
         // Pow(Mul(a, b, ...), n) → eval(Mul(Pow(a, n), Pow(b, n), ...))
         if (base instanceof Compound c && c.head().equals("Mul") && exp instanceof IntegerAtom) {
             List<Expr> powArgs = new ArrayList<>();

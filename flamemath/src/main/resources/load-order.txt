@@ -7,3 +7,4 @@ stdlib/ntheory.flame
 stdlib/combinatorics.flame
 stdlib/numeric.flame
 stdlib/poly.flame
+stdlib/distance_similarity.flame

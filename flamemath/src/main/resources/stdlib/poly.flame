@@ -4,7 +4,8 @@ Coeff = (expr, x) => {
     terms = If(IsHead(expr, Add), Operands(expr), [expr]);
     result = 0;
     For(term, terms, {
-        If(term == x, result = result + 1,
+        If(term == x, 
+            result = result + 1,
             If(IsHead(term, Mul), {
                 factors = Operands(term);
                 If(Has(factors, x), {

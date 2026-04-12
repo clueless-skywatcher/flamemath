@@ -1,0 +1,10 @@
+EuclideanDistance = (u, v) => {
+    If(!(IsList(u) && IsList(v) && Len(u) == Len(v)), Return(Raw(EuclideanDistance, u, v)));
+    result = Sum(Map((tuple) => (tuple[0] - tuple[1])^2, Zip(u, v)));
+    Sqrt(result)
+}
+
+ManhattanDistance = (u, v) => {
+    If(!(IsList(u) && IsList(v) && Len(u) == Len(v)), Return(Raw(ManhattanDistance, u, v)));
+    Sum(Map((tuple) => Abs(tuple[0] - tuple[1]), Zip(u, v)))
+}

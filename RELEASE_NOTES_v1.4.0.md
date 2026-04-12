@@ -24,6 +24,9 @@
 ### Expression Inspection
 - **`Operands(expr)`** — Returns the direct children (operands) of a compound expression as a list. `Operands(x + y + z)` -> `[x, y, z]`, `Operands(x^2)` -> `[x, 2]`. Returns unevaluated for atomic expressions. Operands of commutative operations (Add, Mul) are returned in canonical order.
 
+## Bug Fixes
+- **`Pow(Sqrt(x), n)` now simplifies** — `Sqrt(x)^2` correctly evaluates to `x` instead of staying as `Pow(Sqrt(x), 2)`. More generally, `Pow(Sqrt(b), e)` now rewrites to `Pow(b, e * (1/2))`, enabling simplifications like `Sqrt(x)^4` -> `x^2` and `Sqrt(x)^3` -> `x^(3/2)`.
+
 ## Internal
 
 ### Stdlib to builtin migrations
