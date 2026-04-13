@@ -2,10 +2,10 @@ package io.flamemath.exceptions;
 
 import io.flamemath.expr.Expr;
 
-public class ReturningException extends Exception {
+public class FlameReturningException extends Exception {
     private Expr expr;
 
-    public ReturningException(Expr expr) {
+    public FlameReturningException(Expr expr) {
         super();
         this.expr = expr;
     }

@@ -12,12 +12,12 @@ import static io.flamemath.FlameUtils.*;
 
 import io.flamemath.expr.BooleanAtom;
 import io.flamemath.expr.comparators.GradedLexComparator;
+import io.flamemath.internal.math.FlameInt;
 import io.flamemath.expr.Compound;
 import io.flamemath.expr.DictExpr;
 import io.flamemath.expr.Expr;
 import io.flamemath.expr.IntegerAtom;
 import io.flamemath.expr.RationalAtom;
-import io.flamemath.internal.FlameInt;
 import io.flamemath.expr.ListExpr;
 import io.flamemath.expr.Flambda;
 import io.flamemath.expr.NullExpr;

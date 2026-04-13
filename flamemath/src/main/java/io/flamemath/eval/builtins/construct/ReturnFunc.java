@@ -5,7 +5,7 @@ import java.util.List;
 import io.flamemath.eval.FlameFunction;
 import io.flamemath.eval.FlameValuator;
 import io.flamemath.exceptions.FlameArityException;
-import io.flamemath.exceptions.ReturningException;
+import io.flamemath.exceptions.FlameReturningException;
 import io.flamemath.expr.Expr;
 
 public class ReturnFunc implements FlameFunction {
@@ -20,7 +20,7 @@ public class ReturnFunc implements FlameFunction {
         if (args.size() != 1) {
             throw new FlameArityException(name(), 1, args.size());
         }
-        throw new ReturningException(args.get(0));
+        throw new FlameReturningException(args.get(0));
     }
     
 }

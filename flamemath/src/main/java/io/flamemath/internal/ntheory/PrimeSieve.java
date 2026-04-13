@@ -1,4 +1,4 @@
-package io.flamemath.ntheory;
+package io.flamemath.internal.ntheory;
 
 import java.util.List;
 

@@ -12,7 +12,7 @@ import io.flamemath.expr.Expr;
 import io.flamemath.expr.IntegerAtom;
 import io.flamemath.expr.RationalAtom;
 import io.flamemath.expr.RealAtom;
-import io.flamemath.internal.FlameInt;
+import io.flamemath.internal.math.FlameInt;
 
 public class ModFunc implements FlameFunction {
 

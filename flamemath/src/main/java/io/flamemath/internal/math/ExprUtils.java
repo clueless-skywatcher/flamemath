@@ -1,4 +1,4 @@
-package io.flamemath.internal;
+package io.flamemath.internal.math;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -17,7 +17,7 @@ public class ExprUtils {
 
         Set<Expr> variables = new LinkedHashSet<>();
         if (expr instanceof Compound c) {
-            for (var child: c.children()) {
+            for (var child: c.getChildren()) {
                 variables.addAll(extractVars(child));
             }
         }

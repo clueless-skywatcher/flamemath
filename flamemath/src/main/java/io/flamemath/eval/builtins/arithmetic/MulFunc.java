@@ -15,7 +15,7 @@ import io.flamemath.expr.IntegerAtom;
 import io.flamemath.expr.RationalAtom;
 import io.flamemath.expr.RealAtom;
 import io.flamemath.expr.comparators.CanonicalComparator;
-import io.flamemath.internal.FlameInt;
+import io.flamemath.internal.math.FlameInt;
 
 public class MulFunc implements FlameFunction {
     @Override

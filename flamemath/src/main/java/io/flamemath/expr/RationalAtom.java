@@ -2,7 +2,7 @@ package io.flamemath.expr;
 
 import java.util.List;
 
-import io.flamemath.internal.FlameInt;
+import io.flamemath.internal.math.FlameInt;
 
 public record RationalAtom(Expr num, Expr denom) implements Expr {
 

@@ -142,3 +142,5 @@ FoldScan = (f, start, l) => {
     });
     result
 }
+
+Deltas = (l) => GenList(l[i] - l[i + 1], [i, Len(l) - 1])

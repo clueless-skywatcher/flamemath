@@ -11,7 +11,7 @@ import io.flamemath.exceptions.FlameArityException;
 import io.flamemath.expr.Compound;
 import io.flamemath.expr.Expr;
 import io.flamemath.expr.IntegerAtom;
-import io.flamemath.internal.FlameInt;
+import io.flamemath.internal.math.FlameInt;
 
 public class ExpandFunc implements FlameFunction {
 

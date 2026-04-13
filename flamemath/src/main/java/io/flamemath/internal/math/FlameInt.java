@@ -1,4 +1,4 @@
-package io.flamemath.internal;
+package io.flamemath.internal.math;
 
 import java.util.Arrays;
 import java.util.List;

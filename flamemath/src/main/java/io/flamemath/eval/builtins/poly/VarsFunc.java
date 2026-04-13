@@ -12,7 +12,7 @@ import io.flamemath.expr.Compound;
 import io.flamemath.expr.Expr;
 import io.flamemath.expr.ListExpr;
 import io.flamemath.expr.Symbol;
-import io.flamemath.internal.ExprUtils;
+import io.flamemath.internal.math.ExprUtils;
 
 public class VarsFunc implements FlameFunction {
 

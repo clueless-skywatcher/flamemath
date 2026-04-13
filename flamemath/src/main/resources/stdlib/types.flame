@@ -6,3 +6,4 @@ IsSymbol = (x) => Head(x) == Symbol
 IsBoolean = (x) => Head(x) == Boolean
 IsList = (x) => Head(x) == List
 IsNumeric = (x) => IsInteger(x) || IsReal(x)
+IsVector = (x) => IsList(x) && Apply(And, Map((elem) => !IsList(elem), x))

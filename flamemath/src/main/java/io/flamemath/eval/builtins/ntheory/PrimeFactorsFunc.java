@@ -10,8 +10,8 @@ import io.flamemath.exceptions.FlameArityException;
 import io.flamemath.expr.DictExpr;
 import io.flamemath.expr.Expr;
 import io.flamemath.expr.IntegerAtom;
-import io.flamemath.internal.FlameInt;
-import io.flamemath.ntheory.NumberTheoryUtils;
+import io.flamemath.internal.math.FlameInt;
+import io.flamemath.internal.ntheory.NumberTheoryUtils;
 
 public class PrimeFactorsFunc implements FlameFunction {
 

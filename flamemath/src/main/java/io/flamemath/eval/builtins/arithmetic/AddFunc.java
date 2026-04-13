@@ -4,10 +4,9 @@ import io.flamemath.eval.FlameFunction;
 import io.flamemath.eval.FlameValuator;
 import io.flamemath.expr.*;
 import io.flamemath.expr.comparators.CanonicalComparator;
+import io.flamemath.internal.math.FlameInt;
 
 import static io.flamemath.FlameUtils.*;
-
-import io.flamemath.internal.FlameInt;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

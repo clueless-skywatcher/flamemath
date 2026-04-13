@@ -221,3 +221,8 @@ SexyPrimes = (n) => {
     bigs = Take(Intersection(pList, shifted), n);
     Map((p) => [p - 6, p], bigs)
 }
+
+IsIntPartition = (l, n) => IsInteger(n)
+    && IsVector(l)
+    && Apply(And, Map(IsPositiveInteger, Deltas(l))) 
+    && Sum(l) == n
