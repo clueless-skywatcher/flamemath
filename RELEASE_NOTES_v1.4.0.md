@@ -14,15 +14,22 @@
 - **`DeleteAll(list, element)`** — Removes all occurrences of an element from a list in place. `DeleteAll(l, 2)` on `[1, 2, 3, 2]` gives `[1, 3]`.
 - **`DeleteCopy(list, element)`** — Returns a new list with the first occurrence of an element removed. Original list is unchanged.
 - **`DeleteAllCopy(list, element)`** — Returns a new list with all occurrences of an element removed. Original list is unchanged.
+- **`Deltas(list)`** — Returns consecutive adjacent differences `l[i] - l[i+1]`. `Deltas([5, 3, 2, 0])` -> `[2, 1, 2]`. Result length is `Len(list) - 1`; an empty or single-element input yields `[]`. Useful for checking monotonicity (e.g. a non-increasing list has non-negative deltas).
 
 ### Combinatorics
 - **`LahNumber(n, k)`** — Computes the Lah number L(n, k), counting the ways to partition n elements into k non-empty linearly ordered subsets.
 
 ### Number Theory
 - **`SexyPrimes(n)`** — Returns the first n pairs of sexy primes (primes that differ by 6).
+- **`FareySequence(n)`** — Returns the Farey sequence F_n: all fractions in lowest terms between 0 and 1 with denominators ≤ n, in ascending order. `FareySequence(3)` -> `[0, 1/3, 1/2, 2/3, 1]`. Computed iteratively via the Stern–Brocot mediant recurrence. Returns unevaluated for non-integer or non-positive `n`.
+- **`IsIntPartition(l, n)`** — Tests whether list `l` is a valid integer partition of `n`: a non-increasing sequence of positive integers summing to `n`. `IsIntPartition([3, 2, 1], 6)` -> `True`, `IsIntPartition([1, 2, 3], 6)` -> `False` (not non-increasing).
 
 ### Expression Inspection
 - **`Operands(expr)`** — Returns the direct children (operands) of a compound expression as a list. `Operands(x + y + z)` -> `[x, y, z]`, `Operands(x^2)` -> `[x, 2]`. Returns unevaluated for atomic expressions. Operands of commutative operations (Add, Mul) are returned in canonical order.
+
+### Type Checking
+- **`IsVector(x)`** — Returns `True` if `x` is a flat list (a list whose elements are not themselves lists). `IsVector([1, 2, 3])` -> `True`, `IsVector([1, [2], 3])` -> `False`, `IsVector(5)` -> `False`.
+- **`IsPositiveInteger(x)`** — Returns `True` if `x` is an integer with `x >= 0` (note: includes zero). Complements the existing `IsNegativeInteger(x)` predicate.
 
 ## Bug Fixes
 - **`Pow(Sqrt(x), n)` now simplifies** — `Sqrt(x)^2` correctly evaluates to `x` instead of staying as `Pow(Sqrt(x), 2)`. More generally, `Pow(Sqrt(b), e)` now rewrites to `Pow(b, e * (1/2))`, enabling simplifications like `Sqrt(x)^4` -> `x^2` and `Sqrt(x)^3` -> `x^(3/2)`.

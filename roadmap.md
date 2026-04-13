@@ -55,3 +55,10 @@
 | # | Feature | Description | Type | Status |
 |---|---------|-------------|------|--------|
 | 19 | `Simplify` | `Simplify(x^2 + 2*x + 1 - (x + 1)^2)` → `0` — basic algebraic simplification | Java | Pending |
+
+## Unscheduled — Language / Control Flow
+
+| # | Feature | Description | Type | Status |
+|---|---------|-------------|------|--------|
+| 20 | `Throw` | `Throw(value)` — non-local exit that unwinds past the enclosing lambda until caught. Pairs with `Catch` | Java | Pending |
+| 21 | `Catch` | `Catch(body)` — run `body`; if a `Throw(v)` unwinds through it, return `v`. Held arg. Companion to `Throw` | Java | Pending |

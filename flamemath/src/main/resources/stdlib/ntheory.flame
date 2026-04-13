@@ -226,3 +226,29 @@ IsIntPartition = (l, n) => IsInteger(n)
     && IsVector(l)
     && Apply(And, Map(IsPositiveInteger, Deltas(l))) 
     && Sum(l) == n
+
+FareySequence = (n) => {
+    If(!IsInteger(n) || n <= 0, Return(Raw(FareySequence, n)));
+    a = 0;
+    b = 1;
+    c = 1;
+    d = n;
+
+    result = [a / b];
+
+    While(c <= n, {
+        oldA = a;
+        oldB = b;
+        oldC = c;
+        oldD = d;
+
+        k = Floor((n + oldB) / oldD);
+
+        a = oldC;
+        b = oldD;
+        c = k * oldC - oldA;
+        d = k * oldD - oldB;
+        Append(result, a / b)
+    });
+    result
+}
