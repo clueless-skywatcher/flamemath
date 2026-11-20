@@ -67,3 +67,8 @@ Compositions = (n, k) => {
     });
     results
 }
+
+LahNumber = (n, k) => {
+     If(!(IsInteger(n) && IsInteger(k)), Return(Raw(LahNumber, n, k)));
+    Binomial(n - 1, k - 1) * (Factorial(n) / Factorial(k))
+}

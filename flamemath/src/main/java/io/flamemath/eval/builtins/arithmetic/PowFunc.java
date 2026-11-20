@@ -13,7 +13,7 @@ import io.flamemath.expr.Expr;
 import io.flamemath.expr.IntegerAtom;
 import io.flamemath.expr.RationalAtom;
 import io.flamemath.expr.RealAtom;
-import io.flamemath.internal.FlameInt;
+import io.flamemath.internal.math.FlameInt;
 
 public class PowFunc implements FlameFunction {
 
@@ -98,6 +98,13 @@ public class PowFunc implements FlameFunction {
             Expr expOfBase = c.children().get(1);
             Expr newExp = evaluator.eval(new Compound("Mul", List.of(expOfBase, exp)));
             return evaluator.eval(new Compound("Pow", List.of(baseOfBase, newExp)));
+        }
+
+        // Pow(Sqrt(b), e) → Pow(b, eval(e * (1/2)))
+        if (base instanceof Compound c && c.head().equals("Sqrt") && c.children().size() == 1) {
+            Expr sqrtArg = c.children().get(0);
+            Expr newExp = evaluator.eval(new Compound("Mul", List.of(RationalAtom.of(1, 2), exp)));
+            return evaluator.eval(new Compound("Pow", List.of(sqrtArg, newExp)));
         }
 
         // Pow(Mul(a, b, ...), n) → eval(Mul(Pow(a, n), Pow(b, n), ...))

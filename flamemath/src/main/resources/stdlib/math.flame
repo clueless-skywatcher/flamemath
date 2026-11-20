@@ -1,13 +1,3 @@
-Factorial = (n) => {
-    If(!IsInteger(n),
-        Raw(Factorial, n),
-        If(n <= 1,
-            1,
-            n * Factorial(n - 1)
-        )
-    )
-}
-
 Sub = (a, b) => 
     a - b
 Div = (a, b) => 
@@ -53,15 +43,6 @@ Binomial = (n, k) => {
     If(!(IsInteger(n) && IsInteger(k)), Return(Raw(Binomial, n, k)));
     Product(Range(n - k + 1, n + 1)) / 
     Product(Range(1, k + 1))
-}
-
-Multinomial = (n, ...k) => {
-    raw = Apply(Raw, Join([Hold(Multinomial), n], k));
-    If(!IsInteger(n) || !Fold((a, b) => a && IsInteger(b), True, k),
-        Return(raw)
-    );
-    If(n != Sum(k), Return(raw));
-    Product(Range(1, n + 1)) / Product(Map((ki) => Product(Range(1, ki + 1)), k))
 }
 
 Sign = (n) => {

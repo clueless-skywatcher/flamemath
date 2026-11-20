@@ -9,7 +9,7 @@ import io.flamemath.exceptions.FlameArityException;
 import io.flamemath.expr.Expr;
 import io.flamemath.expr.IntegerAtom;
 import io.flamemath.expr.ListExpr;
-import io.flamemath.ntheory.NumberTheoryUtils;
+import io.flamemath.internal.ntheory.NumberTheoryUtils;
 
 public class PrimesInRangeFunc implements FlameFunction {
 

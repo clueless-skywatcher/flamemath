@@ -17,7 +17,7 @@ import io.flamemath.eval.builtins.poly.PolyRegistry;
 import io.flamemath.eval.builtins.string.StringRegistry;
 import io.flamemath.eval.builtins.system.SystemRegistry;
 import io.flamemath.exceptions.FlameArityException;
-import io.flamemath.exceptions.ReturningException;
+import io.flamemath.exceptions.FlameReturningException;
 import io.flamemath.expr.Compound;
 import io.flamemath.expr.DictEntryExpr;
 import io.flamemath.expr.DictExpr;
@@ -26,7 +26,7 @@ import io.flamemath.expr.Flambda;
 import io.flamemath.expr.ListExpr;
 import io.flamemath.expr.NullExpr;
 import io.flamemath.expr.Symbol;
-import io.flamemath.ntheory.PrimeSieve;
+import io.flamemath.internal.ntheory.PrimeSieve;
 
 public class FlameValuator {
     private FunctionRegistry registry;
@@ -163,7 +163,7 @@ public class FlameValuator {
         try {
             Expr result = eval(lambda.body());
             return result;
-        } catch (ReturningException r) {
+        } catch (FlameReturningException r) {
             return r.getExpr();
         } finally {
             this.env = oldEnv;

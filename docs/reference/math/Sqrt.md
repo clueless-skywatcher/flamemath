@@ -70,6 +70,16 @@ Flame> Sqrt(3) * Sqrt(3)
 3
 ```
 
+Powers of `Sqrt` simplify via `Pow`:
+```
+Flame> Sqrt(x) ^ 2
+x
+Flame> Sqrt(x) ^ 4
+x^2
+Flame> Sqrt(x) ^ 3
+x^(3/2)
+```
+
 Real arguments:
 ```
 Flame> Sqrt(2.0)

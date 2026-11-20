@@ -284,6 +284,38 @@ class PowFuncTest {
         fm.assertExec("1", "2^(-50) * 2^50");
     }
 
+    // --- Power of Sqrt ---
+
+    @Test
+    void sqrtSquaredSimplifies() throws Exception {
+        // Sqrt(x)^2 → x
+        fm.assertExec("x", "Sqrt(x)^2");
+    }
+
+    @Test
+    void sqrtToFourth() throws Exception {
+        // Sqrt(x)^4 → x^2
+        fm.assertExec("Pow(x, 2)", "Sqrt(x)^4");
+    }
+
+    @Test
+    void sqrtCubed() throws Exception {
+        // Sqrt(x)^3 → x^(3/2)
+        fm.assertExec("Pow(x, (3/2))", "Sqrt(x)^3");
+    }
+
+    @Test
+    void sqrtToZero() throws Exception {
+        // Sqrt(x)^0 → 1
+        fm.assertExec("1", "Sqrt(x)^0");
+    }
+
+    @Test
+    void sqrtToOne() throws Exception {
+        // Sqrt(x)^1 → Sqrt(x)
+        fm.assertExec("Sqrt(x)", "Sqrt(x)^1");
+    }
+
     // --- Arity errors ---
 
     @Test

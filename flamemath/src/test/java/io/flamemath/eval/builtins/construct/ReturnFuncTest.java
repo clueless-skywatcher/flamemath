@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import io.flamemath.FlameTestingUtils;
 import io.flamemath.exceptions.FlameArityException;
-import io.flamemath.exceptions.ReturningException;
+import io.flamemath.exceptions.FlameReturningException;
 
 public class ReturnFuncTest {
     private final FlameTestingUtils fm = new FlameTestingUtils();
@@ -19,7 +19,7 @@ public class ReturnFuncTest {
 
     @Test
     void topLevelReturnThrowsException() {
-        assertThrows(ReturningException.class, () -> fm.execute(
+        assertThrows(FlameReturningException.class, () -> fm.execute(
             "Return(42)"
         ));
     }

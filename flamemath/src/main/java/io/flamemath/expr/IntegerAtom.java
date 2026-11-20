@@ -1,6 +1,6 @@
 package io.flamemath.expr;
 
-import io.flamemath.internal.FlameInt;
+import io.flamemath.internal.math.FlameInt;
 
 public record IntegerAtom(FlameInt value) implements Expr, Comparable<IntegerAtom> {
     public static final IntegerAtom ZERO = new IntegerAtom(FlameInt.ZERO);

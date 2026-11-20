@@ -4,7 +4,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import io.flamemath.expr.*;
-import io.flamemath.internal.FlameInt;
+import io.flamemath.internal.math.FlameInt;
+
 import java.util.List;
 
 class AppTest {

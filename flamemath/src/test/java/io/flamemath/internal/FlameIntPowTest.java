@@ -2,6 +2,8 @@ package io.flamemath.internal;
 
 import org.junit.jupiter.api.Test;
 
+import io.flamemath.internal.math.FlameInt;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class FlameIntPowTest {

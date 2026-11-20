@@ -58,6 +58,16 @@ Flame> (x ^ 2) ^ 3
 x^6
 ```
 
+Powers of `Sqrt` simplify by halving the exponent:
+```
+Flame> Sqrt(x) ^ 2
+x
+Flame> Sqrt(x) ^ 4
+x^2
+Flame> Sqrt(x) ^ 3
+x^(3/2)
+```
+
 Power of a product distributes:
 ```
 Flame> (a * b) ^ 2
@@ -69,6 +79,7 @@ a^2*b^2
 - Negative integer exponents on integer bases produce `RationalAtom` (e.g., `2^-1` returns `(1/2)`)
 - Negative integer exponents on real bases produce `RealAtom` (e.g., `2.0^-1` returns `0.5`)
 - `Pow(n, (1/2))` returns the integer root for perfect squares, stays symbolic otherwise
+- `Pow(Sqrt(b), e)` simplifies to `Pow(b, e * (1/2))` — e.g., `Sqrt(x)^2` evaluates to `x`
 - `0^0` evaluates to `1` (by convention)
 
 ## Errors

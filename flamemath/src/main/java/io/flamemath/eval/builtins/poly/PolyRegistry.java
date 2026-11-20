@@ -7,6 +7,8 @@ public class PolyRegistry {
         FunctionRegistry registry = new FunctionRegistry();
 
         registry.register(new VarsFunc());
+        registry.register(new DegreeFunc());
+        registry.register(new ExpandFunc());
 
         return registry;
     }

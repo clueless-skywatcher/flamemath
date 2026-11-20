@@ -1,9 +1,9 @@
-package io.flamemath.ntheory;
+package io.flamemath.internal.ntheory;
 
 import java.math.BigInteger;
 import java.util.List;
 
-import io.flamemath.internal.FlameInt;
+import io.flamemath.internal.math.FlameInt;
 
 public class NumberTheoryUtils {
     private static final List<Long> MILLER_RABIN_BASES = List.of(

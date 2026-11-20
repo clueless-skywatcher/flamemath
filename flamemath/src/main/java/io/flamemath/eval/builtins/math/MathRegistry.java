@@ -25,6 +25,8 @@ public class MathRegistry {
         registry.register(new CoshFunc());
         registry.register(new TanhFunc());
         registry.register(new ArcTan2Func());
+        registry.register(new MultinomialFunc());
+        registry.register(new FactorialFunc());
 
         return registry;
     }

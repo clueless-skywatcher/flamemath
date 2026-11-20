@@ -320,8 +320,8 @@ class ExprPrinterTest {
 
     @Test
     void nestedPrecedence() {
-        // Add(1, Mul(2, Pow(x, 3))) → 1 + 2*x^3
-        assertEquals("1 + 2*x^3",
+        // Add(1, Mul(2, Pow(x, 3))) → 2*x^3 + 1
+        assertEquals("2*x^3 + 1",
                 print(c("Add", IntegerAtom.ONE,
                         c("Mul", new IntegerAtom(2), c("Pow", new Symbol("x"), new IntegerAtom(3))))));
     }

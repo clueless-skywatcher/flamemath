@@ -7,12 +7,12 @@ import java.util.List;
 import io.flamemath.eval.FlameFunction;
 import io.flamemath.eval.FlameValuator;
 import io.flamemath.exceptions.FlameArityException;
-import io.flamemath.expr.CanonicalComparator;
 import io.flamemath.expr.Compound;
 import io.flamemath.expr.Expr;
 import io.flamemath.expr.Flambda;
 import io.flamemath.expr.IntegerAtom;
 import io.flamemath.expr.ListExpr;
+import io.flamemath.expr.comparators.CanonicalComparator;
 
 public class SortFunc implements FlameFunction {
     @Override

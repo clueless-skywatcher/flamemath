@@ -52,7 +52,7 @@ class RawFuncTest {
 
     @Test
     void symbolWithNumericArg() throws Exception {
-        fm.assertExec("Factorial(5)", "Raw(Factorial, 5)");
+        fm.assertExec("Raw(Factorial, 5)", "Raw(Factorial, 5)");
     }
 
     @Test

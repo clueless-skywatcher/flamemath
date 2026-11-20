@@ -11,6 +11,11 @@ public record Compound(String head, List<Expr> children) implements Expr {
     @Override public boolean isAtomic() { return false; }
 
     @Override
+    public List<Expr> getChildren() {
+        return children;
+    }
+
+    @Override
     public String toString() {
         String args = children.stream()
                 .map(Expr::toString)

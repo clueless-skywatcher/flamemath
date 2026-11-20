@@ -8,8 +8,8 @@ import io.flamemath.exceptions.FlameArityException;
 import io.flamemath.expr.BooleanAtom;
 import io.flamemath.expr.Expr;
 import io.flamemath.expr.IntegerAtom;
-import io.flamemath.internal.FlameInt;
-import io.flamemath.ntheory.NumberTheoryUtils;
+import io.flamemath.internal.math.FlameInt;
+import io.flamemath.internal.ntheory.NumberTheoryUtils;
 
 public class IsPrimeFunc implements FlameFunction {
     @Override

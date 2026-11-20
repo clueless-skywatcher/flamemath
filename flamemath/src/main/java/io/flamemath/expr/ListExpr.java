@@ -14,6 +14,11 @@ public record ListExpr(List<Expr> exprs) implements Expr {
     }
 
     @Override
+    public List<Expr> getChildren() {
+        return exprs;
+    }
+
+    @Override
     public String head() {
         return "List";
     }
